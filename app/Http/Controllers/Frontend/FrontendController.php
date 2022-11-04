@@ -166,6 +166,7 @@ class FrontendController extends Controller
          $days = $toDate->diffInDays($fromDate);
          $weeks = $days / 7;
       }
+      // dd
 
       $getGender = Product::select('Gender', 'id')->groupBy('Gender')->where('status', 1)->get()->toArray();
 

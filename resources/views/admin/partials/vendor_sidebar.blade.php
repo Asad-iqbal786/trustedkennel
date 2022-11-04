@@ -96,10 +96,15 @@
                             href="{{ url('/vendor/add-edit-kennel-banners') }}"> Store Banners </a>
                     </li>
 
+
                     <li class="nav-item"><a class="nav-link"
                             @if (Session::get('page') == 'add-vendor-payment') style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;"
-                        @else style="background:none;" @endif
-                            href="{{ route('addEditVendorPayments') }}"> Vendor Bank Accout </a></li>
+                                @else style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;" @endif
+                            href="{{ route('addEditVendorPayments') }}"> Vendor Bank Accout </a>
+                    </li>
+
+
+
 
                     <li class="nav-item"><a class="nav-link"
                             @if (Session::get('page') == 'add-vendor-payments') style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;"
@@ -131,6 +136,5 @@ Session::forget('all-vendor-payment');
 
 Session::forget('add-vendor-payment');
 Session::forget('add-vendor-payments');
-
 
 ?>
