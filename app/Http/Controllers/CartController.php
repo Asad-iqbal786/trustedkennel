@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Auth;
-use Session;
 use App\Models\Admin;
 use App\Models\Vendor;
 use App\Models\Category;
 use App\Models\ProductType;
 use App\Models\PuppyImage;
 use App\Models\Cart;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+
 class CartController extends Controller
 {
    

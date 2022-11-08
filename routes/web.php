@@ -66,6 +66,9 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('commission',  [App\Http\Controllers\CommissionController::class, 'index'])->name('getComissin');
         Route::post('/add-edit-commission', [App\Http\Controllers\CommissionController::class, 'addEditCommission'])->name('addEditCommission');
         Route::get('/money-withdraw-requests', [App\Http\Controllers\vendor\VendorPaymentController::class, 'withdrawRequest'])->name('withdrawRequestAdmin');
+        
+        //Stripe Route 
+        Route::get('/money-withdraw-requests', [App\Http\Controllers\vendor\VendorPaymentController::class, 'withdrawRequest'])->name('withdrawRequestAdmin');
 
     });
 
