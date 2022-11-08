@@ -17,6 +17,10 @@ class StripePaymentController extends Controller
     return view('admin.stripe.stripe_two');
   }
 
+  public function stripeSample(){
+    return view('stripe.payment');
+  }
+
 
   public function stripePost(Request $request)
   {
