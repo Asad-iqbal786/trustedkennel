@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
-use Auth;
-use Session;
 use Carbon\Carbon;
 use App\Models\Admin;
 use App\Models\Vendor;
@@ -16,6 +14,8 @@ use App\Models\Application;
 use App\Models\PuppyImage;
 use App\Models\Cart;
 use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class FrontendController extends Controller
 {
