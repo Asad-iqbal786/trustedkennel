@@ -145,8 +145,6 @@ class AdminController extends Controller
             $imagePath = 'admin/images/admin_photos/admins/' . $recentImage;
             Image::make($image_tmp)->save($imagePath);
             //multiple_img images
-
-
             $vendors->admin_image = $adminImage;
             $vendors->recent_img = $recentImage;
             $vendors->email = $data['email'];
@@ -171,8 +169,6 @@ class AdminController extends Controller
             $vendors->save();
             // $vendor_id = DB::getPdo()->lastInsertId();
             $vendor_id = Vendor::latest()->first();
-
-
             $message = "Please confirm your Email to activate your account!";
             Session::put('success_message', $message);
             $admins = new Admin;
@@ -200,8 +196,8 @@ class AdminController extends Controller
     }
 
 
-    public function dashboard(Request $request)
-    {
+    public function dashboard(Request $request){
+        
         // return $request->all();
         if ($request->isMethod('post')) {
             $data = $request->all();

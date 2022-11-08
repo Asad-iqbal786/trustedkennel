@@ -65,7 +65,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('/vendor-application', [App\Http\Controllers\Vendor\VendorController::class, 'vendorApplication'])->name('adminApplication');
         Route::get('commission',  [App\Http\Controllers\CommissionController::class, 'index'])->name('getComissin');
         Route::post('/add-edit-commission', [App\Http\Controllers\CommissionController::class, 'addEditCommission'])->name('addEditCommission');
-        Route::get('/money-withdraw-requests', [App\Http\Controllers\vendor\VendorPaymentController::class, 'withdrawRequest'])->name('withdrawRequestAdmin');
+        Route::get('/money-withdraw-requests', [App\Http\Controllers\CommissionController::class, 'withdrawRequest'])->name('withdrawRequestAdmin');
 
     });
 
@@ -109,13 +109,13 @@ Route::prefix('/vendor')->namespace('App\Http\Controllers\Vendor')->group(functi
         Route::post('/OrderStore', [App\Http\Controllers\Admin\OrderController::class, 'OrderStore'])->name('OrderStore');
         Route::post('/order-created', [App\Http\Controllers\Admin\OrderController::class, 'OrderCreated'])->name('OrderCreated');
         Route::post('/order-log', [App\Http\Controllers\Admin\OrderController::class, 'OrderLog'])->name('OrderLog');
-        Route::post('/vendor-approved',  [App\Http\Controllers\Vendor\VendorController::class, 'confirmAccountApproved'])->name('confirmAccountApproved');
+        Route::post('/vendor-approved',  [App\Http\Controllers\CommissionController::class, 'confirmAccountApproved'])->name('confirmAccountApproved');
 
 
-        Route::match(['get','post'],'add-edit-vendor-payments/{id?}', [App\Http\Controllers\vendor\VendorPaymentController::class, 'addEditVendorPayments'])->name('addEditVendorPayments');
+        Route::match(['get','post'],'add-edit-vendor-payments/{id?}', [App\Http\Controllers\vendor\CommissionController::class, 'addEditVendorPayments'])->name('addEditVendorPayments');
 
-        Route::get('/money-withdraw-requests', [App\Http\Controllers\vendor\VendorPaymentController::class, 'withdrawRequest'])->name('withdrawRequest');
-        Route::post('/money-withdraw', [App\Http\Controllers\vendor\VendorPaymentController::class, 'withdrawRequestStore'])->name('withdrawRequestStore');
+        Route::get('/money-withdraw-requests', [App\Http\Controllers\CommissionController::class, 'withdrawRequest'])->name('withdrawRequest');
+        Route::post('/money-withdraw', [App\Http\Controllers\CommissionController::class, 'withdrawRequestStore'])->name('withdrawRequestStore');
 
     });
 });
