@@ -16,6 +16,8 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'stripe_secret' => env('STRIPE_SECRET'),
+    
 
     /*
     |--------------------------------------------------------------------------

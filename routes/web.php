@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\StripePaymentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -65,7 +66,9 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('/vendor-application', [App\Http\Controllers\Vendor\VendorController::class, 'vendorApplication'])->name('adminApplication');
         Route::get('commission',  [App\Http\Controllers\CommissionController::class, 'index'])->name('getComissin');
         Route::post('/add-edit-commission', [App\Http\Controllers\CommissionController::class, 'addEditCommission'])->name('addEditCommission');
-        Route::get('/money-withdraw-requests', [App\Http\Controllers\CommissionController::class, 'withdrawRequest'])->name('withdrawRequestAdmin');
+        Route::get('/money-withdraw-requests', [App\Http\Controllers\vendor\VendorPaymentController::class, 'withdrawRequest'])->name('withdrawRequestAdmin');
+        
+    
 
     });
 
@@ -80,12 +83,12 @@ Route::prefix('/vendor')->namespace('App\Http\Controllers\Vendor')->group(functi
 
         Route::get('/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('vendorDashboard');
         Route::get('/logout', [App\Http\Controllers\Vendor\VendorController::class, 'logout'])->name('logoutvendor');
-        Route::get('vendor-home', [App\Http\Controllers\Admin\AdminController::class, 'vendorHome'])->name('vendorHome');
+        Route::get('vendor-home', [App\Http\Controllers\Admin\AdminController::class, 'vendorHome'])->name('vendorHome1');
         // update vendor details
-        Route::post('/update/password', [App\Http\Controllers\Admin\AdminController::class, 'updatePassword'])->name('updatePassword');
+        Route::post('/update/password', [App\Http\Controllers\Admin\AdminController::class, 'updatePassword'])->name('updatePassword1');
         Route::get('/admin-details', [App\Http\Controllers\Admin\AdminController::class, 'adminDetails'])->name('vendorDetails');
-        Route::post('/update/admin/details', [App\Http\Controllers\Admin\AdminController::class, 'updateAdminDetails'])->name('updateAdminDetails');
-        Route::post('/check-current-pwd', [App\Http\Controllers\Admin\AdminController::class, 'updateAdminPasword'])->name('updateAdminPasword');     
+        Route::post('/update/admin/details', [App\Http\Controllers\Admin\AdminController::class, 'updateAdminDetails'])->name('updateAdminDetails1');
+        Route::post('/check-current-pwd', [App\Http\Controllers\Admin\AdminController::class, 'updateAdminPasword'])->name('updateAdminPasword1');     
         // products 
         Route::get('/products', [App\Http\Controllers\Admin\ProductController::class, 'index'])->name('VendorproductIndex');
         Route::match(['get','post'],'/add-edit-products/{id?}', [App\Http\Controllers\Admin\ProductController::class, 'addEditProduct'])->name('VendoraddEditProduct');
@@ -140,6 +143,9 @@ Route::post('/apply-for-puppy', [App\Http\Controllers\CartController::class, 'ap
 
 Route::get('stripe', [App\Http\Controllers\admin\StripePaymentController::class, 'stripe']);
 Route::post('/stripe-store', [App\Http\Controllers\admin\StripePaymentController::class, 'stripePost'])->name('stripe.post');
+
+//stripe sample routess
+Route::get('/stripe-sample',[App\Http\Controllers\admin\StripePaymentController::class,'stripeSample']); 
 
 
 
