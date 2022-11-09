@@ -43,7 +43,9 @@ class AdminController extends Controller
     }
     public function register()
     {
+        // $getCat = Category::where('status', 1)->get()->toArray();
         $getCat = Category::where('status', 1)->get()->toArray();
+
         return view('admin.admin_auth.vendor_register')->with('getCat', $getCat);
     }
     public function vendorHome()
@@ -278,6 +280,7 @@ class AdminController extends Controller
                 $message->to($email)->subject('Welcome to E-commer website');
             });
             $message = "Your account is Approved pleas login now!";
+            // $request->session()->put('success_message', $message);
             Session::put('success_message', $message);
             return redirect()->route('allAdmin');
         }
