@@ -115,7 +115,7 @@ Route::prefix('/vendor')->namespace('App\Http\Controllers\Vendor')->group(functi
         Route::post('/vendor-approved',  [App\Http\Controllers\CommissionController::class, 'confirmAccountApproved'])->name('confirmAccountApproved');
 
 
-        Route::match(['get','post'],'add-edit-vendor-payments/{id?}', [App\Http\Controllers\vendor\CommissionController::class, 'addEditVendorPayments'])->name('addEditVendorPayments');
+        Route::match(['get','post'],'add-edit-vendor-payments/{id?}', [App\Http\Controllers\CommissionController::class, 'addEditVendorPayments'])->name('addEditVendorPayments');
 
         Route::get('/money-withdraw-requests', [App\Http\Controllers\CommissionController::class, 'withdrawRequest'])->name('withdrawRequest');
         Route::post('/money-withdraw', [App\Http\Controllers\CommissionController::class, 'withdrawRequestStore'])->name('withdrawRequestStore');

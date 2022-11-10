@@ -3,6 +3,7 @@
 use App\Models\Vendor;
 use App\Models\Admin;
 use App\Models\OrderLog;
+use App\Models\VendorPayment;
 
 ?>
 @extends('layouts.admin_app')
@@ -71,7 +72,7 @@ use App\Models\OrderLog;
                                     <th>Amount</th>
                                     <th>Status</th>
                                     @if (Auth::guard('admin')->user()->type != 'Vendor')
-                                       
+                                        <th> Vendor Email </th>
                                         <th>Action</th>
                                     @endif
 
@@ -83,14 +84,19 @@ use App\Models\OrderLog;
 
                                         <td> {{ $index + 1 }} </td>
                                         <td>{{ $req['amount'] }}</td>
+                                        @if (Auth::guard('admin')->user()->type != 'Vendor')
+                                        @endif
+
+
                                         <td>{{ $req['message'] }}</td>
                                         <td><span class="badge badge-inline badge-info">{{ $req['status'] }}</span></td>
 
                                         @if (Auth::guard('admin')->user()->type != 'Vendor')
+                                            <td> {{ $req['admins']['email'] }} </td>
                                             <td>
                                                 <a href="" target="blank" data-toggle="modal"
-                                                    data-target="#withdrawRequest"><i class="mdi mdi-eye"
-                                                        style="font-size: 25px;"></i></a>
+                                                    data-target="#withdrawRequest-{{ $req['id'] }}"><i
+                                                        class="mdi mdi-eye" style="font-size: 25px;"></i></a>
                                                 <a href=""><i class="mdi mdi-cash-multiple"
                                                         style="font-size: 25px;"></i></a>
                                                 <a href=""><i class="mdi mdi-file-excel-box"
@@ -148,73 +154,82 @@ use App\Models\OrderLog;
         </div>
     </div>
 
-    <div class="modal fade" id="withdrawRequest" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"> Send A Withdraw Request </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+    @foreach ($withdReq as $index => $req)
+      
+        <div class="modal fade" id="withdrawRequest-{{ $req['id'] }}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"> Send A Withdraw Request {{ $req['id'] }} </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <?php
+                            $vendorPya = VendorPayment::where('admin_id', $req['admin_id'])->first();
+                    ?>
+                            <?php
+                                    
+                            // dd($req);
+                            ?>
+                    <div class="modal-body">
+                        <table class="table table-striped table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td>Due to seller</td>
+                                    <td>${{$req['amount']}}</td>
+                                </tr>
+                                <tr>
+                                </tr>
+                                <tr>
+                                    <td>Bank Name</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Bank Account Name</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Bank Account Number</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Bank Routing Number</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                <div class="modal-body">
-                    <table class="table table-striped table-bordered">
-                        <tbody>
-                            <tr>
-                                <td>Due to seller</td>
-                                <td>$139.500</td>
-                            </tr>
-                            <tr>
-                            </tr>
-                            <tr>
-                                <td>Bank Name</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Bank Account Name</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Bank Account Number</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Bank Routing Number</td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <input type="hidden" name="shop_id" value="2">
-                    <input type="hidden" name="payment_withdraw" value="withdraw_request">
-                    <input type="hidden" name="withdraw_request_id" value="5">
-                    <div class="form-group row pt-4">
-                        <label class="col-sm-3 col-from-label" for="amount">Requested Amount</label>
-                        <div class="col-sm-9">
-                            <input type="number" lang="en" min="0" step="0.01" name="amount"
-                                id="amount" value="10" class="form-control" required="">
+                        <input type="hidden" name="shop_id" value="2">
+                        <input type="hidden" name="payment_withdraw" value="withdraw_request">
+                        <input type="hidden" name="withdraw_request_id" value="5">
+                        <div class="form-group row pt-4">
+                            <label class="col-sm-3 col-from-label" for="amount">Requested Amount</label>
+                            <div class="col-sm-9">
+                                <input type="number" lang="en" min="0" step="0.01" name="amount"
+                                    id="amount" value="10" class="form-control" required="">
+                            </div>
                         </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-from-label" for="payment_option">Payment method</label>
+                            <div class="col-sm-9">
+                                <select name="payment_option" id="payment_option"
+                                    class="form-control demo-select2-placeholder" required="">
+                                    <option value="">Select Payment Method</option>
+                                    <option value="cash">Cash</option>
+                                    <option value="bank_payment">Bank Payment</option>
+                                </select>
+                            </div>
+                        </div>
+
                     </div>
 
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-from-label" for="payment_option">Payment method</label>
-                        <div class="col-sm-9">
-                            <select name="payment_option" id="payment_option"
-                                class="form-control demo-select2-placeholder" required="">
-                                <option value="">Select Payment Method</option>
-                                <option value="cash">Cash</option>
-                                <option value="bank_payment">Bank Payment</option>
-                            </select>
-                        </div>
-                    </div>
-
                 </div>
-
             </div>
         </div>
-    </div>
+    @endforeach
 @endsection
 
 

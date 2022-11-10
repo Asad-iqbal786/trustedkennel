@@ -41,7 +41,7 @@ use App\Models\OrderLog;
                             <label class="col-md-3 col-form-label" for="bank_acc_name">Bank Account Name</label>
                             <div class="col-md-9">
                                 <input type="text" name="bank_acc_name"
-                                    @if (!empty($paymentType['bank_name'])) value="{{ $paymentType['bank_name'] }}" @else value="{{ old('bank_name') }}" @endif
+                                    @if (!empty($paymentType['bank_acc_name'])) value="{{ $paymentType['bank_acc_name'] }}" @else value="{{ old('bank_acc_name') }}" @endif
                                     id="bank_acc_name" class="form-control mb-3" placeholder="Bank Account Name">
                             </div>
                         </div>
