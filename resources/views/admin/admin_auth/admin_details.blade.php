@@ -77,69 +77,156 @@
                                     <div class="col">
                                         <label>First Name</label>
                                         <div id="first_name">
-                                            <input class="typeahead" type="text" name="first_name" value="{{ $adminDetaiils->first_name }}"  placeholder="first_name">
+                                            <input class="typeahead" type="text" name="first_name"
+                                                value="{{ $adminDetaiils->first_name }}" placeholder="first_name">
                                         </div>
                                     </div>
                                     <div class="col">
                                         <label>Last Name</label>
                                         <div id="last_name">
-                                            <input class="typeahead" type="text" name="last_name" value="{{ $adminDetaiils->last_name }}" placeholder="last_name">
+                                            <input class="typeahead" type="text" name="last_name"
+                                                value="{{ $adminDetaiils->last_name }}" placeholder="last_name">
                                         </div>
                                     </div>
                                 </div>
-                        
-                                @if (Auth::guard('admin')->user()->type == 'Vendor')
                                 <div class="form-group row">
                                     <div class="col">
-                                        <label>Adress One</label>
+                                        <label>Kennel Name</label>
                                         <div id="the-basics">
-                                            <input class="typeahead" type="text" name="adress_one" value="{{ $adminDetaiils->adress_one }}" placeholder="adress_one">
+                                            <input class="typeahead" type="text" name="kennel_name"
+                                                value="{{ $vendoDetails['vendors']['kennel_name'] }}" placeholder="kennel_name">
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <label>Address Two</label>
+                                        <label>Registration Number</label>
                                         <div id="bloodhound">
-                                            <input class="typeahead" type="text" name="adress_two" value="{{ $adminDetaiils->adress_two }}" placeholder="adress_two">
+                                            <input class="typeahead" type="text" name="registration_number"
+                                                value="{{ $vendoDetails['vendors']['registration_number'] }}"
+                                                placeholder="Registration Number">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <div class="col">
-                                        <label>Zip Code</label>
-                                        <div id="zipcode">
-                                            <input class="typeahead" type="text" name="zipcode" value="{{ $adminDetaiils->zipcode }}"  placeholder="zipcode">
-                                        </div>
+                                        <label> KENNEL AFFILIATIONS </label>
+                                        <select class="form-control form-control-lg" name="kennel_affiliations">
+                                            <option>AKC</option>
+                                            <option>CKC</option>
+                                            <option>FCI</option>
+                                            <option>KC</option>
+                                        </select>
                                     </div>
                                     <div class="col">
-                                        <label>country</label>
+                                        <label for="location">LOCATION</label>
+                                        <input type="text" class="form-control" required name="location" id="location"
+                                       value="{{ $vendoDetails['vendors']['location'] }}" placeholder="location">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col">
+                                        <label for="established_year">YEAR ESTABLISHED</label>
+                                        <input type="date" class="form-control" required name="established_year"
+                                        value="{{ $vendoDetails['vendors']['location'] }}" id="established_year" value=""
+                                            placeholder="established_year">
+                                    </div>
+                                    <div class="col">
+                                        <label> BREED(S) </label>
+                                        <select class="js-example-basic-multiple" name="breeds[]"
+                                            multiple="multiple">
+                                            <option>--Select any one Breeds--</option>
+                                            @foreach ($getCat as $item)
+                                                <option value=" {{ $item['id'] }}">
+                                                    {{ $item['name'] }}</option>
+                                            @endforeach
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col">
+                                        <label for="vendor_about"> ABOUT YOUR KENNEL</label>
+                                        <textarea class="form-control"  name="vendor_about" value="{{ $vendoDetails['vendors']['location'] }}" id="vendor_about" rows="4"></textarea>
+ 
+                                    </div>
+                                    
+                                </div>
+                                <div class="form-group row">
+                                   
+                                    <div class="col">
+                                        <label for="health_check">HEALTH CHECKS</label>
+                                        <textarea class="form-control" name="health_check" id="health_check" rows="4">{{ old('health_check') }}</textarea>
+                                
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col">
+                                        <label for="website"> WEBSITE </label>
+                                        <input type="text" class="form-control"
+                                        value="{{ $vendoDetails['vendors']['location'] }}" required name="website"
+                                            id="website" value="" placeholder="website">
+                                    </div>
+                                    <div class="col">
+                                        <label for="instagram_url"> INSTAGRAM URL </label>
+                                        <input type="text"
+                                            class="form-control" value="{{ $vendoDetails['vendors']['location'] }}" required
+                                            name="instagram_url" id="instagram_url" value=""
+                                            placeholder="instagram_url">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col">
+                                        <label for="facebook_url"> FACEBOOK URL </label>
+                                        <input type="text"
+                                            class="form-control" value="{{ $vendoDetails['vendors']['location'] }}"
+                                            required name="facebook_url" id="facebook_url"
+                                            value="" placeholder="facebook_url">
+                                    </div>
+                                    <div class="col">
+                                        <label for="twitter_url"> TWITTER URL </label>
+                                        <input type="text"
+                                            class="form-control" value="{{ $vendoDetails['vendors']['location'] }}"
+                                            name="twitter_url" id="twitter_url" value=""
+                                            placeholder="twitter_url">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col">
+                                        <label for="mobile">Mobile</label>
+                                        <input type="text" class="form-control" id="mobile" name="mobile"
+                                            placeholder="mobile" value="{{ $adminDetaiils->mobile }}">
+                                    </div>
+                                    <div class="col">
+                                        <label>Country</label>
                                         <div id="country">
-                                            <input class="typeahead" type="text" name="country" value="{{ $adminDetaiils->country }}" placeholder="country">
+                                            <input class="typeahead" type="text" name="country"
+                                                value="{{ $vendoDetails['vendors']['country'] }}" placeholder="country">
                                         </div>
                                     </div>
                                 </div>
+                              
+                                <div class="form-group row">
+                                    <div class="col">
+                                        <label>Image</label>
+                                        <input type="file" class="form-control" id="admin_image" name="admin_image">
 
+                                            <a href="{{ url('admin/images/admin_photos/admins/' . $vendoDetails['vendors']['admin_image']) }}"
+                                                target="blank">View Image</a>
+                                            <input type="hidden" name="current_admin_image" id="current_admin_image"
+                                                value="{{ $vendoDetails['vendors']['admin_image'] }}">
+                                    </div>
+                                    <div class="col">
+                                        <label for="recent_img">A recent Picture of your Kennel
+                                        </label>
+                                        <input type="file"  class="form-control"name="recent_img" id="recent_img" value="" placeholder="recent_img">
 
-                                    {{-- <div class="form-group">
-                                        <label for="adress_one"></label>
-                                        <input type="text" class="form-control" name="adress_one"
-                                            id="adress_one"value="{{ $adminDetaiils->adress_one }}" placeholder="name">
+                                        <a href="{{ url('admin/images/admin_photos/admins/' . $vendoDetails['vendors']['recent_img']) }}"
+                                        target="blank">View Image</a>
+                                    <input type="hidden" name="recent_img" id="recent_img"
+                                        value="{{ $vendoDetails['vendors']['recent_img'] }}">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="adress_two">Address Two</label>
-                                        <input type="text" class="form-control" name="adress_two"
-                                            id="adress_two"value="{{ $adminDetaiils->adress_two }}"
-                                            placeholder="adress_two">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="zipcode"></label>
-                                        <input type="text" class="form-control" name="zipcode"
-                                            id="zipcode"value="{{ $adminDetaiils->zipcode }}" placeholder="adress_two">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="city">city</label>
-                                        <input type="text" class="form-control" name="country" id="city"
-                                            value="{{ $adminDetaiils->city }}" placeholder="city">
-                                    </div> --}}
+                                </div>
+
+                                {{-- @if (Auth::guard('admin')->user()->type == 'Vendor')
                                 @else
                                     <div class="form-group">
                                         <label for="type">Amin Type</label>
@@ -150,15 +237,11 @@
                                                 Superadmin</option>
                                         </select>
                                     </div>
-                                @endif
+                                @endif --}}
 
-                                <div class="form-group">
-                                    <label for="mobile">Mobile</label>
-                                    <input type="text" class="form-control" id="mobile" name="mobile"
-                                        placeholder="mobile" value="{{ $adminDetaiils->mobile }}">
-                                </div>
+                              
 
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label>Image</label>
                                     <input type="file" class="form-control" id="admin_image" name="admin_image">
                                     @if (!empty(Auth::guard('admin')->user()->admin_image))
@@ -167,7 +250,7 @@
                                         <input type="hidden" name="current_admin_image" id="current_admin_image"
                                             value="{{ Auth::guard('admin')->user()->admin_image }}">
                                     @endif
-                                </div>
+                                </div> --}}
                                 <button type="submit" class="btn btn-primary mr-2">Submit</button>
                             </form>
 

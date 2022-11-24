@@ -1,126 +1,126 @@
+<?php
+use App\Models\StripeAccount;
+$countStrip = StripeAccount::where('vendor_id', Auth::guard('admin')->user()->vendor_id)
+    ->first()
+    ->toArray();
+
+?>
 <nav class="sidebar sidebar-offcanvas bg-bg-white" id="sidebar">
-    <ul class="nav">
+    @if ($countStrip['status'] == 0)
+        <div class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('vendorDashboard') }}">
+                    <i class="icon-grid menu-icon"></i>
+                    <span class="menu-title">Kennel Dashboard</span>
+                </a>
+            </li>
+        </div>
+    @else
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('vendorDashboard') }}">
+                    <i class="icon-grid menu-icon"></i>
+                    <span class="menu-title">Kennel Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item" style="background: none;">
 
-
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('vendorDashboard') }}">
-                <i class="icon-grid menu-icon"></i>
-                <span class="menu-title">Kennel Dashboard</span>
-            </a>
-        </li>
-
-        <li class="nav-item" style="background: none;">
-
-            <a class="nav-link"
-                @if (Session::get('page') == 'update_admin_details') style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;" @endif
-                data-toggle="collapse" href="#form-vendor" aria-expanded="false" aria-controls="form-vendor">
-                <i class="icon-columns menu-icon"></i>
-                <span class="menu-title">  Kennel Profile </span>
-                <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="form-vendor">
-                <ul class="nav flex-column sub-menu" style="background: none;">
-                    <li class="nav-item"><a class="nav-link"
-                            @if (Session::get('page') == 'update_admin_details') style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;"
+                <a class="nav-link"
+                    @if (Session::get('page') == 'update_admin_details') style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;" @endif
+                    data-toggle="collapse" href="#form-vendor" aria-expanded="false" aria-controls="form-vendor">
+                    <i class="icon-columns menu-icon"></i>
+                    <span class="menu-title"> Kennel Profile </span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="form-vendor">
+                    <ul class="nav flex-column sub-menu" style="background: none;">
+                        <li class="nav-item"><a class="nav-link"
+                                @if (Session::get('page') == 'update_admin_details') style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;"
             @else style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;" @endif
-                            href="{{ route('vendorDetails') }}">Profile</a>
-                    </li>
-                </ul>
-            </div>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('vendorChat') }}">
-                <i class="icon-grid menu-icon"></i>
-                <span class="menu-title"> Chat</span>
-            </a>
-        </li>
-        <li class="nav-item" style="background: none;">
-            <a @if (Session::get('page') == 'all_categories' ||
-                Session::get('page') == 'all_products' ||
-                Session::get('page') == 'vendor_application' ||
-                Session::get('page') == 'all_orders') style="background:#4B49AC !important; color:rgb(0, 0, 0) !important;" @endif
-                class="nav-link"data-toggle="collapse" href="#form-category" aria-expanded="false"
-                aria-controls="form-category">
-                <i class="icon-columns menu-icon"></i>
-                <span class="menu-title">Marketplace</span>
-                <i class="menu-arrow"></i>
-            </a>
+                                href="{{ route('vendorDetails') }}">Profile</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('vendorChat') }}">
+                    <i class="icon-grid menu-icon"></i>
+                    <span class="menu-title"> Chat</span>
+                </a>
+            </li>
+            <li class="nav-item" style="background: none;">
+                <a @if ( Session::get('page') == 'all_products' ||
+                    Session::get('page') == 'vendor_application' ||
+                    Session::get('page') == 'all_orders') style="background:#4B49AC !important; color:rgb(0, 0, 0) !important;" @endif
+                    class="nav-link"data-toggle="collapse" href="#form-category" aria-expanded="false"
+                    aria-controls="form-category">
+                    <i class="icon-columns menu-icon"></i>
+                    <span class="menu-title">Marketplace</span>
+                    <i class="menu-arrow"></i>
+                </a>
 
-            <div class="collapse" id="form-category">
-                <ul class="nav flex-column sub-menu" style="background: none;">
+                <div class="collapse" id="form-category">
+                   
+                    <ul class="nav flex-column sub-menu" style="background: none;">
 
+                        
                     <li class="nav-item"><a class="nav-link"
-                            @if (Session::get('page') == 'all_products') style="background:#4B49AC !important; color:rgb(0, 0, 0) !important;"
-              @else style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;" @endif
-                            href="{{ route('VendorproductIndex') }}"> Posts </a></li>
+                        @if (Session::get('page') == 'all_products') style="background:#4B49AC !important; color:#fff !important;"
+          @else style="background:#none; color:#000 !important;" @endif
+                        href="{{ route('VendorproductIndex') }}"> Puppies </a></li>
 
-                </ul>
-                <ul class="nav flex-column sub-menu" style="background: none;">
-
-                    <li class="nav-item"><a class="nav-link"
-                            @if (Session::get('page') == 'vendor_application') style="background:#4B49AC !important; color:rgb(0, 0, 0) !important;"
-                            @else style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;" @endif
+                        <li class="nav-item"><a class="nav-link"
+                            @if (Session::get('page') == 'vendor_application') style="background:#4B49AC !important; color:#fff !important;"
+              @else style="background:#none; color:#000 !important;" @endif
                             href="{{ route('vendorApplication') }}"> Reservations </a></li>
 
-                    <li class="nav-item"><a class="nav-link"
-                            @if (Session::get('page') == 'all_orders') style="background:#4B49AC !important; color:rgb(0, 0, 0) !important;"
-                                @else style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;" @endif
-                            href="{{ route('allOrderVendor') }}"> Orders </a></li>
 
-                </ul>
+                            <li class="nav-item"><a class="nav-link"
+                                @if (Session::get('page') == 'all_orders') style="background:#4B49AC !important; color:#fff !important;"
+                  @else style="background:#none; color:#000 !important;" @endif
+                                href="{{ route('allOrderVendor') }}"> Orders </a></li>
 
-
-
-            </div>
-
-        </li>
-
-        <li class="nav-item" style="background: none;">
-            <a @if (Session::get('page') == 'all_categories' ||
-                Session::get('page') == 'add-vendor-payment' ||
-                Session::get('page') == 'add-vendor-payments' ||
-                Session::get('page') == 'all_products') style="background:#4B49AC !important; color:rgb(0, 0, 0) !important;" @endif
-                class="nav-link"data-toggle="collapse" href="#form-setting" aria-expanded="false"
-                aria-controls="form-setting">
-                <i class="icon-columns menu-icon"></i>
-                <span class="menu-title">Store Setting</span>
-                <i class="menu-arrow"></i>
-            </a>
-
-            <div class="collapse" id="form-setting">
-                <ul class="nav flex-column sub-menu" style="background: none;">
-
-                    {{-- <li class="nav-item"><a class="nav-link"
-                            @if (Session::get('page') == 'all_products') style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;"
-                        @else style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;" @endif
-                            href="{{ route('kennelsEditUpdate') }}"> Setting </a>
-                    </li> --}}
-                    {{-- <li class="nav-item"><a class="nav-link"
-                            @if (Session::get('page') == 'all_products') style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;"
-                        @else style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;" @endif
-                            href="{{ url('/vendor/add-edit-kennel-banners') }}"> Store Banners </a>
-                    </li> --}}
-
-
-                    <li class="nav-item"><a class="nav-link"
-                            @if (Session::get('page') == 'add-vendor-payment') style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;"
-                                @else style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;" @endif
-                            href="{{ route('addEditVendorPayments') }}"> Vendor Bank Accout </a>
-                    </li>
+                    </ul>
 
 
 
+                </div>
 
-                    <li class="nav-item"><a class="nav-link"
-                            @if (Session::get('page') == 'add-vendor-payments') style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;"
-                            @else style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;" @endif
-                            href="{{ route('withdrawRequest') }}"> Money Withdraw </a>
-                    </li>
+            </li>
 
-                </ul>
-            </div>
-        </li>
-    </ul>
+            <li class="nav-item" style="background: none;">
+                <a @if ( Session::get('page') == 'add-vendor-payment' ||
+                    Session::get('page') == 'all-vendor-payment' ) style="background:#4B49AC !important; color:rgb(0, 0, 0) !important;" @endif
+                    class="nav-link"data-toggle="collapse" href="#form-setting" aria-expanded="false"
+                    aria-controls="form-setting">
+                    <i class="icon-columns menu-icon"></i>
+                    <span class="menu-title">Store Setting</span>
+                    <i class="menu-arrow"></i>
+                </a>
+
+                <div class="collapse" id="form-setting">
+                    <ul class="nav flex-column sub-menu" style="background: none;">
+
+                        <li class="nav-item"><a class="nav-link"
+                            @if (Session::get('page') == 'add-vendor-payment') style="background:#4B49AC !important; color:#fff !important;"
+              @else style="background:#none; color:#000 !important;" @endif
+                            href="{{ route('addEditVendorPayments') }}"> Vendor Bank Accout  </a></li>
+
+                     
+
+
+                            <li class="nav-item"><a class="nav-link"
+                                @if (Session::get('page') == 'all-vendor-payment') style="background:#4B49AC !important; color:#fff !important;"
+                  @else style="background:#none; color:#000 !important;" @endif
+                                href="{{ route('withdrawRequest') }}"> Money Withdraw  </a></li>
+
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    @endif
+
+
 </nav>
 
 
