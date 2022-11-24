@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Auth;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\StripeAccount;
+
 
 class Admin extends Authenticatable
 {
@@ -19,10 +21,10 @@ class Admin extends Authenticatable
             'email',
             'password',
         ];
-    
+
         protected $hidden = [
-    
-        'password', 
+
+        'password',
         'remember_token',
         ];
 
@@ -36,5 +38,5 @@ class Admin extends Authenticatable
             $getId =  Admin::with('vendors')->where('id',Auth::guard('admin')->user()->id)->first()->toArray();
             return $getId;
        }
-        
+
 }

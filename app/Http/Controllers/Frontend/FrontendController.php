@@ -244,11 +244,48 @@ class FrontendController extends Controller
 
    public function shippingAddress($id)
    {
-      Session::put('page', 'shipping_address');
-
+//      Session::put('page', 'shipping_address');
+//
       $getOrder = Order::with('products', 'admins', 'users')->where('id', $id)->where('user_id', Auth::user()->id)->first()->toArray();
-      // echo "<pre>"; print_r($getOrder);die;
-      return view('frontend.pages.shipping_address')->with('getOrder', $getOrder);
+//      // echo "<pre>"; print_r($getOrder);die;
+//      return view('frontend.pages.shipping_address')->with('getOrder', $getOrder);
+//dd($getOrder['products']);
+//       STRIPE TESTING
+       // Set your secret key. Remember to switch to your live secret key in production.
+// See your keys here: https://dashboard.stripe.com/apikeys
+       \Stripe\Stripe::setApiKey('sk_test_51LzQjnHOUF1948MIsNSw3B3HfkAJqsX0N5hhvBf2IvKWoclbbHK741ANVYgmIknAdKdKEg5LpZf9WVMhJvGVvawj00wGcp8FAS');
+       $stripe = new \Stripe\StripeClient('sk_test_51LzQjnHOUF1948MIsNSw3B3HfkAJqsX0N5hhvBf2IvKWoclbbHK741ANVYgmIknAdKdKEg5LpZf9WVMhJvGVvawj00wGcp8FAS');
+       $product = $stripe->products->create(
+           [
+               'name' => $getOrder['products']['sire_name'],
+               'description' => $getOrder['products']['description'],
+               'expand' => ['default_price'],
+               'images' =>['https://dummyimage.com/300']
+           ]
+       );
+       $price = $stripe->prices->create(
+           [
+               'product' => $product->id,
+               'unit_amount' => $getOrder['products']['puppy_price']*100,
+               'currency' => 'cad',
+           ]
+       );
+       $session = \Stripe\Checkout\Session::create([
+           'payment_method_types' => ['card'],
+           'line_items' => [[
+               'price' => $price->id,
+               'quantity' => 1,
+           ]],
+           'mode' => 'payment',
+           'success_url' => 'https://example.com/success',
+           'cancel_url' => 'https://example.com/failure',
+           'payment_intent_data' => [
+               'transfer_data' => [
+                   'destination' => 'acct_1M71osQn6bQveEiF',
+               ],
+           ],
+       ]);
+       return redirect($session->url);
    }
 
 

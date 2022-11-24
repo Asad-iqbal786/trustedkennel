@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\StripeAccount;
 use Illuminate\Http\Request;
 use App\Models\Admin;
 use App\Models\Vendor;
@@ -77,8 +78,8 @@ class AdminController extends Controller
             'instagram_url' => 'required',
             'facebook_url' => 'required',
             'twitter_url' => 'required',
-            'admin_image' => 'image',
-            'recent_img' => 'image',
+//            'admin_image' => 'image',
+//            'recent_img' => 'image',
             // 'multiple_img' => 'image',
             // 'agree' => 'required',
         ];
@@ -97,8 +98,8 @@ class AdminController extends Controller
             'phone.required' => 'phone is Required...',
             'vendor_about.required' => 'vendor_about is Required...',
             'health_check.required' => 'health_check Check is Required...',
-            'admin_image.image' => 'Valid admin_image is required',
-            'recent_img.image' => 'Valid recent_img is required',
+//            'admin_image.image' => 'Valid admin_image is required',
+//            'recent_img.image' => 'Valid recent_img is required',
             // 'multiple_img.image' => 'Valid multiple_img is required',
             // 'how_many_champions.required' => 'how_many_champions is Required...',
             'website.required' => 'website is Required...',
@@ -133,22 +134,22 @@ class AdminController extends Controller
             DB::beginTransaction();
 
             $vendors = new Vendor;
-
+//dd($vendors);
             //admin images
-            $image_tmp = $request->file('admin_image');
-            $extention = $image_tmp->getClientOriginalExtension();
-            $adminImage = rand(111, 99999) . '.' . $extention;
-            $imagePath = 'admin/images/admin_photos/admins/' . $adminImage;
-            Image::make($image_tmp)->save($imagePath);
-            //recent_img images
-            $image_tmp = $request->file('recent_img');
-            $extention = $image_tmp->getClientOriginalExtension();
-            $recentImage = rand(111, 99999) . '.' . $extention;
-            $imagePath = 'admin/images/admin_photos/admins/' . $recentImage;
-            Image::make($image_tmp)->save($imagePath);
+//            $image_tmp = $request->file('admin_image');
+//            $extention = $image_tmp->getClientOriginalExtension();
+//            $adminImage = rand(111, 99999) . '.' . $extention;
+//            $imagePath = 'admin/images/admin_photos/admins/' . $adminImage;
+//            Image::make($image_tmp)->save($imagePath);
+//            //recent_img images
+//            $image_tmp = $request->file('recent_img');
+//            $extention = $image_tmp->getClientOriginalExtension();
+//            $recentImage = rand(111, 99999) . '.' . $extention;
+//            $imagePath = 'admin/images/admin_photos/admins/' . $recentImage;
+//            Image::make($image_tmp)->save($imagePath);
             //multiple_img images
-            $vendors->admin_image = $adminImage;
-            $vendors->recent_img = $recentImage;
+//            $vendors->admin_image = $adminImage;
+//            $vendors->recent_img = $recentImage;
             $vendors->email = $data['email'];
             $vendors->kennel_name = $data['kennel_name'];
             $vendors->kennel_affiliations = $data['kennel_affiliations'];
@@ -167,10 +168,21 @@ class AdminController extends Controller
             $vendors->facebook_url = $data['facebook_url'];
             $vendors->twitter_url = $data['twitter_url'];
             $vendors->agree = $data['agree'];
-            // dd($vendors);
             $vendors->save();
             // $vendor_id = DB::getPdo()->lastInsertId();
             $vendor_id = Vendor::latest()->first();
+
+            // StripeAccount
+            $stripe = new StripeAccount;
+            $stripeApi = new \Stripe\StripeClient('sk_test_51LzQjnHOUF1948MIsNSw3B3HfkAJqsX0N5hhvBf2IvKWoclbbHK741ANVYgmIknAdKdKEg5LpZf9WVMhJvGVvawj00wGcp8FAS');
+            $acc = $stripeApi->accounts->create(['type' => 'express']);
+            $stripe->vendor_id = $vendor_id['id'];
+            $stripe->stripe_account = $acc->id;
+            $stripe->save();
+
+
+
+
             $message = "Please confirm your Email to activate your account!";
             Session::put('success_message', $message);
             $admins = new Admin;
@@ -199,7 +211,7 @@ class AdminController extends Controller
 
 
     public function dashboard(Request $request){
-        
+
         // return $request->all();
         if ($request->isMethod('post')) {
             $data = $request->all();
@@ -235,7 +247,6 @@ class AdminController extends Controller
             // echo "<pte>"; print_r($getEmail); die;
 
             if (Auth::guard('admin')->attempt(['email' => $data['email'], 'password' => $data['password']])) {
-
                 if (Auth::guard('admin')->user()->type == ('superadmin')) {
 
                     return redirect()->route('adminDashboard');
@@ -506,5 +517,65 @@ class AdminController extends Controller
         } else {
             echo "false";
         }
+    }
+    public function stripe()
+    {
+// Set your secret key. Remember to switch to your live secret key in production.
+// See your keys here: https://dashboard.stripe.com/apikeys
+        $stripe = new \Stripe\StripeClient('sk_test_51LzQjnHOUF1948MIsNSw3B3HfkAJqsX0N5hhvBf2IvKWoclbbHK741ANVYgmIknAdKdKEg5LpZf9WVMhJvGVvawj00wGcp8FAS');
+       $acc = $stripe->accounts->create(['type' => 'express']);
+        $l = $stripe->accountLinks->create(
+            [
+                'account' => $acc->id,
+                'refresh_url' => 'https://example.com/reauth',
+                'return_url' => 'https://example.com/return',
+                'type' => 'account_onboarding',
+            ]
+        );
+//        return redirect($l->url);
+        dd($l);
+    }
+    public function stripeCheckOut()
+    {
+//        dd("h");
+        // Set your secret key. Remember to switch to your live secret key in production.
+// See your keys here: https://dashboard.stripe.com/apikeys
+        \Stripe\Stripe::setApiKey('sk_test_51LzQjnHOUF1948MIsNSw3B3HfkAJqsX0N5hhvBf2IvKWoclbbHK741ANVYgmIknAdKdKEg5LpZf9WVMhJvGVvawj00wGcp8FAS');
+        $stripe = new \Stripe\StripeClient('sk_test_51LzQjnHOUF1948MIsNSw3B3HfkAJqsX0N5hhvBf2IvKWoclbbHK741ANVYgmIknAdKdKEg5LpZf9WVMhJvGVvawj00wGcp8FAS');
+        $product = $stripe->products->create(
+            [
+                'name' => 'Basic Dashboard',
+                'expand' => ['default_price'],
+            ]
+        );
+        $price = $stripe->prices->create(
+            [
+                'product' => $product->id,
+                'unit_amount' => 1000*100,
+                'currency' => 'cad',
+            ]
+        );
+        $session = \Stripe\Checkout\Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => [[
+                'price' => $price->id,
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => 'https://example.com/success',
+            'cancel_url' => 'https://example.com/failure',
+            'payment_intent_data' => [
+                'application_fee_amount' => 123,
+                'transfer_data' => [
+                    'destination' => 'acct_1M71osQn6bQveEiF',
+                ],
+            ],
+        ]);
+        return redirect($session->url);
+
+    }
+    public function stripepay()
+    {
+        return view('test');
     }
 }
