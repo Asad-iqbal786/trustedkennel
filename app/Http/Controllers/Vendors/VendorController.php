@@ -41,7 +41,7 @@ class VendorController extends Controller
         // echo "<pre>";print_r($Vendor_r_app);die;
 
 
-        return view('vendor.application_receive')->with('Vendor_r_app', $Vendor_r_app);
+        return view('vendors_view.application_receive')->with('Vendor_r_app', $Vendor_r_app);
     }
 
     public function applicationDetails($id)
@@ -51,7 +51,7 @@ class VendorController extends Controller
         Session::put('page', 'vendor_application_details');
         $appDetails = Cart::with('users')->where('id', $id)->first()->toArray();
         // echo "<pre>";print_r($appDetails);die;
-        return view('vendor.application_details')->with('appDetails', $appDetails);
+        return view('vendors_view.application_details')->with('appDetails', $appDetails);
     }
 
     public function confirmAccountApproved(Request $request)
@@ -97,7 +97,7 @@ class VendorController extends Controller
         //   echo "<pre>"; print_r($getVendorMessage);die;
 
 
-        return view('vendor.chat.vendor_chat')
+        return view('vendors_view.chat.vendor_chat')
             ->with('getChat', $getChat)
             ->with('getCustomer', $getCustomer)
             ->with('getVendorMessage', $getVendorMessage)

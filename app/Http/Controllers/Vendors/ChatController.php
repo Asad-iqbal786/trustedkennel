@@ -14,7 +14,7 @@ class ChatController extends Controller
 
         //   echo "<pre>"; print_r($getChat);die;
 
-        return view('vendor.chat.index')->with('getChat', $getChat);
+        return view('vendors_view.chat.index')->with('getChat', $getChat);
     }
 
     public function chatStore(Request $request)

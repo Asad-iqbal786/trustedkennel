@@ -106,7 +106,7 @@ class ShopSettingController extends Controller
 
         // dd(    $getShopName   );
 
-        return view('vendor.setting.add-edit-kennels')
+        return view('vendors_view.setting.add-edit-kennels')
         ->with('title',$title)
         ->with('shopSetting',$shopSetting)
         ->with('getShopName',$getShopName)

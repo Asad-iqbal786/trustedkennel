@@ -42,7 +42,7 @@ class KennelBannerController extends Controller
         $title = 23;
         $shopSettingdata = 23;
         $getBanner = KennelBanner::where('vendor_id',Auth::guard('admin')->user()->vendor_id)->get()->toArray();
-        return view('vendor.setting.add_edit_kennels_banner',)
+        return view('vendors_view.setting.add_edit_kennels_banner',)
         ->with('title',$title)
         ->with('getBanner',$getBanner)
         ->with('shopRecord',$shopRecord)

@@ -41,7 +41,7 @@ class DashboardController extends Controller
 
         // echo "<pre>"; print_r($orderSum); die;
 
-        return view('vendor.index')
+        return view('vendors_view.index')
             ->with('userCount', $userCount)
             ->with('countAvailablePuppy', $countAvailablePuppy)
             ->with('countPlanedPuppy', $countPlanedPuppy)
