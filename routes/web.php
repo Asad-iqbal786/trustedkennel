@@ -80,7 +80,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 
 Route::get('/paypel', [App\Http\Controllers\Admin\PaypelController::class, 'paypel'])->name('paypel');
 
-Route::prefix('/vendor')->namespace('App\Http\Controllers\Vendor')->group(function(){
+Route::prefix('/vendor')->namespace('App\Http\Controllers\Vendors')->group(function(){
 
     Route::group(['middleware'=>['vendor']],function(){
 
