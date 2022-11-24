@@ -22,6 +22,7 @@ use Hash;;
 
 use Session;
 use App\Models\User;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -32,30 +33,21 @@ class AdminController extends Controller
 
 
             $getProduct = Product::with('category', 'admins')->where('status', 0)->get()->toArray();
-
             $now = Carbon::now();
-
             $currentMonth = date( $now->month);
             $currentYear = date( $now->year);
             $monthlySales = Order::whereRaw('MONTH(created_at) = ?',[$currentMonth])
                         ->sum('grand_total');
-
             $totalReser = Cart::count();
             $monthlyResv = Cart::whereRaw('MONTH(created_at) = ?',[$currentMonth])->count();
-
             $totalAvailabePuppy = Product::where('produt_type_id','=','Available Puppy')->count();
             $thisYearPuppy = Product::whereRaw('year(created_at) = ?',[$currentYear])
             ->where('produt_type_id','=','Available Puppy')
             ->count();
-
-
             $totalplanLittles = Product::where('produt_type_id','=','Planned Litter')->count();
             $totalLittleThisYear = Product::whereRaw('year(created_at) = ?',[$currentYear])
             ->where('produt_type_id','=','Planned Litter')
             ->count();
-
-
-
         // echo "<pre>"; print_r($thisYearPuppy); die;
 
         return view('admin.index')
@@ -134,8 +126,8 @@ class AdminController extends Controller
             'phone.required' => 'phone is Required...',
             'vendor_about.required' => 'vendor_about is Required...',
             'health_check.required' => 'health_check Check is Required...',
-//            'admin_image.image' => 'Valid admin_image is required',
-//            'recent_img.image' => 'Valid recent_img is required',
+            // 'admin_image.image' => 'Valid admin_image is required',
+            // 'recent_img.image' => 'Valid recent_img is required',
             // 'multiple_img.image' => 'Valid multiple_img is required',
             // 'how_many_champions.required' => 'how_many_champions is Required...',
             'website.required' => 'website is Required...',
@@ -149,7 +141,6 @@ class AdminController extends Controller
         $this->validate($request, $rules, $customMessages);
 
         if ($request->isMethod('post')) {
-            $data = $request->all();
             $data = $request->all();
 
             // dd($data);
@@ -482,17 +473,24 @@ class AdminController extends Controller
                 $constraint->upsize();
             })->stream();
             Storage::disk('public')->put('admin/images/admin_photos/admins/' . $imageName, $productName);
-
-
-
             //upadate admin details
             Admin::where('email', Auth::guard('admin')->user()->email)->update(['first_name' => $data['first_name'], 'mobile' => $data['mobile'], 'image' => $imageName]);
             Session::flash('success_message', 'Admin Details Updata Successfully !');
             return redirect()->back();
         }
+        $getCat = Category::where('status', 1)->get()->toArray();
+        $vendoDetails = Admin::where('email', Auth::guard('admin')->user()->email)->with('vendors')->first()->toArray();
+
+        // echo "<pre>"; print_r($vendoDetails);die;
+
+
+
+
         // $getCounties = Country::get()->toArray();
         return view('admin.admin_auth.admin_details')
             // ->with('getCounties',$getCounties)
+            ->with('getCat', $getCat)
+            ->with('vendoDetails', $vendoDetails)
             ->with('admin', $admin)
             ->with('adminDetaiils', $adminDetaiils);
     }
@@ -501,7 +499,6 @@ class AdminController extends Controller
     {
         Session::put('page', 'update_admin_details');
         $admin = Admin::get();
-        // echo "<pre>"; print_r(Auth::guard('admin')->user());die;
         $adminDetaiils = Admin::where('email', Auth::guard('admin')->user()->email)->first();
 
         // return $request->all();

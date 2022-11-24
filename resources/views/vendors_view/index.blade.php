@@ -25,18 +25,8 @@
     $totalVisits = [['y' => $userCount[4], 'label' => $monthVisits[4]], ['y' => $userCount[3], 'label' => $monthVisits[3]], ['y' => $userCount[2], 'label' => $monthVisits[2]], ['y' => $userCount[1], 'label' => $monthVisits[1]], ['y' => $userCount[0], 'label' => $monthVisits[0]]];
     
     ?>
-    <div class="container pt-5 pb-5">
-        <div class="row">
-            <div class="col-6">
-                <div id="chartContainer" style="height: 370px; width: 100%;"></div>
-            </div>
-            <div class="col-6">
-                <div id="visits" style="height: 370px; width: 100%;"></div>
-            </div>
-        </div>
 
 
-    </div>
     <div class="row">
         <div class="col-md-12 grid-margin">
             <div class="row">
@@ -53,6 +43,7 @@
                     <h6 class="font-weight-normal mb-0">You have <span class="text-primary"><a
                                 href="{{ route('vendorApplication') }}"> {{ $count }} new applications</a></span>
                     </h6>
+
                 </div>
                 <div class="col-12 col-xl-4">
                     <div class="justify-content-end d-flex">
@@ -62,7 +53,18 @@
             </div>
         </div>
     </div>
-
+    <div class="container pt-5 pb-5">
+        <div class="row">
+            
+            <div class="col-6">
+                <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+            </div>
+            <div class="col-6">
+                <div id="visits" style="height: 370px; width: 100%;"></div>
+            </div>
+        </div>
+       
+    </div>
 
     <div class="row">
         <div class="col-md-6 mb-4 stretch-card transparent">
@@ -72,11 +74,11 @@
                     <div class="row pt-4 ">
                         <div class="col-6 text-center">
                             <p>Available Dogs</p>
-                            <p>{{$countAvailablePuppy}}</p>
+                            <p>{{ $countAvailablePuppy }}</p>
                         </div>
                         <div class="col-6 text-center">
                             <p>Planned Litter</p>
-                            <p>{{$countPlanedPuppy}}</p>
+                            <p>{{ $countPlanedPuppy }}</p>
                         </div>
                     </div>
                 </div>
@@ -89,7 +91,7 @@
                     <div class="row pt-4 ">
                         <div class="col-6 text-center">
                             <p>Available </p>
-                            <p>{{$orderSum}}</p>
+                            <p>{{ $orderSum }}</p>
                         </div>
                         <div class="col-6 text-center">
                             <p>Pending </p>
@@ -144,7 +146,8 @@
                                                         product_id="{{ $pro['id'] }}" href="javascript:(0)">Inactive</a>
                                                 @endif
                                             @endif
-                                            <a href="" target="blank" data-toggle="modal" data-target="#exampleModal-{{ $pro['id'] }}">
+                                            <a href="" target="blank" data-toggle="modal"
+                                                data-target="#exampleModal-{{ $pro['id'] }}">
                                                 <i class="mdi mdi-eye" style="font-size: 25px;"></i>
                                             </a>
                                         </td>

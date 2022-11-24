@@ -84,6 +84,10 @@ Route::prefix('/vendor')->namespace('App\Http\Controllers\Vendors')->group(funct
 
     Route::group(['middleware'=>['vendor']],function(){
 
+        Route::get('/users-invoice/{id}', [App\Http\Controllers\Frontend\FrontendController::class, 'cartInvoice'])->name('cartInvoiceAdmin');
+        Route::get('/users-invoice-pdf/{id}', [App\Http\Controllers\Frontend\FrontendController::class, 'cartInvoicePDF'])->name('cartInvoicePDFAdmin');
+
+
         Route::get('/dashboard', [App\Http\Controllers\Vendors\DashboardController::class, 'index'])->name('vendorDashboard');
         Route::get('/logout', [App\Http\Controllers\Vendors\VendorController::class, 'logout'])->name('logoutvendor');
         Route::get('vendor-home', [App\Http\Controllers\Admin\AdminController::class, 'vendorHome'])->name('vendorHome1');

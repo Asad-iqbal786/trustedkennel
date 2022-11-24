@@ -10,7 +10,7 @@ use App\Models\Admin;
 @section('main-content')
     <div class="row">
         <div class="col-sm-3 grid-margin stretch-card">
-            @include('vendor.chat.chat_sidebar')
+            @include('vendors_view.chat.chat_sidebar')
         </div>
         <div class="col-sm-9 col-9 grid-margin stretch-card">
             <div class="card">

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\StripeAccount;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,8 +16,17 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        Session::put('page', 'dashboard');
 
+        $countStrip = StripeAccount::where('vendor_id',Auth::guard('admin')->user()->vendor_id)->first()->toArray();
+
+        if ($countStrip['status'] == 0) {
+            return view('vendors_view.upload_bank_Details');
+        }
+        
+
+        // dd( $countStrip);
+
+        Session::put('page', 'dashboard');
         $getProduct = Product::where('admin_id', Auth::guard('admin')->user()->id)->with('category', 'admins')->where('status', 0)->get()->toArray();
         $countAvailablePuppy = Product::where('vendor_id', Auth::guard('admin')->user()->vendor_id)->where('produt_type_id', '=', 'Available Puppy')->count();
         $countPlanedPuppy = Product::where('vendor_id', Auth::guard('admin')->user()->vendor_id)->where('produt_type_id', '=', 'Planned Litter')->count();
@@ -36,13 +46,11 @@ class DashboardController extends Controller
         $before_4_month_users  = Order::where('vendor_id', Auth::guard('admin')->user()->vendor_id)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at', Carbon::now()->subMonth(4))->count();
         $userCount =  array($current_month_users, $before_1_month_users, $before_2_month_users, $before_3_month_users, $before_4_month_users);
 
-
-
-
         // echo "<pre>"; print_r($orderSum); die;
 
         return view('vendors_view.index')
             ->with('userCount', $userCount)
+            ->with('countStrip', $countStrip)
             ->with('countAvailablePuppy', $countAvailablePuppy)
             ->with('countPlanedPuppy', $countPlanedPuppy)
             ->with('count', $count)

@@ -61,16 +61,12 @@ use App\Models\OrderLog;
 
                                     </td>
                                     <td>
-                                        <a href="{{ route('cartInvoice', $order['id']) }}" target="_blank"><i
+                                        <a href="{{ route('cartInvoiceAdmin', $order['id']) }}" target="_blank"><i
                                                 class="mdi mdi-printer-alert" style="font-size: 25px;"></i></a>
-                                        <a href="{{ route('cartInvoicePDF', $order['id']) }}" target="_blank"><i
+                                        <a href="{{ route('cartInvoicePDFAdmin', $order['id']) }}" target="_blank"><i
                                                 class="mdi mdi-file-pdf" style="font-size: 25px;"></i></a>
                                         <a href="" target="blank" data-toggle="modal"
-                                            data-target="#exampleModal-{{ $order['id'] }}"><i class="mdi mdi-eye"
-                                                style="font-size: 25px;"></i></a>
-
-
-
+                                            data-target="#exampleModal-{{ $order['id'] }}"><i class="mdi mdi-eye"style="font-size: 25px;"></i></a>
                                     </td>
 
                                 </tr>
