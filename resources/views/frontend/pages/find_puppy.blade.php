@@ -10,7 +10,7 @@ use App\Models\Admin;
     <header class="header-slider">
 
         <div class="swiper-container swiper-slider">
-            <div class="swiper-wrapper">
+            <div class="swiper-wrapper parallax">
                 <div class="swiper-slide context-dark" style="height: 550px;"
                     data-slide-bg="{{ asset('website/images/slider-01-2048x1000.jpg') }}">
 
@@ -27,7 +27,7 @@ use App\Models\Admin;
 
     <section>
         <div class="container">
-            <div class="text-center pt-2 pb-2">
+            <div class="text-center pt-2 pb-2" style="font-family: PT Sans Narrow;">
                 <h4>AVAILABLE PUPPIES & PLANNED LITTERS</h4>
             </div>
         </div>
@@ -99,25 +99,17 @@ use App\Models\Admin;
                             <div class="row ">
                                 <div class="col-12 pt-5 text-center">
                                     <div class="fa-hover ">
-                                        <a href="">
-                                            
-                                            <i class="fa fa-arrow-circle-left pr-3" aria-hidden="true"></i>
-
-                                        </a>
-                                        <span style="font-size: 35px; color:#bfbebe;">Page 1 of 5</span>
-                                        <a href="">
-                                            <i class="fa fa-arrow-circle-right pl-3" aria-hidden="true"></i>
-
-                                        </a>
+                                        <div class="fa-hover ">
+                                            <a href=""> <i class="fa fa-chevron-left" aria-hidden="true"></i> </a>
+                                            <span style="font-size: 35px; color:#bfbebe;">Page 1 of 5</span>
+                                            <a href=""> <i class="fa fa-chevron-right" aria-hidden="true"></i> </a>
+                                        </div>
                                     </div>
 
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
-
                 </div>
             </div>
 
@@ -128,17 +120,17 @@ use App\Models\Admin;
         <div class="parallax-content">
             <div class="container">
                 <h1>NOT SURE WHICH DOG BREED IS RIGHT FOR YOU ?</h1>
-                <h2>Start with our breed questionnaire and we'll recommend the best dog breeds for you and your lifestyle.</h2>
+                <h2>Start with our breed questionnaire and we'll recommend the best dog breeds for you and your lifestyle.
+                </h2>
                 <a class="button button-white-outline" href="#">BREED QUESTIONNAIRE</a>
             </div>
         </div>
     </section>
     <section class="section section-md bg-default">
         <div class="container">
-            <h3 class="text-center">Did you know</h3>
+            <h3 class="text-center">Did you know ? </h3>
             <div class="pt-2 pb-2">
 
-                <hr>
 
             </div>
             <div class="row row-30">
@@ -186,6 +178,22 @@ use App\Models\Admin;
 @push('styles')
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <style>
+        i.fa.fa-chevron-left {
+            font-size: 30px;
+            color: black;
+            margin-right: 20px;
+        }
+
+        i.fa.fa-chevron-right {
+            font-size: 30px;
+            color: black;
+            margin-left: 20px;
+        }
+
+
+
+
+
         .parallax-content h1 {
             font-weight: 700;
             font-size: 57px;
@@ -193,6 +201,20 @@ use App\Models\Admin;
 
         .parallax-content h2 {
             font-size: 38px;
+        }
+
+        .parallax {
+            /* The image used */
+            background-image: url("img_parallax.jpg");
+
+            /* Set a specific height */
+            min-height: 500px;
+
+            /* Create the parallax scrolling effect */
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
         }
     </style>
 @endpush

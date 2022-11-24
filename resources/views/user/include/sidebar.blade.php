@@ -2,38 +2,54 @@
 
 <div class="aiz-user-sidenav-wrap position-relative z-1 bg-gray-700 shadow-sm">
     <div class="aiz-user-sidenav rounded overflow-auto c-scrollbar-light pb-5 pb-xl-0 bg-dark">
+      
+
         <div class="p-4 text-xl-center mb-4 border-bottom bg-dark text-white position-relative">
-            <span class="avatar avatar-md mb-3">
-                <img src="https://demo.activeitzone.com/ecommerce/public/assets/img/avatar-place.png"
-                    class="image rounded-circle">
-            </span>
-            <p>{{  Auth::user()->email }}</p>
+            
+            <p> Welcome  {{  Auth::user()->name }} !</p>
+
         </div>
+
         <div class="sidemnenu mb-3">
             <ul class="aiz-side-nav-list pb-3 px-2 metismenu" data-toggle="aiz-side-menu">
                 <li class="aiz-side-nav-item">
-                    <a href="{{ route('userIndex') }}" class="aiz-side-nav-link ">
+                    <a href="{{ route('userProfile') }}" class="aiz-side-nav-link ">
                         <i class="las la-home aiz-side-nav-icon"></i>
-                        <span class="aiz-side-nav-text">Dashboard</span>
+                        <span class="aiz-side-nav-text">Profile</span>
                     </a>
                 </li>
+                @if (!empty(Auth::guard('admin')->check()))
+                    <li class="aiz-side-nav-item">
+                        <a href="{{ route('userIndex') }}" class="aiz-side-nav-link ">
+                            <i class="las la-home aiz-side-nav-icon"></i>
+                            <span class="aiz-side-nav-text">Vendor Dashboard</span>
+                        </a>
+                    </li>
+                @endif
+            
                 <li class="aiz-side-nav-item mm-active">
-                    <a  action="{{ route('addEditApplication') }}" href="{{ route('addEditApplication') }}" class="aiz-side-nav-link active" aria-expanded="true">
+                    <a  action="{{ route('addEditApplication') }}" href="{{ route('addEditApplication') }}" class="aiz-side-nav-link" aria-expanded="true">
                         <i class="las la-file-alt aiz-side-nav-icon"></i>
-                        <span class="aiz-side-nav-text">Puppy Application</span>
+                        <span class="aiz-side-nav-text">Dog Application</span>
                     </a>
                 </li>
                 <li class="aiz-side-nav-item">
                     <a href="{{route('cart')}}" class="aiz-side-nav-link ">
                         <i class="las la-download aiz-side-nav-icon"></i>
-                        <span class="aiz-side-nav-text">Cart Products</span>
+                        <span class="aiz-side-nav-text">Requests</span>
                     </a>
                 </li>
                
                 <li class="aiz-side-nav-item">
                     <a href="{{route('userOrder')}}" class="aiz-side-nav-link ">
                         <i class="las la-download aiz-side-nav-icon"></i>
-                        <span class="aiz-side-nav-text">Order Products</span>
+                        <span class="aiz-side-nav-text">Orders</span>
+                    </a>
+                </li>
+                <li class="aiz-side-nav-item">
+                    <a href="{{route('customerChat')}}" class="aiz-side-nav-link ">
+                        <i class="las la-download aiz-side-nav-icon"></i>
+                        <span class="aiz-side-nav-text">Customer Chat</span>
                     </a>
                 </li>
                 <li class="aiz-side-nav-item">

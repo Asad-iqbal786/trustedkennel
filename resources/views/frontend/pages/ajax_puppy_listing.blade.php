@@ -19,7 +19,7 @@ use Carbon\Carbon;
                         <a href="{{ route('PuppyDetails', $pro['slug']) }}">{{ $pro['sire_name'] }}</a>
                     </h5>
                     <p class="mb-0"  style="    font-size: 12px; text-align: left;">
-                        <a href="{{ route('catDetails', $pro['category']['id']) }}">{{ $pro['category']['name'] }}</a>
+                        <a href="{{ route('findPuppy') }}">{{ $pro['category']['name'] }}</a>
                     </p>
                     <div class="pd-detail__inline" style="    font-size: 12px; text-align: left;">
 

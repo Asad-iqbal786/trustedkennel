@@ -20,7 +20,7 @@
                 Session::get('page') == 'find_puppy' ||
                 Session::get('page') == 'oru_services')  @endif>
                 <li class="rd-nav-item  @if (Session::get('page') == 'home_page') active @else @endif">
-                  <a class="rd-nav-link" href="{{ route('frontendHome') }}">Home</a>
+                    <a class="rd-nav-link" href="{{ route('frontendHome') }}">Home</a>
 
                 </li>
                 <li class="rd-nav-item @if (Session::get('page') == 'find_puppy') active @else @endif">
@@ -39,10 +39,16 @@
                 </li>
                 <li class="rd-nav-item">
 
-                    @if (Auth::guard('admin')->check())
-                        <a class="rd-nav-link" href="{{ route('userIndex') }}">User Dashboard</a>
+                    @if (Auth::guard('admin')->check() ||  Auth::check())
 
-                        <a class="rd-nav-link" href="{{ route('logout') }}">Logout</a>
+                        @if (Auth::check())
+                            <a class="rd-nav-link" href="{{ route('userIndex') }}">User Dashboard</a>
+                            <a class="rd-nav-link" href="{{ route('userLogout') }}"> User Logout</a>
+                        @else
+                            <a class="rd-nav-link" href="{{ route('vendorDashboard') }}">Vendor Dashboard</a>
+                            <a class="rd-nav-link" href="{{ route('logout') }}">Vendor Logout</a>
+                        @endif
+                  
                     @else
                         <a class="rd-nav-link" href="{{ route('loginPage') }}">Login</a>
                     @endif

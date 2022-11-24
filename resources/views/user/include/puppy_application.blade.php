@@ -30,11 +30,10 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h6 class="mb-0">Puppy Application</h6>
+                                    <h6 class="mb-0">PUPPY APPLICATION</h6>
                                 </div>
                                 <div class="card-body">
 
-                                    <h5 class="text-center">PUPPY APPLICATION</h5>
 
                                     <form class="forms-sample" method="post"
                                         @if (empty($productData['id'])) action="{{ route('addEditApplication') }}"@else action="{{ route('addEditApplication', $productData['id']) }}" @endif
@@ -647,13 +646,20 @@
                                                 </textarea>
                                             </div>
 
-
-
-
+                                            <div class="form-co">
+                                                <div class="custom-control custom-radio">
+                                                    <input type="radio" id="termssnad-conditions" name="agree"
+                                                        value="termssnad-conditions" class="custom-control-input">
+                                                    <label class="custom-control-label" for="termssnad-conditions"> <a href="{{route('termsAndConditions')}}" target="_blank">
+                                                        PLEASE READ AND AGREE TO THE FOLLOWING
+                                                    </a>
+                                                    </label>
+                                                </div>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-6">
                                                     <div class="form-group">
-                                                        <label>Email</label>
+                                                        <label>Name</label>
                                                         <input type="text" name="email"
                                                             @if (!empty($productData['email'])) value="{{ $productData['email'] }}" @else value="{{ old('email') }}" @endif
                                                             class="form-control">
@@ -662,9 +668,9 @@
 
                                             </div>
                                             @if (!empty($productData['email']))
-                                                <button type="submit" class="btn btn-primary">Update Now</button>
+                                                <button type="submit" class="btn btn-primary">Save</button>
                                             @else
-                                                <button type="submit" class="btn btn-primary">Submit Now</button>
+                                                <button type="submit" class="btn btn-primary">Save</button>
                                             @endif
 
 

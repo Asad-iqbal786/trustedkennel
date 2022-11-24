@@ -5,7 +5,7 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ route('vendorDashboard') }}">
                 <i class="icon-grid menu-icon"></i>
-                <span class="menu-title"> Kennels Dashboard</span>
+                <span class="menu-title">Kennel Dashboard</span>
             </a>
         </li>
 
@@ -15,7 +15,7 @@
                 @if (Session::get('page') == 'update_admin_details') style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;" @endif
                 data-toggle="collapse" href="#form-vendor" aria-expanded="false" aria-controls="form-vendor">
                 <i class="icon-columns menu-icon"></i>
-                <span class="menu-title">Kennels Details</span>
+                <span class="menu-title">  Kennel Profile </span>
                 <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="form-vendor">
@@ -23,12 +23,17 @@
                     <li class="nav-item"><a class="nav-link"
                             @if (Session::get('page') == 'update_admin_details') style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;"
             @else style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;" @endif
-                            href="{{ route('vendorDetails') }}">Details</a>
+                            href="{{ route('vendorDetails') }}">Profile</a>
                     </li>
                 </ul>
             </div>
         </li>
-
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('vendorChat') }}">
+                <i class="icon-grid menu-icon"></i>
+                <span class="menu-title"> Chat</span>
+            </a>
+        </li>
         <li class="nav-item" style="background: none;">
             <a @if (Session::get('page') == 'all_categories' ||
                 Session::get('page') == 'all_products' ||
@@ -37,7 +42,7 @@
                 class="nav-link"data-toggle="collapse" href="#form-category" aria-expanded="false"
                 aria-controls="form-category">
                 <i class="icon-columns menu-icon"></i>
-                <span class="menu-title">Catelog</span>
+                <span class="menu-title">Marketplace</span>
                 <i class="menu-arrow"></i>
             </a>
 
@@ -47,7 +52,7 @@
                     <li class="nav-item"><a class="nav-link"
                             @if (Session::get('page') == 'all_products') style="background:#4B49AC !important; color:rgb(0, 0, 0) !important;"
               @else style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;" @endif
-                            href="{{ route('VendorproductIndex') }}"> Product </a></li>
+                            href="{{ route('VendorproductIndex') }}"> Posts </a></li>
 
                 </ul>
                 <ul class="nav flex-column sub-menu" style="background: none;">
@@ -55,7 +60,7 @@
                     <li class="nav-item"><a class="nav-link"
                             @if (Session::get('page') == 'vendor_application') style="background:#4B49AC !important; color:rgb(0, 0, 0) !important;"
                             @else style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;" @endif
-                            href="{{ route('vendorApplication') }}"> Cart </a></li>
+                            href="{{ route('vendorApplication') }}"> Reservations </a></li>
 
                     <li class="nav-item"><a class="nav-link"
                             @if (Session::get('page') == 'all_orders') style="background:#4B49AC !important; color:rgb(0, 0, 0) !important;"
@@ -85,16 +90,16 @@
             <div class="collapse" id="form-setting">
                 <ul class="nav flex-column sub-menu" style="background: none;">
 
-                    <li class="nav-item"><a class="nav-link"
+                    {{-- <li class="nav-item"><a class="nav-link"
                             @if (Session::get('page') == 'all_products') style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;"
                         @else style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;" @endif
                             href="{{ route('kennelsEditUpdate') }}"> Setting </a>
-                    </li>
-                    <li class="nav-item"><a class="nav-link"
+                    </li> --}}
+                    {{-- <li class="nav-item"><a class="nav-link"
                             @if (Session::get('page') == 'all_products') style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;"
                         @else style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;" @endif
                             href="{{ url('/vendor/add-edit-kennel-banners') }}"> Store Banners </a>
-                    </li>
+                    </li> --}}
 
 
                     <li class="nav-item"><a class="nav-link"
@@ -109,7 +114,7 @@
                     <li class="nav-item"><a class="nav-link"
                             @if (Session::get('page') == 'add-vendor-payments') style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;"
                             @else style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;" @endif
-                            href="{{ route('withdrawRequest') }}"> Vendor Withdraw </a>
+                            href="{{ route('withdrawRequest') }}"> Money Withdraw </a>
                     </li>
 
                 </ul>

@@ -15,12 +15,24 @@ use App\Models\VendorPayment;
             <div class="aiz-titlebar mt-2 mb-4">
                 <div class="row align-items-center">
                     <div class="col-md-6">
-                        <h1 class="h3">Manage Profile</h1>
                     </div>
                 </div>
             </div>
             @if (Auth::guard('admin')->user()->type == 'Vendor')
                 <div class="row gutters-10">
+                    <div class="col-md-4 mb-3 ml-auto">
+                        <div class="p-3 rounded mb-3 c-pointer text-center bg-white shadow-sm hov-shadow-lg has-transition"
+                            onclick="show_request_modal()">
+                            <span
+                                class="size-60px rounded-circle mx-auto bg-secondary d-flex align-items-center justify-content-center mb-3">
+                                <i class="las la-plus la-3x text-white"></i>
+                            </span>
+                            <div class="px-3 pt-3 pb-3">
+                                <div class="h4 fw-700 text-center">$139.500</div>
+                                <div class="opacity-50 text-center">Available Balance</div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-4 mb-3 ml-auto">
                         <div class="p-3 rounded mb-3 c-pointer text-center bg-white shadow-sm hov-shadow-lg has-transition"
                             onclick="show_request_modal()">

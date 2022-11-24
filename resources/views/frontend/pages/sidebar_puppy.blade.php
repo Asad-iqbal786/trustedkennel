@@ -88,8 +88,10 @@
                 <div class="card-bdy">
                     <div class="single-widget gender">
                         <ul>
-                            <li><input type="checkbox" name="" id=""> <label for="">Available puppy</label></li>
-                            <li><input type="checkbox" name="" id=""> <label for="">Planned litter</label></li>
+                            <li><input type="checkbox" name="" id=""> <label for="">Available
+                                    puppy</label></li>
+                            <li><input type="checkbox" name="" id=""> <label for="">Planned
+                                    litter</label></li>
                         </ul>
                     </div>
                 </div>
@@ -133,10 +135,18 @@
                             @forelse ($getCat as $item)
                                 <li class="media pb-2 active">
                                     <a>
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <input class="mr-2 category_id" type="checkbox" name="category_id[]"
+                                                    id="{{ $item['id'] }}" value="{{ $item['id'] }}"
+                                                    style="margin-left: 1px;">
 
-                                        <input class="mr-2 category_id" type="checkbox" name="category_id[]"
-                                            id="{{ $item['id'] }}" value="{{ $item['id'] }}"
-                                            style="margin-left: 1px;"> {{ $item['name'] }} </label>
+                                            </div>
+                                            <div class="col-10">
+                                                <label for=""> {{ $item['name'] }} </label>
+
+                                            </div>
+                                        </div>
                                     </a>
                                 </li>
                             @empty
@@ -248,6 +258,38 @@
         </div>
     </div>
 
+    <div class="facet-filter-associates">
+
+        <div class="row serc">
+            <div class="col-6  text-left">
+                <h3 class="title-name text-left">Gender</h3>
+            </div>
+            <div class="col-6">
+                <h3 class="font-weight-bold  text-right">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseAge"
+                        aria-expanded="true" aria-controls="collapseAge">
+                        <i class='fas fa-angle-down'></i>
+                    </button>
+                </h3>
+            </div>
+        </div>
+        <div id="collapseAge" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-bdy">
+                <div class="single-widget gender">
+                    <ul>
+                        <li>
+                            <input type="checkbox" name="" id="">
+                            <label for="">Male</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" name="" id="">
+                            <label for="">Femail</label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
     {{-- <div class="facet-filter-associates">
 		
 		<div class="row" >

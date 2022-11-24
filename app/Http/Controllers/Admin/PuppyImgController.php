@@ -46,7 +46,7 @@ class PuppyImgController extends Controller
                         $extension = $image->getClientOriginalExtension();
                         $imageName = rand(111,99999).'.'.$extension ;       
                               
-                        $smallimage = Image::make($image_tmp)->resize(200, null, function ($constraint) {
+                        $smallimage = Image::make($image_tmp)->resize(1600,null , function ($constraint) {
                             $constraint->aspectRatio();
                             $constraint->upsize();
                         })->stream();
