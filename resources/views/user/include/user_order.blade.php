@@ -21,7 +21,7 @@
                     <div class="aiz-titlebar mt-2 mb-4">
                         <div class="row align-items-center">
                             <div class="col-md-6">
-                                <h1 class="h3">Order Puppies</h1>
+                                <h1 class="h3">Order</h1>
                             </div>
                         </div>
                     </div>
@@ -30,10 +30,12 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
-                                    <th scope="col">Handle</th>
+                                    <th scope="col">Dog Name</th>
+                                    <th scope="col">Breed</th>
+                                    <th scope="col">Kennel Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Check Out</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -45,6 +47,7 @@
                                     <td>{{   $cart['grand_total'] }}</td>
                                     <td><span class="badge badge-primary">{{   $cart['status'] }}</span></td>
                                     <td>  <a href="{{route('shippingAddress', $cart['id'])}}" target="_blank">Checkout</a>  </td>
+                                    <td>  Action </td>
 
                                 </tr>
                                 @empty

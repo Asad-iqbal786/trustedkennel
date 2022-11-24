@@ -162,11 +162,21 @@
                         <ul>
                             @forelse ($getCat as $item)
                                 <li class="media pb-2 active">
+
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <input class="mr-2 category_id" type="checkbox" name="category_id[]"
+                                            id="{{ $item['id'] }}" value="{{ $item['id'] }}"
+                                            style="margin-left: 1px;">
+                                        </div>
+                                        <div class="col-10">
+                                            <label class="label-text" for="">  {{ $item['name'] }} </label>
+                                            </label>
+                                        </div>
+                                    </div>
                                     <a>
 
-                                        <input class="mr-2 category_id" type="checkbox" name="category_id[]"
-                                            id="{{ $item['id'] }}" value="{{ $item['id'] }}"
-                                            style="margin-left: 1px;"> {{ $item['name'] }} </label>
+                                     
                                     </a>
                                 </li>
                             @empty
@@ -202,7 +212,6 @@
             <div class="card-bdy">
                 <div class="single-widget gender">
                     <div class="facet-filter-by-rating">
-                        <h3 class="title-name">Rating</h3>
                         <div class="facet-form">
                             <!-- 5 Stars -->
                             <div class="facet-link">

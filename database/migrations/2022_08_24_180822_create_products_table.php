@@ -39,9 +39,11 @@ return new class extends Migration
             $table->string('dam_height');
             $table->string('dam_health_tests_conducted');
             $table->string('description');
+            $table->text('reason')->nullable();
             $table->string('image')->nullable();
             $table->enum('gender',['Male','Female']);
             $table->tinyInteger('status');
+            $table->tinyInteger('trending');
             $table->timestamps();
         });
     }

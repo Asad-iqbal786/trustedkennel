@@ -340,10 +340,10 @@
                                 <input type="file" class="form-control" name="image"value="">
                                 {{-- {{asset('storage/admin/images/admin_photos/product_medium/'.$pro['image'])}} --}}
                                 @if (!empty($proData['image']))
-                                    <a href="{{ url('storage/admin/images/admin_photos/product_small/' . $proData['image']['hfh']) }}"
+                                    {{-- <a href="{{ url('storage/admin/images/admin_photos/product_small/' . $proData['image']['hfh']) }}"
                                         target="blank">View old Image</a>
                                     <input type="hidden" name="image" id="image"
-                                        value="{{ url('storage/admin/images/admin_photos/product_small/' . $proData['image']) }}">
+                                        value="{{ url('storage/admin/images/admin_photos/product_small/' . $proData['image']) }}"> --}}
                                 @endif
                             </div>
                         </div>

@@ -21,7 +21,7 @@
                     <div class="aiz-titlebar mt-2 mb-4">
                         <div class="row align-items-center">
                             <div class="col-md-6">
-                                <h1 class="h3">Cart Puppies</h1>
+                                <h1 class="h3">Reservations</h1>
                             </div>
                         </div>
                     </div>
@@ -30,9 +30,9 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
+                                    <th scope="col">Dog Name</th>
+                                    <th scope="col">Kennel Name</th>
+                                    <th scope="col">Status</th>
                                 </tr>
                             </thead>
                             <tbody>

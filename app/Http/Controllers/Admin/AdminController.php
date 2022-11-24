@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin;
+use App\Models\Cart;
 use App\Models\Vendor;
 use App\Models\Product;
 use App\Models\Category;
-
+use App\Models\Order;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
 use Auth;
@@ -20,20 +21,56 @@ use Hash;;
 
 use Session;
 use App\Models\User;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
     public function index()
     {
         Session::put('page', 'dashboard');
-        if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->type == ('Vendor')) {
-            $getProduct = Product::where('admin_id', Auth::guard('admin')->user()->id)->with('category', 'admins')->where('status', 0)->get()->toArray();
-        } else {
+        $totalSales = Order::sum('grand_total');
+       
+
             $getProduct = Product::with('category', 'admins')->where('status', 0)->get()->toArray();
-        }
+           
+            $now = Carbon::now();
+
+            $currentMonth = date( $now->month);
+            $currentYear = date( $now->year);
+            $monthlySales = Order::whereRaw('MONTH(created_at) = ?',[$currentMonth])
+                        ->sum('grand_total');
+
+            $totalReser = Cart::count();
+            $monthlyResv = Cart::whereRaw('MONTH(created_at) = ?',[$currentMonth])->count();
+
+            $totalAvailabePuppy = Product::where('produt_type_id','=','Available Puppy')->count();
+            $thisYearPuppy = Product::whereRaw('year(created_at) = ?',[$currentYear])
+            ->where('produt_type_id','=','Available Puppy')
+            ->count();
+
+
+            $totalplanLittles = Product::where('produt_type_id','=','Planned Litter')->count();
+            $totalLittleThisYear = Product::whereRaw('year(created_at) = ?',[$currentYear])
+            ->where('produt_type_id','=','Planned Litter')
+            ->count();
+
+
+
+        // echo "<pre>"; print_r($thisYearPuppy); die;
 
         return view('admin.index')
+            ->with('thisYearPuppy', $thisYearPuppy)
+            ->with('totalAvailabePuppy', $totalAvailabePuppy)
 
+            ->with('totalplanLittles', $totalplanLittles)
+            ->with('totalLittleThisYear', $totalLittleThisYear)
+
+            ->with('monthlyResv', $monthlyResv)
+            ->with('totalReser', $totalReser)
+
+            ->with('monthlySales', $monthlySales)
+            ->with('totalSales', $totalSales)
+            
             ->with('getProduct', $getProduct);
     }
     public function login()
@@ -198,8 +235,9 @@ class AdminController extends Controller
     }
 
 
-    public function dashboard(Request $request){
-        
+    public function dashboard(Request $request)
+    {
+
         // return $request->all();
         if ($request->isMethod('post')) {
             $data = $request->all();

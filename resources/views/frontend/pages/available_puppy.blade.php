@@ -14,91 +14,48 @@
         <a class="waypoints-link fa fa-angle-double-down novi-icon" href="#services" data-custom-scroll-to="services"></a>
     </header>
 
-    {{-- <section class="section section-md bg-default mt-5">
-    <div class="container">
 
-      <div class="row row-30">
-        <div class="col-md-5 wow slideInLeft"><img src="{{asset('website/images/about-01-470x242.jpg')}}" alt="" width="470" height="242"/>
-        </div>
-        <div class="col-md-7 wow slideInRight">
-            <h3 class="text-left"> Puppy Name  </h3>
-            <h3 class="text-left">KENNEL NAME</h3>
-          <p>Male born on 9/25/2022</p>
-
-          <h5>Lorem ipsum dolor sit amet</h5>
-          <p>Aenean nonummy hendrerit mauris. Phasellus porta. Fusce suscipit varius mi. Cum sociis natoque penatibus et magnis dis parturient ontes, nascetur ridiculus mus. Nulla dui. Fusce feugiat malesuada odio. Morbi nunc odio, gravida at, cursus nec, luctus a, lorem. Maecenas tristique orci ac sem. Duis ultricies pharetra magna. Donec accumsan malesuada orci. Donec sit amet eros. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Mauris fermentum dictum magna. Sed laoreet aliquam leo. Ut tellus dolor, dapibus eget, elementum vel, cursus eleifend, elit.</p>
-          <a class="button button-default" href="#">Adopt</a>
-          <a class="button button-default" href="#">Ask</a>
-        </div>
-      </div>
-    </div>
-</section> --}}
 
 
     <div class="card-wrapper">
         <div class="card">
-            <!-- card left -->
-            <div class="product-imgs">
-                <div class="img-display">
-                    <div class="img-showcase">
-                        @foreach ($getimg as $item)
-                            <img src="{{ asset('storage/admin/images/vendors/puppy_image/' . $item['puppy_image']) }}">
-                        @endforeach
+            @if ($imgCount == 0)
+                <div class="product-imgs">
+                    <div class="img-display">
+                        <div class="img-showcase">
+
+                            <img
+                                src="{{ asset('storage/admin/images/admin_photos/product_large/' . $puppyDetails['image']) }}">
+
+                        </div>
+                    </div>
+                </div>
+            @else
+                <div class="product-imgs">
+                    <div class="img-display">
+                        <div class="img-showcase">
+                            @foreach ($getimg as $item)
+                                <img src="{{ asset('storage/admin/images/vendors/puppy_image/' . $item['puppy_image']) }}">
+                            @endforeach
+                        </div>
+                    </div>
 
 
+                    <div class="row justify-content-center ">
+                        <div class="align-items-center img-select text-center w-75">
+                            @foreach ($getimg as $item)
+                                <div class="img-item">
+                                    <a href="#" data-id="{{ $item['id'] }}">
+                                        <img src=" {{ asset('storage/admin/images/vendors/puppy_image/' . $item['puppy_image']) }}"
+                                            alt="shoe image">
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
-                <div class="row justify-content-center ">
-                    <div class="align-items-center img-select text-center w-75">
+            @endif
 
-                        @foreach ($getimg as $item)
-                            <div class="img-item">
-                                <a href="#" data-id="{{ $item['id'] }}">
-                                    <img src=" {{ asset('storage/admin/images/vendors/puppy_image/' . $item['puppy_image']) }}"
-                                        alt="shoe image">
-                                </a>
-                            </div>
-                        @endforeach
-    
-    
-    
-                    </div>
-                </div>
-                
-            </div>
-            {{-- <div class="product-imgs">
-                <div class="img-display">
-                    <div class="img-showcase">
-                        <img src="{{ asset('website/images/puppy-1.jpg') }}">
-                        <img src="{{ asset('website/images/puppy-2.jpg') }}" alt="shoe image">
-                        <img src="{{ asset('website/images/puppy-3.jpg') }}" alt="shoe image">
-                        <img src="{{ asset('website/images/puppy-4.jpg') }}" alt="shoe image">
-                    </div>
-                </div>
-                <div class="img-select">
-                    <div class="img-item">
-                        <a href="#" data-id="1">
-                            <img src="{{ asset('website/images/puppy-1.jpg') }}" alt="shoe image">
-                        </a>
-                    </div>
-                    <div class="img-item">
-                        <a href="#" data-id="2">
-                            <img src="{{ asset('website/images/puppy-2.jpg') }}" alt="shoe image">
-                        </a>
-                    </div>
-                    <div class="img-item">
-                        <a href="#" data-id="3">
-                            <img src="{{ asset('website/images/puppy-3.jpg') }}" alt="shoe image">
-                        </a>
-                    </div>
-                    <div class="img-item">
-                        <a href="#" data-id="4">
-                            <img src="{{ asset('website/images/puppy-4.jpg') }}" alt="shoe image">
-                        </a>
-                    </div>
-                </div>
-            </div> --}}
-            <!-- card right -->
             <div class="product-content">
                 <h2 class="product-titles">{{ $puppyDetails['sire_name'] }}</h2>
                 <p></p>
@@ -147,14 +104,73 @@
                             <input type="hidden" name="price" id="" value="{{ $puppyDetails['puppy_price'] }}">
                             <div class="text-center">
                                 <button type="submit" class="btn btn-info-black-outline mr-4 w-25">ADOPT</button>
-                                <button class="btn btn-info-black-outline w-25">ASK</button>
                             </div>
                         </form>
-
+                        <div class="text-start">
+                            <button class="btn btn-info-black-outline w-25" data-toggle="modal"
+                                data-target="#exampleModal">ASK</button>
+                        </div>
 
                     </div>
                 </div>
 
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+                                @if (Auth::check())
+                                    <form action="{{ route('chatStore') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+
+                                        <input type="hidden" name="product_id" value="{{ $puppyDetails['id'] }}">
+
+                                        @if (Auth::check())
+                                            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                        @else
+                                            <input type="hidden" name="user_id" value="">
+                                        @endif
+
+                                        <input type="hidden" name="vendor_id" value="{{ $puppyDetails['vendor_id'] }}">
+
+                                        <div class="modal-body gry-bg px-3 pt-3">
+
+                                            <div class="form-group">
+                                                <input type="text" class="form-control mb-3" name="product_name"
+                                                    value="{{ $puppyDetails['sire_name'] }}" placeholder="Product Name"
+                                                    readonly="" required="">
+                                            </div>
+                                            <div class="form-group">
+                                                <textarea class="form-control" rows="8" name="messages" required="" placeholder="Your Question"
+                                                    spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline-primary fw-600"
+                                                data-dismiss="modal">Cancel</button>
+                                            <button type="submit" class="btn btn-primary fw-600">Send</button>
+                                        </div>
+                                    </form>
+                                @else
+                                <div class="form-group text-center">
+                                    <a  href="{{ route('loginPage')}}" class="btn btn-info"> Please login user account first</a>
+                                </div>
+                                @endif
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -175,16 +191,16 @@
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 
 
-                <div class="row jumbotron ">
+                <div class="row">
                     <div class="col-6 col-md-6">
                         <div class="product-detail">
                             <ul>
-                                <li> {{ $puppyDetails['sire_name'] }} </li>
-                                <li> {{ $puppyDetails['sire_registration'] }}</li>
-                                <li>{{ $puppyDetails['description'] }}</li>
-                                <li>{{ $puppyDetails['sire_height'] }} </li>
-                                <li>{{ $puppyDetails['sire_weight_measure'] }} </li>
-                                <li> {{ $puppyDetails['dam_health_tests_conducted'] }} </li>
+                                <li> Name : {{ $puppyDetails['sire_name'] }} </li>
+                                <li>REGISTRATION NUMBER : {{ $puppyDetails['sire_registration'] }}</li>
+                                <li>PEDIGREE :{{ $puppyDetails['description'] }}</li>
+                                <li>hEIGHT :{{ $puppyDetails['sire_height'] }} </li>
+                                <li>WEIGHT :{{ $puppyDetails['sire_weight_measure'] }} </li>
+                                <li>HEALTH TESTS : {{ $puppyDetails['dam_health_tests_conducted'] }} </li>
                             </ul>
                         </div>
                     </div>
@@ -193,8 +209,7 @@
                             <a href="#" data-id="3">
                                 <img class="ml-md-auto"
                                     src="{{ asset('storage/admin/images/admin_photos/product_large/' . $puppyDetails['image']) }}"
-                                    alt="shoe image" width="75%"
-                                    style="    width: 344px; border-radius: 12px 12px 12px 12px;">
+                                    alt="shoe image" width="75%"style="    width: 344px;">
                             </a>
                         </div>
                     </div>
@@ -207,7 +222,17 @@
 
     <section class="section section-md bg-default">
         <div class="container">
-            <h3 class="text-center">WHY WE STAND OUT IN THE CROWD</h3>
+            <h3 class="text-center"
+                style="    font-family: Amatic Sc;
+            font-size: 40px;
+            padding-bottom: 34px;">WHY WE
+                STAND OUT IN THE CROWD</h3>
+
+            <br>
+            <br>
+            <hr>
+            <br>
+            <br>
             <div class="row row-30">
                 <div class="col-lg-4 col-sm-6 wow flipInX">
                     <div class="unit align-items-center">
@@ -434,13 +459,14 @@
 
         .product-detail ul {
             margin: 1rem 0;
-            font-size: 0.9rem;
+            font-family: 'PT Sans Narrow';
+            font-size: 18px;
         }
 
         .product-detail ul li {
             margin: 0;
             list-style: none;
-            background: url(https://fadzrinmadu.github.io/hosted-assets/product-detail-page-design-with-image-slider-html-css-and-javascript/checked.png) left center no-repeat;
+            /* background: url(https://fadzrinmadu.github.io/hosted-assets/product-detail-page-design-with-image-slider-html-css-and-javascript/checked.png) left center no-repeat; */
             background-size: 18px;
             padding-left: 1.7rem;
             margin: 0.4rem 0;
@@ -550,7 +576,7 @@
 
 @push('scripts')
     <script>
-        const imgs = document.querySelectorAll('.img-select a');
+        const imgs = document.querySelectorAll('.img-select');
         const imgBtns = [...imgs];
         let imgId = 1;
 

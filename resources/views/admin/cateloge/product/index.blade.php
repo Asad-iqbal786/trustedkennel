@@ -8,110 +8,103 @@ use App\Models\Admin;
 @extends('layouts.admin_app')
 
 @section('main-content')
-    <div class="col-lg-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                {{-- <h4 class="card-title">{{$title}}</h4> --}}
-                <a @if (Auth::guard('admin')->user()->type == 'superadmin') href="{{ route('addEditProduct') }}" 
+    <div class="col-12">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            {{-- <h4 class="card-title">{{$title}}</h4> --}}
+                            <a @if (Auth::guard('admin')->user()->type == 'superadmin') href="{{ route('addEditProduct') }}" 
+    
+                        @else href="{{ route('VendoraddEditProduct') }}" @endif
+                                class="btn btn-info"> Add New Post</a>
+                            </p>
+                            <div class="table-responsive pt-3">
 
-                    @else href="{{ route('VendoraddEditProduct') }}" @endif
-                    class="btn btn-info"> Add New Post</a>
-                </p>
-                <div class="table-responsive pt-3">
+                                <table id="example" class="display expandable-table dataTable no-footer">
+                                    @if (Session::has('success_message'))
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                            {{ Session::get('success_message') }}
+                                            <button type="button" id="toastr-2" class="close" data-dismiss="alert"
+                                                aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    @endif
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Image</th>
+                                            <th>Puppy Name</th>
+                                            <th>Breed</th>
+                                            {{-- <th>Status</th> --}}
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                    <table id="example" class="display expandable-table dataTable no-footer">
-                        @if (Session::has('success_message'))
-                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                {{ Session::get('success_message') }}
-                                <button type="button" id="toastr-2" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+
+                                        @forelse ($getProduct as $index => $product)
+                                            <?php
+                                            
+                                            $getShopName = Admin::with('vendors')
+                                                ->where('id', $product['admin_id'])
+                                                ->first()
+                                                ->toArray();
+                                            ?>
+
+                                            <tr>
+                                                <td>{{ $index  + 1 }}</td>
+                                                <td><img src="{{ asset('storage/admin/images/admin_photos/product_small/' . $product['image']) }}"
+                                                        alt="" style="width:50px;"></td>
+                                                <td><a href="{{ route('PuppyDetails', $product['slug']) }}" target="_blank">
+                                                        {{ $product['sire_name'] }}</a></td>
+                                                <td>{{ $product['category']['name'] }}</td>
+                                                <td>
+                                                    @if ($product['status'] == 1)
+                                                        <a class="updateProductStatus" id="product-{{ $product['id'] }}"
+                                                            product_id="{{ $product['id'] }}" href="javascript:(0)"> <i
+                                                                class="mdi mdi-bookmark" style='font-size:25px;'></i>
+                                                            <p style="display:none;">Active </p>
+                                                        </a>
+                                                    @else
+                                                        <a class="updateProductStatus" id="product-{{ $product['id'] }}"
+                                                            product_id="{{ $product['id'] }}" href="javascript:(0)"> <i
+                                                                class="mdi mdi-bookmark-outline" style="font-size:25px;">
+                                                                <p style="display:none;"> Inactive</p>
+                                                            </i></a>
+                                                    @endif
+                                                    <a href="" target="blank" data-toggle="modal"
+                                                        data-target="#exampleModal-{{ $product['id'] }}"><i
+                                                            class="mdi mdi-eye" style="font-size: 25px;"></i></a>
+
+                                                    <a href="{{ route('VendoraddEditProduct', $product['id']) }}"><i
+                                                            class="mdi mdi-pencil-box" style="font-size: 25px;"></i></a>
+
+                                                    <a href="{{ route('productDestroy', $product['id']) }}"
+                                                        onclick="return confirm('Are you sure to delete?')"><i
+                                                            class="mdi mdi-file-excel-box" style="font-size:20px;"></i></a>
+
+                                                    <a href="{{ route('addimage', $product['id']) }}" target="_blank"><i
+                                                            class="mdi mdi-folder-image" style="font-size:20px;"></i></a>
+
+
+                                                </td>
+                                            </tr>
+
+                                        @empty
+                                        @endforelse
+
+                                    </tbody>
+                                </table>
                             </div>
-                        @endif
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Status</th>
-                                <th>Puppy Name</th>
-                                <th>Kennel Name </th>
-                                <th>Breed</th>
-                                <th>Post type</th>
-                                {{-- <th>Status</th> --}}
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-
-                            @forelse ($getProduct as $product)
-                                <?php
-                                
-                                $getShopName = Admin::with('vendors')
-                                    ->where('id', $product['admin_id'])
-                                    ->first()
-                                    ->toArray();
-                                
-                                // dd($getShopName['vendors']['shop_name']);
-                                
-                                ?>
-
-                                <tr>
-                                    <td>{{ $product['id'] }}</td>
-
-
-                                    {{-- {{asset('storage/admin/images/admin_photos/products/'.$product['main_image'])}} --}}
-
-
-                                    <td><img src="{{ asset('storage/admin/images/admin_photos/product_small/' . $product['image']) }}"
-                                            alt="" style="width:50px;"></td>
-                                    <td>{{ $product['sire_name'] }}</td>
-                                    <td>{{ $product['admins']['first_name'] }}</td>
-                                    <td>{{ $product['category']['name'] }}</td>
-                                    <td>{{ $product['admins']['type'] }}</td>
-                                    {{-- <td>
-                                        @if ($product['status'] == 1)
-                                          <a class="updateProductStatus" id="product-{{$product['id']}}" product_id="{{$product['id']}}" href="javascript:(0)" ><p style="display:none;">Active</p></a>
-                                          @else
-                                          <a class="updateProductStatus" id="product-{{$product['id']}}" product_id="{{$product['id']}}" href="javascript:(0)"><p style="display:none;"> Inactive</p></a>
-                                        @endif
-                                    </td> --}}
-                                    <td>
-                                        @if ($product['status'] == 1)
-                                            <a class="updateProductStatus" id="product-{{ $product['id'] }}"
-                                                product_id="{{ $product['id'] }}" href="javascript:(0)"> <i
-                                                    class="mdi mdi-bookmark" style='font-size:25px;'></i>
-                                                <p style="display:none;">Active </p>
-                                            </a>
-                                        @else
-                                            <a class="updateProductStatus" id="product-{{ $product['id'] }}"
-                                                product_id="{{ $product['id'] }}" href="javascript:(0)"> <i
-                                                    class="mdi mdi-bookmark-outline" style="font-size:25px;">
-                                                    <p style="display:none;"> Inactive</p>
-                                                </i></a>
-                                        @endif
-                                        <a href="" target="blank" data-toggle="modal"
-                                            data-target="#exampleModal-{{ $product['id'] }}"><i class="mdi mdi-eye"
-                                                style="font-size: 25px;"></i></a>
-                                        <a href="{{ route('addEditProduct', $product['id']) }}"><i
-                                                class="mdi mdi-pencil-box" style="font-size: 25px;"></i></a>
-                                        <a href="{{ route('productDestroy', $product['id']) }}"
-                                            onclick="return confirm('Are you sure to delete?')"><i
-                                                class="mdi mdi-file-excel-box" style="font-size:20px;"></i></a>
-
-                                        <a href="{{ route('addimage', $product['id']) }}" target="_blank"><i
-                                                class="mdi mdi-folder-image" style="font-size:20px;"></i></a>
-
-
-                                    </td>
-                                </tr>
-
-                            @empty
-                            @endforelse
-
-                        </tbody>
-                    </table>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="col-2"></div>
         </div>
     </div>
 

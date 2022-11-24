@@ -55,21 +55,24 @@ use App\Models\Admin;
                                         <div class="col-4">
                                             <form>
                                                 <div class="form-group row">
-                                                    <label for=""  class="pt-2">Sort By :</label>
+                                                    <label for="" class="pt-2">Sort By :</label>
                                                     <div class="col-sm-9">
                                                         <select class="form-control" name="sort" id="sort">
                                                             <option value="product_latest"
-                                                                @if (isset($_GET['sort']) && $_GET['sort'] == 'product_latest') selected="" @endif> Featured </option>
+                                                                @if (isset($_GET['sort']) && $_GET['sort'] == 'product_latest') selected="" @endif>
+                                                                Featured </option>
                                                             <option value="name_z"
-                                                                @if (isset($_GET['sort']) && $_GET['sort'] == 'name_z') selected="" @endif>Name A-Z
+                                                                @if (isset($_GET['sort']) && $_GET['sort'] == 'name_z') selected="" @endif>Name
+                                                                A-Z
                                                             </option>
                                                             <option value="name_a"
-                                                                @if (isset($_GET['sort']) && $_GET['sort'] == 'name_a') selected="" @endif>Name Z-A
+                                                                @if (isset($_GET['sort']) && $_GET['sort'] == 'name_a') selected="" @endif>Name
+                                                                Z-A
                                                             </option>
                                                             <option value="name_a"
                                                                 @if (isset($_GET['sort']) && $_GET['sort'] == 'name_a') selected="" @endif>Rating
                                                             </option>
-                                                           
+
                                                         </select>
                                                     </div>
                                                 </div>
@@ -88,20 +91,10 @@ use App\Models\Admin;
                             <div class="row ">
                                 <div class="col-12 pt-5 text-center">
                                     <div class="fa-hover ">
-                                        <a href="">
-                                            {{-- <img src="{{ asset('website/images/home-02-54x57.png') }}" alt="" width="54" height="57" /> --}}
-                                            <i class="fa fa-arrow-circle-left pr-3" aria-hidden="true"></i>
-
-                                        </a>
+                                        <a href=""> <i class="fa fa-chevron-left" aria-hidden="true"></i> </a>
                                         <span style="font-size: 35px; color:#bfbebe;">Page 1 of 5</span>
-                                        <a href="">
-                                            <i class="fa fa-arrow-circle-right pl-3" aria-hidden="true"></i>
-
-                                        </a>
+                                        <a href=""> <i class="fa fa-chevron-right" aria-hidden="true"></i> </a>
                                     </div>
-
-
-
                                 </div>
                             </div>
                         </div>
@@ -109,13 +102,14 @@ use App\Models\Admin;
                         <!-- Last Added Photos-->
                         <section class="section section-md bg-default">
                             <div class="container">
-                                <h3 class="text-center"> Recently Added Kennels </h3>
+                                <h3 class="text-center" style="font-size: 50px;padding-bottom: 20px;"> Recently Added
+                                    Kennels </h3>
                                 <div class="row row-30 row-lg-50">
                                     <div class="col-lg-3 col-sm-6">
                                         <div class="thumbnail thumbnail-mod-2">
                                             <figure><a href="{{ asset('website/images/gallery-10-original.jpg') }}"
-                                                    data-lightgallery="item"><img
-                                                        src="{{ asset('website/images/gallery-10-270x230.jpg') }}"
+                                                    data-lightgallery="item">
+                                                    <img src="{{ asset('website/images/gallery-10-270x230.jpg') }}"
                                                         alt="" width="270" height="230" /></a></figure>
                                             <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod.</p>
                                             <a class="button button-default" href="#">Read more</a>
@@ -170,6 +164,19 @@ use App\Models\Admin;
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
     <style>
+        i.fa.fa-chevron-left {
+            font-size: 30px;
+            color: black;
+            margin-right: 20px;
+        }
+        i.fa.fa-chevron-right {
+            font-size: 30px;
+            color: black;
+            margin-left: 20px;
+        }
+
+
+
         .star span {
             background: url(../frontend/images/rating-star/rating-star.png) 0 0 repeat-x;
             height: 16px;
