@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('stripe_accounts', function (Blueprint $table) {
             $table->id();
             $table->foreign('vendor_id')->references('id')->on('admins')->onDelete('cascade');
+            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
             $table->string('stripe_account');
             $table->integer('status')->default(0);
             $table->timestamps();

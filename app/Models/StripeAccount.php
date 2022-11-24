@@ -11,4 +11,8 @@ class StripeAccount extends Model
     public function admins(){
         return $this->HasMany('App\Models\Admin','admin_id');
     }
+    public function withdrawRequest()
+    {
+        return $this->HasMany('App\Models\withdrawRequest','admin_id');
+    }
 }

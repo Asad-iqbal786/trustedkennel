@@ -1,19 +1,27 @@
 @extends('layouts.admin_app')
 
 @section('main-content')
+    @if($stripeAccount->status === 0)
+    <div class="alert alert-warning d-flex justify-content-between">
+        <span>
+        Your account dont have bank details please click here to add
+        </span>
+        <a href="{{route('addBankAccount')}}" class="btn btn-warning btn-sm">Add</a>
+    </div>
+    @endif
     <?php
-    
+
     $month = [];
     $count = 0;
     while ($count <= 4) {
         $month[] = date('M', strtotime('-' . $count . 'month'));
         $count++;
     }
-    
+
     $totalSale = [['y' => $userCount[4], 'label' => $month[4]], ['y' => $userCount[3], 'label' => $month[3]], ['y' => $userCount[2], 'label' => $month[2]], ['y' => $userCount[1], 'label' => $month[1]], ['y' => $userCount[0], 'label' => $month[0]]];
-    
+
     //  echo "<pre>"; print_r($userCount); die;
-    
+
     ?>
     <?php
     $monthVisits = [];
@@ -23,7 +31,7 @@
         $count++;
     }
     $totalVisits = [['y' => $userCount[4], 'label' => $monthVisits[4]], ['y' => $userCount[3], 'label' => $monthVisits[3]], ['y' => $userCount[2], 'label' => $monthVisits[2]], ['y' => $userCount[1], 'label' => $monthVisits[1]], ['y' => $userCount[0], 'label' => $monthVisits[0]]];
-    
+
     ?>
     <div class="container pt-5 pb-5">
         <div class="row">
@@ -41,7 +49,6 @@
         <div class="col-md-12 grid-margin">
             <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-
                     <h3 class="font-weight-bold">Welcome
 
                         @if (!empty(Auth::guard('admin')->user()->type == 'Vandor'))
@@ -368,7 +375,7 @@
                 }]
             });
             totalSales.render();
-            // 
+            //
             var visits = new CanvasJS.Chart("visits", {
                 title: {
                     text: "Custoomer visits"
@@ -385,7 +392,7 @@
 
             visits.render();
         }
-        // 
+        //
 
 
         /// product type

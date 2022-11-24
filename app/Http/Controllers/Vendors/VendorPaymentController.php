@@ -82,16 +82,16 @@ class VendorPaymentController extends Controller
 
     public function withdrawRequest(){
 
-        
+
         Session::put('page', 'all-vendor-payment');
         if (Auth::guard('admin')->user()->type == "Vendor") {
-            $withdReq = WithdrawRequest::where('admin_id',Auth::guard('admin')->user()->id)->with('admins')->get()->toArray();
+            $withdReq = WithdrawRequest::where('admin_id',Auth::guard('admin')->user()->id)->with('admins')->with('stripeAccount',Auth::guard('admin')->user()->vendor_id)->get()->toArray();
         } else {
-            $withdReq = WithdrawRequest::with('admins')->get()->toArray();
+            $withdReq = WithdrawRequest::with('admins')->with('stripeAccount')->get()->toArray();
         }
         $vendorPya =VendorPayment::get()->toArray();
         // echo "<pre>"; print_r($vendorPya); die;
-
+dd($withdReq);
         return view('admin.payment.vendor-money-withdraw-requests')
         ->with('vendorPya',$vendorPya)
         ->with('withdReq',$withdReq);
