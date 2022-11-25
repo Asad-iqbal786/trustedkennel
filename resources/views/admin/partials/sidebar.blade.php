@@ -14,7 +14,9 @@
 <?php
 
 Session::forget('dashboard');
+Session::forget('all_payment_withdraw');
 Session::forget('all_admins');
+Session::forget('all_users');
 Session::forget('all_categories');
 Session::forget('all_products');
 Session::forget('update_admin_details');

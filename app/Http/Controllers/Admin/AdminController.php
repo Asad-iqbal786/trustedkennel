@@ -264,7 +264,6 @@ class AdminController extends Controller
 
 
             $getEmail = Admin::where('email', $data['email'])->first()->toArray();
-            // dd($getEmail);
             if ($getEmail['approved'] ==  0) {
 
                 $message = "Your account is not Approved yet !";
@@ -301,7 +300,15 @@ class AdminController extends Controller
         return view('admin.admin_index.all_admin')
             ->with('getAdmins', $getAdmins);
     }
+    public function allUsers()
+    {
+        Session::put('page', 'all_users');
+        $getAdmins = User::get()->toArray();
+            // echo "<pre>"; print_r($getAdmins); die;
 
+        return view('admin.admin_index.all_users')
+            ->with('getAdmins', $getAdmins);
+    }
 
     public function VendorAccoutActive(Request $request)
     {
@@ -354,7 +361,6 @@ class AdminController extends Controller
     {
         if ($request->ajax()) {
             $data = $request->all();
-            // echo "<pre>"; print_r($data); die;
             if ($data['status'] == "Active") {
                 $status = 0;
             } else {

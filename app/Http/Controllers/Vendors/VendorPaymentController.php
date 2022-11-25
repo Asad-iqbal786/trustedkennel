@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Vendors;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Auth;
 use Session;
-
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Str;
 use App\Models\VendorPayment;
+use App\Models\WesternUnionPayment;
 use App\Models\WithdrawRequest;
 
 
@@ -90,7 +94,6 @@ class VendorPaymentController extends Controller
             $withdReq = WithdrawRequest::with('admins')->get()->toArray();
         }
         $vendorPya =VendorPayment::get()->toArray();
-        // echo "<pre>"; print_r($vendorPya); die;
 
         return view('admin.payment.vendor-money-withdraw-requests')
         ->with('vendorPya',$vendorPya)
@@ -100,15 +103,67 @@ class VendorPaymentController extends Controller
     public function withdrawRequestStore(Request $request){
 
         // return $request->all();
-
+    
         $withd = new WithdrawRequest;
         $withd->admin_id = Auth::guard('admin')->user()->id;
+        $withd->vendor_id = Auth::guard('admin')->user()->vendor_id;
         $withd->amount = $request->amount;
         $withd->message = $request->message;
         $withd->status = "Pending";
         $withd->save();
         return redirect()->back();
 
+    } 
+
+    public function paymentSend(Request $request){
+
+
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+            $payment = new WesternUnionPayment;
+
+            if ($data['payment_type'] != "western_union") {
+                // dd("payment is not western_union type");
+                Session::flash('error_message','Please select Western Union Payment Method ! ');
+                return redirect()->back();
+            }
+            // echo "<pre>"; print_r($data); die;
+
+            $rules = [
+                'receipt' => 'image'
+            ];
+            $customMessages= [
+                'receipt.image' => 'Valid receipt is required',
+            ];
+            $this->validate($request,$rules,$customMessages);
+            $vendor_id = Admin::where('id',$data['admin_id'])->first()->toArray();
+
+            $image = $request->receipt;
+            $imageName = Str::slug($data['mtcn'], '-').'-' . uniqid() . '.' . $image->getClientOriginalExtension();
+    
+          if (!Storage::disk('public')->exists('admin/images/admin_photos/receipt/')) {
+              Storage::disk('public')->makeDirectory('admin/images/admin_photos/receipt/');
+          }
+    
+          $productName = Image::make($image)->resize(640, null, function ($constraint) {
+              $constraint->aspectRatio();
+              $constraint->upsize();
+          })->stream();
+          Storage::disk('public')->put('admin/images/admin_photos/receipt/' . $imageName, $productName); 
+          $payment->receipt = $imageName;
+
+            $payment->vendor_id = $vendor_id['vendor_id'];
+            $payment->mtcn = $data['mtcn'];
+            $payment->amount = $data['amount'];
+            $payment->message = $data['message'];
+            $payment->payment_type = $data['payment_type'];
+            $payment->status = "Send";
+            // dd( $payment);
+            $payment->save();
+
+            Session::flash('success_message','Payment is transferd through western Union');
+            return redirect()->back();
+        }
     }
 
 }

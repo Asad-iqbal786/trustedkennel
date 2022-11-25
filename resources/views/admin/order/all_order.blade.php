@@ -164,10 +164,10 @@ use App\Models\OrderLog;
 
                                                     <form action="{{ route('OrderLog') }}" method="post">@csrf
 
-                                                        <input type="text" name="order_id" value=" {{ $order['id'] }}">
-                                                        <input type="text" name="user_id"
+                                                        <input type="hidden" name="order_id" value=" {{ $order['id'] }}">
+                                                        <input type="hidden" name="user_id"
                                                             value=" {{ $order['users']['id'] }}">
-                                                        <input type="text" name="admin_id"
+                                                        <input type="hidden" name="admin_id"
                                                             value=" {{ $order['admins']['id'] }}">
 
                                                         <select class="custom-select" name="order_status" id="order_status"

@@ -44,6 +44,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 
         Route::get('/home-page','AdminController@index');
         Route::get('/admins','AdminController@allAdmin')->name('allAdmin');
+        Route::get('/all-users','AdminController@allUsers')->name('allUsers');
         Route::get('/vendor-home','AdminController@vendorHome')->name('vendorHome');
         Route::get('/update-admin-status/{id}', [App\Http\Controllers\Admin\AdminController::class, 'statusUpdate'])->name('statusUpdate');
         Route::post('/update-admin-status', [App\Http\Controllers\Admin\AdminController::class, 'adminStatusUpdate'])->name('adminStatusUpdate');
@@ -70,6 +71,8 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('commission',  [App\Http\Controllers\CommissionController::class, 'index'])->name('getComissin');
         Route::post('/add-edit-commission', [App\Http\Controllers\CommissionController::class, 'addEditCommission'])->name('addEditCommission');
         Route::get('/money-withdraw-requests', [App\Http\Controllers\Vendors\VendorPaymentController::class, 'withdrawRequest'])->name('withdrawRequestAdmin');
+        Route::post('/money-send', [App\Http\Controllers\Vendors\VendorPaymentController::class, 'paymentSend'])->name('paymentSend');
+        Route::get('/money-trasferd', [App\Http\Controllers\Admin\DashboardController::class, 'withdrawAmount'])->name('withdrawAmount');
 
 
 

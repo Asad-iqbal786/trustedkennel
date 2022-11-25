@@ -49,7 +49,7 @@
             </div>
         </li>
         <li class="nav-item" style="background: none;">
-            <a @if (Session::get('page') == 'all_users_applications') style="background:#4B49AC !important; color:#fff !important;" @endif
+            <a @if (Session::get('page') == 'all_users') style="background:#4B49AC !important; color:#fff !important;" @endif
                 class="nav-link"data-toggle="collapse" href="#form-users" aria-expanded="false"
                 aria-controls="form-users">
                 <i class="icon-columns menu-icon"></i>
@@ -60,9 +60,9 @@
             <div class="collapse" id="form-users">
                 <ul class="nav flex-column sub-menu" style="background: none;">
                     <li class="nav-item"><a class="nav-link"
-                            @if (Session::get('page') == 'all_users_applications') style="background:#4B49AC !important; color:#fff !important;"
+                            @if (Session::get('page') == 'all_users') style="background:#4B49AC !important; color:#fff !important;"
               @else style="background:none;" @endif
-                            href="">All User </a></li>
+                            href="{{route('allUsers')}}">All User </a></li>
                 </ul>
             </div>
         </li>
@@ -77,6 +77,7 @@
                 Session::get('page') == 'admin_commission' ||
                 Session::get('page') == 'vendor_application' ||
                 Session::get('page') == 'all-vendor-payment' ||
+                Session::get('page') == 'all_payment_withdraw' ||
                 Session::get('page') == 'all_orders'
                 ) style="background:#4B49AC !important; color:#fff !important;" @endif
                 class="nav-link"data-toggle="collapse" href="#form-category" aria-expanded="false"
@@ -125,7 +126,10 @@
                     @else style="background:none;" @endif
                             href="{{ route('withdrawRequestAdmin') }}"> Withdraw Requests </a></li>
 
-
+                            <li class="nav-item"><a class="nav-link"
+                                @if (Session::get('page') == 'all_payment_withdraw') style="background:#4B49AC !important; color:#fff !important;"
+                        @else style="background:none;" @endif
+                                href="{{ route('withdrawAmount') }}"> Withdraw Amount </a></li>
 
 
 

@@ -77,6 +77,18 @@ use App\Models\VendorPayment;
                     </p>
                     <div class="table-responsive pt-3">
                         <table class="table table-bordered">
+                            @if ($message = Session::get('success_message'))
+                                <div class="alert alert-success alert-block">
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                            @endif
+                            @if ($message = Session::get('error_message'))
+                                <div class="alert alert-danger alert-block">
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                            @endif
                             <thead>
                                 <tr>
                                     <th> # </th>
@@ -167,7 +179,6 @@ use App\Models\VendorPayment;
     </div>
 
     @foreach ($withdReq as $index => $req)
-      
         <div class="modal fade" id="withdrawRequest-{{ $req['id'] }}" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -179,14 +190,14 @@ use App\Models\VendorPayment;
                         </button>
                     </div>
                     <?php
-                            $vendorPya = VendorPayment::where('admin_id', $req['admin_id'])->first();
+                    $vendorPya = VendorPayment::where('admin_id', $req['admin_id'])->first();
                     ?>
-                            <?php
-                                    
-                            // dd($req);
-                            ?>
+                    <?php
+                    
+                    // dd($req);
+                    ?>
                     <div class="modal-body">
-                        <table class="table table-striped table-bordered">
+                        {{-- <table class="table table-striped table-bordered">
                             <tbody>
                                 <tr>
                                     <td>Due to seller</td>
@@ -211,31 +222,66 @@ use App\Models\VendorPayment;
                                     <td></td>
                                 </tr>
                             </tbody>
-                        </table>
+                        </table> --}}
+                        <form action="{{ route('paymentSend') }}" method="post" enctype="multipart/form-data">@csrf
 
-                        <input type="hidden" name="shop_id" value="2">
-                        <input type="hidden" name="payment_withdraw" value="withdraw_request">
-                        <input type="hidden" name="withdraw_request_id" value="5">
-                        <div class="form-group row pt-4">
-                            <label class="col-sm-3 col-from-label" for="amount">Requested Amount</label>
-                            <div class="col-sm-9">
-                                <input type="number" lang="en" min="0" step="0.01" name="amount"
-                                    id="amount" value="10" class="form-control" required="">
+                            <input type="hidden" name="admin_id" value="{{ $req['admin_id'] }}">
+                            <input type="hidden" name="withdraw_request_id" value="5">
+                            <div class="form-group row pt-4">
+                                <label class="col-sm-3 col-from-label" for="amount">Requested Amount $</label>
+                                <div class="col-sm-9">
+                                    <input type="number" min="{{ $req['amount'] }}" max="{{ $req['amount'] }}"
+                                        value="{{ $req['amount'] }}" name="amount" id="amount" class="form-control"
+                                        readonly="">
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-from-label" for="payment_option">Payment method</label>
-                            <div class="col-sm-9">
-                                <select name="payment_option" id="payment_option"
-                                    class="form-control demo-select2-placeholder" required="">
-                                    <option value="">Select Payment Method</option>
-                                    <option value="cash">Cash</option>
-                                    <option value="bank_payment">Bank Payment</option>
-                                </select>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-from-label" for="payment_type">Payment method</label>
+                                <div class="col-sm-9">
+                                    <select name="payment_type" id="payment_type"
+                                        class="form-control demo-select2-placeholder" required="">
+                                        <option value="western_union">Western Union</option>
+                                        {{-- <option value="bank_payment">Bank Payment</option> --}}
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-
+                            <div class="" id="western_uni" style="display: ;">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-from-label" for="mtcn">mtcn</label>
+                                    <div class="col-sm-9">
+                                        <div class="form-group">
+                                            <input type="number" name="mtcn"
+                                                id="mtcn"class="form-control demo-select2-placeholder"
+                                                placeholder="MTCN Number">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-from-label" for="Message">Message</label>
+                                    <div class="col-sm-9">
+                                        <div class="form-group">
+                                            <input type="text" name="message"
+                                                id="message"class="form-control demo-select2-placeholder"
+                                                placeholder="Message">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-from-label" for="Receipt">Receipt</label>
+                                    <div class="col-sm-9">
+                                        <div class="form-group">
+                                            <input type="file" name="receipt"
+                                                id="receipt"class="form-control demo-select2-placeholder"
+                                                placeholder="MTCN Number">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-info btn-sm"> Submit </button>
+                            </div>
+                        </form>
                     </div>
 
                 </div>
@@ -253,4 +299,16 @@ use App\Models\VendorPayment;
 
 
 @push('scripts')
+    <script>
+        /// product type
+        // $("#western_uni").hide();
+        // //order status
+        // $("#payment_type").on("change", function() {
+        //     if (this.value == "western_union") {
+        //         $("#western_uni").show();
+        //     } else {
+        //         $("#western_uni").hide();
+        //     }
+        // });
+    </script>
 @endpush

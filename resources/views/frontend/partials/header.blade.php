@@ -39,16 +39,21 @@
                 </li>
                 <li class="rd-nav-item">
 
-                    @if (Auth::guard('admin')->check() ||  Auth::check())
+                    @if (Auth::guard('admin')->check() || Auth::check())
 
                         @if (Auth::check())
                             <a class="rd-nav-link" href="{{ route('userIndex') }}">User Dashboard</a>
                             <a class="rd-nav-link" href="{{ route('userLogout') }}"> User Logout</a>
                         @else
-                            <a class="rd-nav-link" href="{{ route('vendorDashboard') }}">Vendor Dashboard</a>
-                            <a class="rd-nav-link" href="{{ route('logout') }}">Vendor Logout</a>
+                            @if (Auth::guard('admin')->user()->type == 'Vendor')
+                                <a class="rd-nav-link" href="{{ route('vendorDashboard') }}">Vendor Dashboard</a>
+                                <a class="rd-nav-link" href="{{ route('logoutvendor') }}">Vendor Logout</a>
+                            @else
+                                <a class="rd-nav-link" href="{{ route('adminDashboard') }}">Admin Dashboard</a>
+                                <a class="rd-nav-link" href="{{ route('logoutadmin') }}">Admin Logout</a>
+                            @endif
+
                         @endif
-                  
                     @else
                         <a class="rd-nav-link" href="{{ route('loginPage') }}">Login</a>
                     @endif
