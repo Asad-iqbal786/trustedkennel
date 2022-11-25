@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\StripeAccount;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Admin;
 use App\Models\Cart;
@@ -199,13 +200,7 @@ class AdminController extends Controller
             // $vendor_id = DB::getPdo()->lastInsertId();
             $vendor_id = Vendor::latest()->first();
 
-            // StripeAccount
-            $stripe = new StripeAccount;
-            $stripeApi = new \Stripe\StripeClient('sk_test_51LzQjnHOUF1948MIsNSw3B3HfkAJqsX0N5hhvBf2IvKWoclbbHK741ANVYgmIknAdKdKEg5LpZf9WVMhJvGVvawj00wGcp8FAS');
-            $acc = $stripeApi->accounts->create(['type' => 'express']);
-            $stripe->vendor_id = $vendor_id['id'];
-            $stripe->stripe_account = $acc->id;
-            $stripe->save();
+
 
 
 
@@ -223,6 +218,15 @@ class AdminController extends Controller
             $admins->status = 1;
             $admins->approved = 0;
             $admins->save();
+            $admin_id = Admin::latest()->first();
+            // StripeAccount
+            $stripe = new StripeAccount;
+            $stripeApi = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $acc = $stripeApi->accounts->create(['type' => 'express']);
+            $stripe->vendor_id = $vendor_id['id'];
+            $stripe->admin_id = $admin_id['id'];
+            $stripe->stripe_account = $acc->id;
+            $stripe->save();
             DB::commit();
             //   Session::put('page','product_index');
             // Session::put('page','records_submited_succesfully');
@@ -557,65 +561,5 @@ class AdminController extends Controller
         } else {
             echo "false";
         }
-    }
-    public function stripe()
-    {
-// Set your secret key. Remember to switch to your live secret key in production.
-// See your keys here: https://dashboard.stripe.com/apikeys
-        $stripe = new \Stripe\StripeClient('sk_test_51LzQjnHOUF1948MIsNSw3B3HfkAJqsX0N5hhvBf2IvKWoclbbHK741ANVYgmIknAdKdKEg5LpZf9WVMhJvGVvawj00wGcp8FAS');
-       $acc = $stripe->accounts->create(['type' => 'express']);
-        $l = $stripe->accountLinks->create(
-            [
-                'account' => $acc->id,
-                'refresh_url' => 'https://example.com/reauth',
-                'return_url' => 'https://example.com/return',
-                'type' => 'account_onboarding',
-            ]
-        );
-//        return redirect($l->url);
-        dd($l);
-    }
-    public function stripeCheckOut()
-    {
-//        dd("h");
-        // Set your secret key. Remember to switch to your live secret key in production.
-// See your keys here: https://dashboard.stripe.com/apikeys
-        \Stripe\Stripe::setApiKey('sk_test_51LzQjnHOUF1948MIsNSw3B3HfkAJqsX0N5hhvBf2IvKWoclbbHK741ANVYgmIknAdKdKEg5LpZf9WVMhJvGVvawj00wGcp8FAS');
-        $stripe = new \Stripe\StripeClient('sk_test_51LzQjnHOUF1948MIsNSw3B3HfkAJqsX0N5hhvBf2IvKWoclbbHK741ANVYgmIknAdKdKEg5LpZf9WVMhJvGVvawj00wGcp8FAS');
-        $product = $stripe->products->create(
-            [
-                'name' => 'Basic Dashboard',
-                'expand' => ['default_price'],
-            ]
-        );
-        $price = $stripe->prices->create(
-            [
-                'product' => $product->id,
-                'unit_amount' => 1000*100,
-                'currency' => 'cad',
-            ]
-        );
-        $session = \Stripe\Checkout\Session::create([
-            'payment_method_types' => ['card'],
-            'line_items' => [[
-                'price' => $price->id,
-                'quantity' => 1,
-            ]],
-            'mode' => 'payment',
-            'success_url' => 'https://example.com/success',
-            'cancel_url' => 'https://example.com/failure',
-            'payment_intent_data' => [
-                'application_fee_amount' => 123,
-                'transfer_data' => [
-                    'destination' => 'acct_1M71osQn6bQveEiF',
-                ],
-            ],
-        ]);
-        return redirect($session->url);
-
-    }
-    public function stripepay()
-    {
-        return view('test');
     }
 }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('vendor_id');
             $table->foreign('vendor_id')->references('id')->on('admins')->onDelete('cascade');
+            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
             $table->string('stripe_account');
             $table->integer('status')->default(0);
             $table->timestamps();

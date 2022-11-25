@@ -8,6 +8,7 @@ use Auth;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\StripeAccount;
+use App\Models\Vendor;
 
 
 class Admin extends Authenticatable
@@ -29,7 +30,7 @@ class Admin extends Authenticatable
         ];
 
         public function vendors(){
-            return $this->belongsTo('App\Models\Vendor','vendor_id');
+            return $this->belongsTo(Vendor::class,'vendor_id');
         }
 
 
@@ -37,6 +38,9 @@ class Admin extends Authenticatable
 
             $getId =  Admin::with('vendors')->where('id',Auth::guard('admin')->user()->id)->first()->toArray();
             return $getId;
+       }
+       public static function stripeAccount(){
+            return $this->belongsTo(StripeAccount::class,'vendor_id');
        }
 
 }

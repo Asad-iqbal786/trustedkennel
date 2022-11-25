@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\StripeAccount;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Carbon\Carbon;
@@ -248,13 +249,15 @@ class FrontendController extends Controller
 //
       $getOrder = Order::with('products', 'admins', 'users')->where('id', $id)->where('user_id', Auth::user()->id)->first()->toArray();
 //      // echo "<pre>"; print_r($getOrder);die;
-//      return view('frontend.pages.shipping_address')->with('getOrder', $getOrder);
-//dd($getOrder['products']);
+      return view('frontend.pages.shipping_address')->with('getOrder', $getOrder);
+
 //       STRIPE TESTING
        // Set your secret key. Remember to switch to your live secret key in production.
 // See your keys here: https://dashboard.stripe.com/apikeys
-       \Stripe\Stripe::setApiKey('sk_test_51LzQjnHOUF1948MIsNSw3B3HfkAJqsX0N5hhvBf2IvKWoclbbHK741ANVYgmIknAdKdKEg5LpZf9WVMhJvGVvawj00wGcp8FAS');
-       $stripe = new \Stripe\StripeClient('sk_test_51LzQjnHOUF1948MIsNSw3B3HfkAJqsX0N5hhvBf2IvKWoclbbHK741ANVYgmIknAdKdKEg5LpZf9WVMhJvGVvawj00wGcp8FAS');
+       $stripeAccount = StripeAccount::where('vendor_id',$getOrder['admins']['vendor_id'])->first();
+//       dd($stripeAccount->stripe_account);
+       \Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
+       $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
        $product = $stripe->products->create(
            [
                'name' => $getOrder['products']['sire_name'],
@@ -281,7 +284,7 @@ class FrontendController extends Controller
            'cancel_url' => 'https://example.com/failure',
            'payment_intent_data' => [
                'transfer_data' => [
-                   'destination' => 'acct_1M71osQn6bQveEiF',
+                   'destination' => $stripeAccount->stripe_account,
                ],
            ],
        ]);
@@ -337,8 +340,8 @@ class FrontendController extends Controller
 
       return view('user.index');
    }
- 
-  
+
+
 
 
 

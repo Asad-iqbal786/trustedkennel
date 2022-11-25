@@ -26,10 +26,6 @@ require __DIR__.'/auth.php';
 
 
 Route::get('/ts-register', [App\Http\Controllers\Admin\AdminController::class, 'register'])->name('vendorRegister');
-Route::get('/ts-stripe-test', [App\Http\Controllers\Admin\AdminController::class, 'stripe'])->name('stripeTest');
-Route::get('/ts-stripe', [App\Http\Controllers\Admin\AdminController::class, 'stripepay']);
-Route::get('/ts-stripe-test-pay', [App\Http\Controllers\Admin\AdminController::class, 'stripeCheckOut'])->name('stripeCheckOut');
-
 
     Route::match(['get','post'],'/ts-login','App\Http\Controllers\Admin\AdminController@login')->name('loginPage');
     Route::post('/register-store', [App\Http\Controllers\Admin\AdminController::class, 'newRegister'])->name('newRegister');
@@ -64,7 +60,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('product-destroy/{id}', [App\Http\Controllers\Admin\ProductController::class, 'destroy'])->name('productDestroy');
         Route::post('/update-product-status', [App\Http\Controllers\Admin\ProductController::class, 'productStatusUpdate']);
 
-        Route::post('/update-product-statuss', [App\Http\Controllers\Admin\ProductController::class, 'changeStatus'])->name('changeStatus');
+        Route::post('/update-product-status', [App\Http\Controllers\Admin\ProductController::class, 'changeStatus'])->name('changeStatus');
 
         Route::get('/all-orders', [App\Http\Controllers\Admin\OrderController::class, 'allOrder'])->name('allOrderAdmin');
         Route::get('/vendor-application', [App\Http\Controllers\Vendors\VendorController::class, 'vendorApplication'])->name('adminApplication');
@@ -126,6 +122,9 @@ Route::prefix('/vendor')->namespace('App\Http\Controllers\Vendors')->group(funct
         Route::get('/chat', [App\Http\Controllers\Vendors\ChatController::class, 'index'])->name('vendorChat');
         Route::get('/chat-details/{name}', [App\Http\Controllers\Vendors\VendorController::class, 'chatDetails'])->name('chatDetails');
         Route::post('/vendor-reply', [App\Http\Controllers\Vendors\VendorController::class, 'vendorReply'])->name('vendorReply');
+        // Stripe Account
+        Route::get('/add-stripe-account', [App\Http\Controllers\Vendors\DashboardController::class, 'addBankDetails'])->name('addBankAccount');
+        Route::get('/update-stripe-account', [App\Http\Controllers\Vendors\DashboardController::class, 'changeStatusApprove'])->name('changeStatus');
 
 
     });

@@ -12,4 +12,8 @@ class WithdrawRequest extends Model
     {
        return $this->belongsTo('App\Models\Admin','admin_id');
     }
+    public function stripeAccount()
+    {
+        return $this->belongsTo('App\Models\StripeAccount','admin_id');
+    }
 }
