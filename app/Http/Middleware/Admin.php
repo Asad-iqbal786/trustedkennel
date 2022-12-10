@@ -22,7 +22,7 @@ class Admin
         // }
         // return $next($request);
 
-        if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->type==('superadmin')) {
+        if (Auth::guard('admin')->check()) {
 
             return $next($request);
 

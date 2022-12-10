@@ -16,7 +16,7 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="{{ asset('admin/css/vertical-layout-light/style.css') }}">
 
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- endinject -->
     <link rel="shortcut icon" href="{{ asset('admin/images/favicon.png') }}" />
@@ -35,6 +35,13 @@
     #grad1 {
         background-color: : #9C27B0;
         background-image: linear-gradient(120deg, #FF4081, #81D4FA);
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__choice__display {
+        cursor: default;
+        padding-left: 6px;
+        padding-right: 5px;
+        font-size: 0.875rem;
     }
 
     /*form styles*/
@@ -281,207 +288,237 @@
     .ts-register {
         background-image: url(http://127.0.0.1:8000/website/images/slider-01-2048x1000.jpg);
     }
+    .form-group {
+       
+        font-weight: 900;
+        color: black;
+    }
+    .select2-container {
+        box-sizing: border-box;
+        display: inline-block;
+        margin: 0;
+        position: relative;
+        vertical-align: middle;
+    }
 </style>
 
 <body>
     <div class="container-scroller bg-gradient-info ts-register">
         {{-- <div class="container-fluid page-body-wrapper full-page-wrapper">
-      <div class="content-wrapper d-flex align-items-center auth px-0"> --}}
+            <div class="content-wrapper d-flex align-items-center auth px-0">
 
-        {{-- <div class="row w-100 mx-0">
-          <div class="col-lg-6 mx-auto">
-            <div class="auth-form-light text-left py-5 px-4 px-sm-5">
-              <div class="brand-logo text-center">
-                <a href="{{route('frontendHome')}}">
-                  <img src="{{asset('admin/images/logo_finale.png')}}" alt="logo">
-                </a>
-              </div>
-              <h4>Hello! let's get started</h4>
-              <h6 class="font-weight-light">Register your account in to continue.</h6>
-                @if (Session::has('error_message'))
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    {{Session::get('error_message')}}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                <div class="row w-100 mx-0">
+                    <div class="col-lg-6 mx-auto">
+                        <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+                            <div class="brand-logo text-center">
+                                <a href="{{ route('frontendHome') }}">
+                                    <img src="{{ asset('admin/images/logo_finale.png') }}" alt="logo">
+                                </a>
+                            </div>
+                            <h4>Hello! let's get started</h4>
+                            <h6 class="font-weight-light">Register your account in to continue.</h6>
+                            @if (Session::has('error_message'))
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    {{ Session::get('error_message') }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            @endif
+                            @if (Session::has('success_message'))
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    {{ Session::get('success_message') }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            @endif
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                            <form method="POST" action="{{ route('newRegister') }}"> @csrf
+                                <div class="row">
+                                    <div class="form-group col-6">
+                                        <label for="first_name">First Name</label>
+                                        <input id="first_name" type="text" class="form-control" name="first_name"
+                                            required autofocus>
+                                    </div>
+                                    <div class="form-group col-6">
+                                        <label for="last_name">Last Name</label>
+                                        <input id="last_name" type="text" class="form-control" required
+                                            name="last_name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input id="email" type="email" class="form-control" required name="email">
+                                    <div class="invalid-feedback">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="password">Password</label>
+                                            <input type="password" class="form-control" required name="password"
+                                                id="password" value="" placeholder="password">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="password">Confirm Password</label>
+
+                                            <input id="password_confirmation" type="password" required
+                                                class="form-control" name="password_confirmation" tabindex="2">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="shop_name">shop_name</label>
+                                            <input type="text" class="form-control" name="shop_name"
+                                                id="return new class extends Migration
+                                    "
+                                                value="" placeholder="shop_name">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="password">shop_owner</label>
+
+                                            <input id="text" type="shop_owner" class="form-control" required
+                                                name="shop_owner" tabindex="2">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="vendor_Affiliation">vendor_Affiliation</label>
+                                            <input type="text" class="form-control" name="vendor_Affiliation"
+                                                required id="vendor_Affiliation" value=""
+                                                placeholder="vendor_Affiliation">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="registration_number">registration_number</label>
+
+                                            <input id="text" type="text" class="form-control" required
+                                                name="registration_number" tabindex="2">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="about">about</label>
+                                            <input type="text" class="form-control" name="about" required
+                                                id="about" value="" placeholder="about">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="established_year">established_year</label>
+
+                                            <input id="established_year" type="date" required class="form-control"
+                                                name="established_year">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="number_of_litters">number_of_litters</label>
+                                            <input type="number_of_litters" class="form-control" required
+                                                name="number_of_litters" id="number_of_litters" value=""
+                                                placeholder="number_of_litters">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="country">country</label>
+
+                                            <input id="country" type="country" class="form-control" required
+                                                name="country" tabindex="2">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="state">state</label>
+                                            <input type="state" class="form-control" name="state" required
+                                                id="state" value="" placeholder="state">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="city">city</label>
+
+                                            <input id="city" type="city" class="form-control" required
+                                                name="city" tabindex="2">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="helth_check">helth_check</label>
+                                            <input type="helth_check" class="form-control" required
+                                                name="helth_check" id="helth_check" value=""
+                                                placeholder="helth_check">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+
+
+                                        <div class="form-group">
+                                            <label for="helth_check">Vendor Type</label>
+
+                                            <select class="" name="vendor_type" id="vendor_type">
+                                                <option value="">-- Select Vendor Type--</option>
+                                                <option value="not_for_selling">No Selling Just Create Shop</option>
+                                                <option value="for_selling">For Selling</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" name="agree" class="custom-control-input"
+                                            id="agree">
+                                        <label class="custom-control-label" for="agree">I agree with the terms and
+                                            conditions</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                        Register
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                @endif
-                @if (Session::has('success_message'))
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    {{Session::get('success_message')}}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                @endif
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-              <form  method="POST" action="{{route('newRegister')}}"> @csrf
-                <div class="row">
-                  <div class="form-group col-6">
-                    <label for="first_name">First Name</label>
-                    <input id="first_name" type="text" class="form-control" name="first_name" required autofocus>
-                  </div>
-                  <div class="form-group col-6">
-                    <label for="last_name">Last Name</label>
-                    <input id="last_name" type="text" class="form-control" required name="last_name">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="email">Email</label>
-                  <input id="email" type="email" class="form-control" required name="email">
-                  <div class="invalid-feedback">
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-6">
-                      <div class="form-group">
-                          <label for="password">Password</label>
-                          <input type="password" class="form-control" required name="password" id="password" value=""  placeholder="password">
-                      </div>
-                  </div>
-                  <div class="col-6">
-                      <div class="form-group">
-                          <label for="password">Confirm Password</label>
-
-                          <input id="password_confirmation" type="password" required class="form-control" name="password_confirmation" tabindex="2" >
-                    
-                      </div>
-                  </div>
                 </div>
 
-                 <div class="row">
-                  <div class="col-6">
-                      <div class="form-group">
-                          <label for="shop_name">shop_name</label>
-                          <input type="text" class="form-control" name="shop_name"  id="return new class extends Migration
-                            " value=""  placeholder="shop_name">
-                      </div>
-                  </div>
-                  <div class="col-6">
-                      <div class="form-group">
-                          <label for="password">shop_owner</label>
-
-                          <input id="text" type="shop_owner" class="form-control" required name="shop_owner" tabindex="2" >
-                    
-                      </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-6">
-                      <div class="form-group">
-                          <label for="vendor_Affiliation">vendor_Affiliation</label>
-                          <input type="text" class="form-control" name="vendor_Affiliation" required id="vendor_Affiliation" value=""  placeholder="vendor_Affiliation">
-                      </div>
-                  </div>
-                  <div class="col-6">
-                      <div class="form-group">
-                          <label for="registration_number">registration_number</label>
-
-                          <input id="text" type="text" class="form-control" required name="registration_number" tabindex="2" >
-                    
-                      </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-6">
-                      <div class="form-group">
-                          <label for="vendor_about">vendor_about</label>
-                          <input type="text" class="form-control" name="vendor_about" required id="vendor_about" value=""  placeholder="vendor_about">
-                      </div>
-                  </div>
-                  <div class="col-6">
-                      <div class="form-group">
-                          <label for="established_year">established_year</label>
-
-                          <input id="established_year" type="date"  required class="form-control" name="established_year">
-                    
-                      </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-6">
-                      <div class="form-group">
-                          <label for="number_of_litters">number_of_litters</label>
-                          <input type="number_of_litters" class="form-control" required name="number_of_litters" id="number_of_litters" value=""  placeholder="number_of_litters">
-                      </div>
-                  </div>
-                  <div class="col-6">
-                      <div class="form-group">
-                          <label for="country">country</label>
-
-                          <input id="country" type="country" class="form-control" required name="country" tabindex="2" >
-                    
-                      </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-6">
-                      <div class="form-group">
-                          <label for="state">state</label>
-                          <input type="state" class="form-control" name="state" required id="state" value=""  placeholder="state">
-                      </div>
-                  </div>
-                  <div class="col-6">
-                      <div class="form-group">
-                          <label for="city">city</label>
-
-                          <input id="city" type="city" class="form-control" required name="city" tabindex="2" >
-                    
-                      </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-6">
-                      <div class="form-group">
-                          <label for="helth_check">helth_check</label>
-                          <input type="helth_check" class="form-control" required name="helth_check" id="helth_check" value=""  placeholder="helth_check">
-                      </div>
-                  </div>
-                  <div class="col-6">
-
-                    
-                      <div class="form-group">
-                        <label for="helth_check">Vendor Type</label>
-
-                        <select class="" name="vendor_type" id="vendor_type">
-                          <option value="">-- Select Vendor Type--</option>
-                          <option value="not_for_selling">No Selling Just Create Shop</option>
-                          <option value="for_selling">For Selling</option>
-                        </select>
-                      </div>
-                  </div>
-                </div> 
-                
-                  
-              
-                <div class="form-group">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" name="agree" class="custom-control-input" id="agree">
-                    <label class="custom-control-label" for="agree">I agree with the terms and conditions</label>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <button type="submit" class="btn btn-primary btn-lg btn-block">
-                    Register
-                  </button>
-                </div>
-              </form>
             </div>
-          </div>
-        </div> --}}
-
-
-
-
-        {{-- </div>
         </div> --}}
         <div class="container">
             <div class="row">
@@ -495,9 +532,9 @@
                                     enctype="multipart/form-data">@csrf
 
                                     <ul id="progressbar">
-                                        <li class="active" id="account"><strong>Account</strong></li>
-                                        <li id="personal"><strong>Personal</strong></li>
-                                        <li id="payment"><strong>Payment</strong></li>
+                                        <li class="active" id="payment"><strong>OWNER</strong></li>
+                                        <li id="personal"><strong>KENNEL</strong></li>
+                                        {{-- <li id="payment"><strong>Payment</strong></li> --}}
                                         <li id="confirm"><strong>Finish</strong></li>
                                     </ul>
                                     @if (Session::has('records_submited_succesfully'))
@@ -555,7 +592,78 @@
 
                                         </div>
                                         <div class="form-card">
-                                            <h2 class="fs-title">Account Information</h2>
+                                            <h2 class="fs-title">Owner Information</h2>
+
+
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="first_name"> FIRST NAME </label>
+                                                        <input type="text" class="form-control"
+                                                            value="{{ old('first_name') }}" required name="first_name"
+                                                            id="first_name" value="" placeholder="">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-6">
+                                                    <label for="last_name">LAST NAME</label>
+                                                    <input id="last_name" type="text" class="form-control" required
+                                                        name="last_name">
+                                                </div>
+
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="email">EMAIL</label>
+                                                        <input type="emain" class="form-control"
+                                                            value="{{ old('email') }}" required name="email"
+                                                            id="email" value="" placeholder="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="phone"> PHONE NUMBER </label>
+                                                        <input type="number" class="form-control"
+                                                            value="{{ old('phone') }}" required name="phone"
+                                                            id="phone" value="" placeholder="">
+                                                    </div>
+                                                </div>
+                                               
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="password">PASSWORD </label>
+
+                                                        <input type="password" class="form-control"
+                                                            value="{{ old('password') }}" required name="password"
+                                                            id="id_password" value="" placeholder="">
+                                                        <i class="fa fa-eye" id="togglePassword"
+                                                            style="position: absolute; top: 42px;right: 27px;"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="password_confirmation"> CONFIRM PASSWORD </label>
+                                                        <input type="password" class="form-control"
+                                                            value="{{ old('password') }}" required
+                                                            name="password_confirmation" id="id_passwords"
+                                                            value="" placeholder="">
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+
+                                        </div>
+                                        <input type="button" name="next" class="next action-button"
+                                            value="Next Step" />
+                                    </fieldset>
+                                    {{-- <fieldset>
+                                        
+                                        <input type="button" name="previous" class="previous action-button-previous"
+                                            value="Previous" />
+                                        <input type="button" name="next" class="next action-button"
+                                            value="Next Step" />
+                                    </fieldset> --}}
+                                    <fieldset>
+                                        <div class="form-card">
+                                            <h2 class="fs-title">Kennel Information</h2>
 
                                             <div class="row">
                                                 <div class="col-6">
@@ -563,9 +671,35 @@
                                                         <label for="kennel_name">KENNEL NAME</label>
                                                         <input type="text" class="form-control" required
                                                             name="kennel_name" id="kennel_name"
-                                                            value="{{ old('kennel_name') }}" placeholder="kennel_name">
+                                                            value="{{ old('kennel_name') }}"
+                                                            placeholder="">
                                                     </div>
                                                 </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="registration_number">KENNEL REGISTRATION
+                                                            NUMBER</label>
+
+                                                        <input id="text" type="text" class="form-control"
+                                                            required name="registration_number" tabindex="2" required>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label>SELECT BREEDS </label>
+                                                        <select class="form-control js-example-basic-multiple" name="breeds[]" required multiple="multiple">
+                                                        <option>--Select Breeds--</option>
+                                                        @foreach ($getCat as $item)
+
+                                                            <option value=" {{ $item['id'] }}"> {{ $item['name'] }}</option>
+                                                            
+                                                        @endforeach
+
+                                                    </select>
+                                                    </div>
+                                                </div>
+                                               
                                                 <div class="col-6">
                                                     <div class="form-group">
                                                         <label> KENNEL AFFILIATIONS </label>
@@ -580,131 +714,43 @@
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="form-group">
-                                                        <label for="location">LOCATION</label>
+                                                        <label for="city">CITY</label>
                                                         <input type="text" class="form-control" required
-                                                            name="location" id="location"
-                                                            value="{{ old('location') }}" placeholder="location">
+                                                            name="city" id="city"
+                                                            value="{{ old('city') }}" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="form-group">
-                                                        <label for="registration_number">KKENNEL REGISTRATION
-                                                            NUMBER</label>
-                                                        <input type="number" class="form-control" required
-                                                            name="registration_number" id="registration_number"
-                                                            value="{{ old('registration_number') }}"
-                                                            placeholder="registration_number">
+                                                        <label for="state">STATE/PROVINCE</label>
+                                                        <input type="text" class="form-control" required
+                                                            name="state" id="state"
+                                                            value="{{ old('state') }}" placeholder="">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="country">COUNTRY</label>
+                                                        <input type="text" class="form-control" required
+                                                            name="country" id="country"
+                                                            value="{{ old('country') }}" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="form-group">
                                                         <label for="established_year">YEAR ESTABLISHED</label>
-                                                        <input type="date" class="form-control" required
-                                                            name="established_year"
-                                                            value="{{ old('established_year') }}"
-                                                            id="established_year" value=""
-                                                            placeholder="established_year">
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        <div class="form-group">
-                                                            <label> BREED(S) </label>
-
-                                                            {{-- <select class=" form-control form-control-lg js-example-basic-multiple" name="breeds[]"  value="{{ old('location') }}" name="" multiple="multiple"> --}}
-                                                            <select class="js-example-basic-multiple" name="breeds[]"
-                                                                multiple="multiple">
-                                                                <option>--Select any one Breeds--</option>
-                                                                @foreach ($getCat as $item)
-                                                                    <option value=" {{ $item['id'] }}">
-                                                                        {{ $item['name'] }}</option>
-                                                                @endforeach
-
-                                                            </select>
-                                                        </div>
+                                                        <input type="date" min="1900" max="2099"
+                                                            step="1" value="2023" class="form-control"
+                                                            name="established_year" id="established_year" required>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <input type="button" name="next" class="next action-button"
-                                            value="Next Step" />
-                                    </fieldset>
-                                    <fieldset>
-                                        <div class="form-card">
-                                            <h2 class="fs-title">Personal Information</h2>
-
-
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label for="owner_First_neame">OWNER FIRST NAME</label>
-                                                        <input type="text" class="form-control"
-                                                            value="{{ old('owner_First_neame') }}" required
-                                                            name="owner_First_neame" id="owner_First_neame"
-                                                            value="" placeholder="owner_First_neame">
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label for="owner_last_name">OWNER LAST NAME</label>
-                                                        <input type="text" class="form-control"
-                                                            value="{{ old('owner_last_name') }}" required
-                                                            name="owner_last_name" id="owner_last_name"
-                                                            value="" placeholder="owner_last_name">
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label for="email">EMAIL</label>
-                                                        <input type="emain" class="form-control"
-                                                            value="{{ old('email') }}" required name="email"
-                                                            id="email" value="" placeholder="email">
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label for="phone"> PHONE </label>
-                                                        <input type="number" class="form-control"
-                                                            value="{{ old('phone') }}" required name="phone"
-                                                            id="phone" value="" placeholder="phone">
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label for="password">PASSWORD </label>
-                                                        <input type="password" class="form-control"
-                                                            value="{{ old('password') }}" required name="password"
-                                                            id="password" value="" placeholder="password">
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label for="password_confirmation"> CONFIRM PASSWORD </label>
-                                                        <input type="password" class="form-control"
-                                                            value="{{ old('password') }}" required name="password"
-                                                            id="password_confirmation" value=""
-                                                            placeholder="password">
-
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-                                        <input type="button" name="previous" class="previous action-button-previous"
-                                            value="Previous" />
-                                        <input type="button" name="next" class="next action-button"
-                                            value="Next Step" />
-                                    </fieldset>
-                                    <fieldset>
-                                        <div class="form-card">
-                                            <h2 class="fs-title">Payment Information</h2>
-
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div class="form-group">
-                                                        <label for="vendor_about"> ABOUT YOUR KENNEL </label>
-                                                        <textarea name="vendor_about" value="{{ old('vendor_about') }}" id="vendor_about" cols="30" rows="10"></textarea>
+                                                        <label for="about"> ABOUT YOUR KENNEL </label>
+                                                        <textarea name="about" value="{{ old('about') }}" required id="about" cols="30" rows="10"></textarea>
                                                     </div>
                                                 </div>
 
@@ -714,14 +760,14 @@
                                                         <div class="section-title">AVERAGE NUMBER OF PLANNED LITTERS
                                                             PER YEAR</div>
 
-                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                        <div class="custom-control custom-radio custom-control-inline mr-4">
                                                             <input type="radio" id="0"
                                                                 value="{{ old('none') }}" name="number_of_litters"
                                                                 class="custom-control-input">
                                                             <label class="custom-control-label"
                                                                 for="0">0</label>
                                                         </div>
-                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                        <div class="custom-control custom-radio custom-control-inline mr-4">
                                                             <input type="radio"
                                                                 id="1"name="number_of_litters"
                                                                 value="{{ old('1') }}"
@@ -729,7 +775,7 @@
                                                             <label class="custom-control-label" for="1"> 1
                                                             </label>
                                                         </div>
-                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                        <div class="custom-control custom-radio custom-control-inline mr-4">
                                                             <input type="radio"
                                                                 id="2"name="number_of_litters"
                                                                 value="{{ old('2') }}"
@@ -737,7 +783,7 @@
                                                             <label class="custom-control-label"
                                                                 for="2">2</label>
                                                         </div>
-                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                        <div class="custom-control custom-radio custom-control-inline mr-4">
                                                             <input type="radio"
                                                                 id="3"name="number_of_litters"
                                                                 value="{{ old('3') }}"
@@ -745,7 +791,7 @@
                                                             <label class="custom-control-label"
                                                                 for="3">3</label>
                                                         </div>
-                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                        <div class="custom-control custom-radio custom-control-inline mr-4">
                                                             <input type="radio"
                                                                 id="4"name="number_of_litters"
                                                                 value="{{ old('4') }}"
@@ -753,7 +799,7 @@
                                                             <label class="custom-control-label" for="4">
                                                                 4</label>
                                                         </div>
-                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                        <div class="custom-control custom-radio custom-control-inline mr-4">
                                                             <input type="radio"
                                                                 id="5"name="number_of_litters"
                                                                 value="{{ old('5') }}"
@@ -761,7 +807,7 @@
                                                             <label class="custom-control-label" for="5">
                                                                 5</label>
                                                         </div>
-                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                        <div class="custom-control custom-radio custom-control-inline mr-4">
                                                             <input type="radio"
                                                                 id="6"name="number_of_litters"
                                                                 value="{{ old('6') }}"
@@ -769,7 +815,7 @@
                                                             <label class="custom-control-label" for="6">
                                                                 6</label>
                                                         </div>
-                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                        <div class="custom-control custom-radio custom-control-inline mr-4">
                                                             <input type="radio"
                                                                 id="7"name="number_of_litters"
                                                                 value="{{ old('7') }}"
@@ -777,7 +823,7 @@
                                                             <label class="custom-control-label" for="7">
                                                                 7</label>
                                                         </div>
-                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                        <div class="custom-control custom-radio custom-control-inline mr-4">
                                                             <input type="radio"
                                                                 id="8"name="number_of_litters"
                                                                 value="{{ old('8') }}"
@@ -785,7 +831,7 @@
                                                             <label class="custom-control-label" for="8">
                                                                 8</label>
                                                         </div>
-                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                        <div class="custom-control custom-radio custom-control-inline mr-4">
                                                             <input type="radio"
                                                                 id="9"name="number_of_litters"
                                                                 value="{{ old('9') }}"
@@ -793,13 +839,13 @@
                                                             <label class="custom-control-label" for="9">
                                                                 9</label>
                                                         </div>
-                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                        <div class="custom-control custom-radio custom-control-inline mr-4">
                                                             <input type="radio"
                                                                 id="more_then_10"name="number_of_litters"
-                                                                value="{{ old('more_then_10') }}"
+                                                                value="{{ old('10 OR MORE') }}"
                                                                 class="custom-control-input">
                                                             <label class="custom-control-label" for="more_then_10">
-                                                                10</label>
+                                                                10 OR MORE</label>
                                                         </div>
 
 
@@ -808,7 +854,7 @@
                                                 <div class="col-12">
                                                     <div class="form-group">
                                                         <label for="phone"> HEALTH CHECKS </label>
-                                                        <textarea name="health_check" id="health_check" cols="30" rows="5">
+                                                        <textarea name="health_check" required id="health_check" cols="30" rows="5">
                                                           {{ old('health_check') }}</textarea>
                                                     </div>
                                                 </div>
@@ -817,7 +863,7 @@
                                                         <div class="section-title">HOW MANY CHAMPIONS HAVE YOU PRODUCED
                                                             IN THE LAST 5 YEARS</div>
 
-                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                        <div class="custom-control custom-radio custom-control-inline mr-4">
                                                             <input type="radio"
                                                                 id="none"value="{{ old('none') }}"value="{{ old('location') }}"
                                                                 name="how_many_champions"
@@ -825,7 +871,7 @@
                                                             <label class="custom-control-label"
                                                                 for="none">NONE</label>
                                                         </div>
-                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                        <div class="custom-control custom-radio custom-control-inline mr-4">
                                                             <input type="radio"
                                                                 id="1-2"value="{{ old('1-2') }}"
                                                                 name="how_many_champions"
@@ -833,7 +879,7 @@
                                                             <label class="custom-control-label" for="1-2"> 1-2
                                                             </label>
                                                         </div>
-                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                        <div class="custom-control custom-radio custom-control-inline mr-4">
                                                             <input type="radio"
                                                                 id="3-5"value="{{ old('3-5') }}"
                                                                 name="how_many_champions"
@@ -841,7 +887,7 @@
                                                             <label class="custom-control-label"
                                                                 for="3-5">3-5</label>
                                                         </div>
-                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                        <div class="custom-control custom-radio custom-control-inline mr-4">
                                                             <input type="radio"
                                                                 id="6-10"value="{{ old('6-10') }}"
                                                                 name="how_many_champions"
@@ -849,7 +895,7 @@
                                                             <label class="custom-control-label"
                                                                 for="6-10">6-10</label>
                                                         </div>
-                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                        <div class="custom-control custom-radio custom-control-inline mr-4">
                                                             <input type="radio"
                                                                 id="more_then"value="{{ old('more_then_10') }}"
                                                                 name="how_many_champions"
@@ -862,70 +908,52 @@
                                                 <div class="col-6">
                                                     <div class="form-group">
                                                         <label for="website"> WEBSITE </label>
-                                                        <input type="text" class="form-control"
-                                                            value="{{ old('website') }}"required name="website"
-                                                            id="website" value="" placeholder="website">
+                                                        <input type="url" class="form-control"
+                                                            value="{{ old('website') }}" required name="website"
+                                                            id="website" value="" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="form-group">
                                                         <label for="instagram_url"> INSTAGRAM URL </label>
-                                                        <input type="text"
-                                                            class="form-control"value="{{ old('instagram_url') }}"required
-                                                            name="instagram_url" id="instagram_url" value=""
-                                                            placeholder="instagram_url">
+                                                        <input type="url"
+                                                            class="form-control"value="{{ old('instagram_url') }}"
+                                                            name="instagram_url" required id="instagram_url" value=""
+                                                            placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="form-group">
                                                         <label for="facebook_url"> FACEBOOK URL </label>
-                                                        <input type="text"
+                                                        <input type="url"
                                                             class="form-control"value="{{ old('facebook_url') }}"
-                                                            required name="facebook_url" id="facebook_url"
-                                                            value="" placeholder="facebook_url">
+                                                            name="facebook_url" required id="facebook_url" value=""
+                                                            placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="form-group">
                                                         <label for="twitter_url"> TWITTER URL </label>
-                                                        <input type="text"
+                                                        <input type="url"
                                                             class="form-control"value="{{ old('twitter_url') }}"
-                                                            name="twitter_url" id="twitter_url" value=""
-                                                            placeholder="twitter_url">
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    {{-- <div class="form-group">
-                                                        <label for="admin_image"> KENNEL PROFILE PICTURE </label>
-                                                        <input type="file"
-                                                            class="form-control" name="admin_image" id="admin_image" value="" placeholder="admin_image">
-                                                    </div> --}}
-                                                    <div class="form-group">
-                                                        <label>Image</label>
-                                                        <input type="file" class="form-control" id="admin_image"
-                                                            name="admin_image">
-
-
+                                                            name="twitter_url" required id="twitter_url" value=""
+                                                            placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="form-group">
-                                                        <label for="recent_img"> A RECENT PICTURE OF YOUR KENNEL
-                                                        </label>
-                                                        <input type="file"
-                                                            class="form-control"value="{{ old('recent_img') }}"
-                                                            name="recent_img" id="recent_img" value=""
-                                                            placeholder="recent_img">
+                                                        <label>PROFILE PICTURE</label>
+                                                        <input type="file" class="form-control" id="image"
+                                                            name="image">
                                                     </div>
                                                 </div>
-                                                {{-- <div class="col-6">
+                                                <div class="col-6">
                                                     <div class="form-group">
-                                                        <label for="multiple_img"> Four (4) PICTURES OF YOUR DOGS
-                                                            AND/OR PRODUCED PUPPIES </label>
-                                                        <input type="file" class="form-control" name="multiple_img[]"
-                                                            id="multiple_img" multiple >
+                                                        <label for="recent_img">Four (4) PICTURES OF YOUR DOGS AND/OR PRODUCED PUPPIES</label>
+                                                        <input type="file" class="form-control"
+                                                            name="recent_img[]" id="recent_img"multiple="">
                                                     </div>
-                                                </div> --}}
+                                                </div>
                                                 <div class="col-6">
 
                                                     <div class="form-group">
@@ -944,49 +972,10 @@
                                         </div>
                                         <input type="button" name="previous" class="previous action-button-previous"
                                             value="Previous" />
-                                        {{-- <input type="submit" name="make_payment" class="next action-button" value="Submit"/> --}}
-                                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                                        <input type="submit" class="next action-button" value="Submit"/>
+                                        {{-- <button type="submit" class="btn btn-primary mr-2">Submit</button> --}}
                                     </fieldset>
-                                    {{-- <fieldset>
-                                        <div class="form-card">
-                                            <h2 class="fs-title text-center">Success !</h2>
-                                            <br><br>
-                                            <div class="row justify-content-center">
-                                                <div class="col-3">
-                                                    <img src="https://img.icons8.com/color/96/000000/ok--v2.png"
-                                                        class="fit-image">
-                                                </div>
-                                            </div>
-                                            <br><br>
-                                            <div class="row justify-content-center">
-                                                <div class="col-7 text-center">
-                                                    <h5>You Have Successfully Signed Up</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </fieldset> --}}
-                                    {{-- <div class="col-6">
-                    
-                                        <div class="form-group row">
-                                            <label class="col-sm-4 col-form-label">Sire Weight</label>
-                                            <div class="col-sm-3">
-                                              <div class="form-check">
-                                                <label class="form-check-label">
-                                                  <input type="radio" class="form-check-input" name="sire_weight" id="Kg" value="Kg" checked="">
-                                                  Kg
-                                                <i class="input-helper"></i></label>
-                                              </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                              <div class="form-check">
-                                                <label class="form-check-label">
-                                                  <input type="radio" class="form-check-input" name="sire_weight" id="Lbs" value="Lbs">
-                                                  Lbs
-                                                <i class="input-helper"></i></label>
-                                              </div>
-                                            </div>
-                                        </div>
-                                    </div> --}}
+
                                 </form>
                             </div>
                         </div>
@@ -1015,9 +1004,26 @@
             //     $('.js-example-basic-single').select2();
             // });
 
-            $(document).ready(function() {
-                $('.js-example-basic-multiple').select2();
+            $('.js-example-basic-multiple').select2();
+
+
+            const togglePassword = document.querySelector('#togglePassword');
+            const password = document.querySelector('#id_password');
+
+            togglePassword.addEventListener('click', function(e) {
+                // toggle the type attribute
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+                // toggle the eye slash icon
+                this.classList.toggle('fa-eye-slash');
             });
+
+
+
+
+
+
+
             var current_fs, next_fs, previous_fs; //fieldsets
             var opacity;
 

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('charges');
             $table->string('text');
-            $table->tinyInteger('status');
+            // $table->tinyInteger('status');
             $table->timestamps();
         });
     }

@@ -1,9 +1,4 @@
-  <link rel="stylesheet" href="{{asset('admin/vendors/select2/select2.min.css')}}">
-  <link rel="stylesheet" href="{{asset('admin/vendors/select2-bootstrap-theme/select2-bootstrap.min.css')}}">
 
-  <script src="{{asset('admin/vendors/select2/select2.min.js')}}"></script>
-
-  <script src="{{asset('admin/js/select2.js')}}"></script><!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -20,20 +15,20 @@
   <link rel="stylesheet" href="{{asset('admin/vendors/datatables.net-bs4/dataTables.bootstrap4.css')}}">
   <link rel="stylesheet" href="{{asset('admin/vendors/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('admin/vendors/ti-icons/css/themify-icons.css')}}">
-  
 
   <link rel="stylesheet" type="text/css" href="{{asset('admin/js/select.dataTables.min.css')}}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="{{asset('admin/vendors/datatables.net-bs4/dataTables.bootstrap4.min.css')}}">
+
   <!-- End plugin css for this page -->
   <!-- inject:css -->
   <link rel="stylesheet" href="{{asset('admin/css/vertical-layout-light/style.css')}}">
   <!-- endinject -->
-  <link rel="shortcut icon" href="{{asset('admin/images/favicon.png')}}" />
+  <link rel="shortcut icon" href="{{asset('frontend/images/logo_final.png')}}" />
   
     <link rel="stylesheet" href="{{asset('admin/vendors/select2/select2.min.css')}}">
   <link rel="stylesheet" href="{{asset('admin/vendors/select2-bootstrap-theme/select2-bootstrap.min.css')}}">
-
+  <link rel="stylesheet" href="{{asset('website/css/custom-two.css')}}">
 
   @stack('styles')
 
@@ -42,7 +37,13 @@
 <body>
   <div class="container-scroller">
     <!-- partial:partials/_navbar.html -->
+    @if (Auth::guard('admin')->user())
+    @include('admin.partials.head_admin')
+        
+    @else
     @include('admin.partials.head')
+        
+    @endif
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <!-- partial:partials/_settings-panel.html -->
@@ -123,11 +124,20 @@
   <script src="{{asset('admin/js/Chart.roundedBarCharts.js')}}"></script>
   <script src="{{asset('admin/js/custom.js')}}"></script>
 
+
+  {{-- <script src="{{asset('admin/vendors/datatables.net/jquery.dataTables.js')}}"></script> --}}
+
+
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+  {{-- <script src="{{asset('admin/js/custom.custom_dataTables.min.js')}}"></script> --}}
+  <script src="{{asset('admin/js/dataTables.bootstrap4.min.js')}}"></script>
+
+  {{-- <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script> --}}
   <script src="{{asset('admin/js/select2.js')}}"></script>
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+
 
 
 {{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
@@ -135,8 +145,8 @@
   <!-- End custom js for this page-->
   <script src="{{asset('admin/vendors/select2/select2.min.js')}}"></script>
 
-  <script src="{{asset('admin/js/select2.js')}}"></script>
   <script src="{{asset('admin/vendors/custom/custom_js.js')}}"></script>
+  <script src="{{asset('admin/js/chart.js')}}"></script>
 
   <script>
 

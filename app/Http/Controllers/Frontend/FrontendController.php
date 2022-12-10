@@ -29,7 +29,7 @@ class FrontendController extends Controller
       $findPlanedPuppy = Product::where('produt_type_id', $getpro['produt_type_id'])->where('status', 1)->get()->toArray();
       // echo "<pre>"; print_r($getProduct);die;
       $getCategpru = Category::where('status', 1)->get()->toArray();
-      $getFeaturedAdmin = Admin::with('vendors')->where('status', 1)->where('vendor_type', "Futured")->get()->toArray();
+      $getFeaturedAdmin = Vendor::where('status', 1)->where('vendor_type', "Futured")->get()->toArray();
       $getProType = ProductType::where('status', 1)->get()->toArray();
       return view('frontend.index')
          ->with('getProduct', $getProduct)
@@ -45,7 +45,7 @@ class FrontendController extends Controller
       Session::put('page', 'find_kennnels');
       if ($request->ajax()) {
 
-         $gekennels = Product::with('category', 'admins', 'vendors')->where('status', 1)->groupBy('admin_id');
+         $gekennels = Product::with('category','vendors')->where('status', 1)->groupBy('vendor_id');
 
          $data = $request->all();
          $getCountry = Vendor::select('country', 'id')->groupBy('country');
@@ -88,7 +88,7 @@ class FrontendController extends Controller
             ->with('gekennels', $gekennels);
       } else {
 
-         $gekennels = Product::with('category', 'admins', 'vendors')->groupBy('admin_id')->where('status', 1)->get()->toArray();
+         $gekennels = Product::with('category',  'vendors')->groupBy('vendor_id')->where('status', 1)->get()->toArray();
       }
 
       $getCat = Category::where('status', 1)->get()->toArray();
@@ -155,7 +155,7 @@ class FrontendController extends Controller
             ->with('gekennels', $gekennels);
       } else {
 
-         $gekennels = Product::with('category', 'admins', 'vendors')->where('status', 1)->get()->toArray();
+         $gekennels = Product::with('category', 'vendors')->where('status', 1)->get()->toArray();
       }
 
       $getCat = Category::where('status', 1)->get()->toArray();
@@ -178,13 +178,13 @@ class FrontendController extends Controller
          // ->with('weeks',$weeks)
          ->with('getCat', $getCat);
    }
-   public function PuppyDetails($slug)
+   public function PuppyDetails($id)
    {
       Session::put('page', 'find_puppy');
-      $puppyDetails = Product::where('slug', $slug)->with('vendors', 'category', 'admins')->where('status', 1)->first()->toArray();
+      $puppyDetails = Product::where('id', $id)->with('vendors', 'category')->where('status', 1)->first()->toArray();
 
 
-      $Relatedpro = Product::where('category_id', $puppyDetails['category_id'])->with('vendors', 'category', 'admins')->where('status', 1)->get()->toArray();
+      $Relatedpro = Product::where('category_id', $puppyDetails['category_id'])->with('vendors', 'category')->where('status', 1)->get()->toArray();
 
 
       if (Auth::check()) {
@@ -192,19 +192,16 @@ class FrontendController extends Controller
       } else {
          $user_id = 0;
       }
-      $imgCount = PuppyImage::where('puppy_id', $puppyDetails['id'])->with('products', 'vendors')->count();
+      // $imgCount = PuppyImage::where('puppy_id', $puppyDetails['id'])->with('products', 'vendors')->count();
 
-      $getimg = PuppyImage::where('puppy_id', $puppyDetails['id'])->with('products', 'vendors')->where('status', 1)->get()->toArray();
+      // $getimg = PuppyImage::where('puppy_id', $puppyDetails['id'])->with('products', 'vendors')->where('status', 1)->get()->toArray();
 
 
       // echo "<pre>"; print_r($puppyDetails['image']);die;
 
       return view('frontend.pages.available_puppy')
-         ->with('imgCount', $imgCount)
          ->with('Relatedpro', $Relatedpro)
          ->with('user_id', $user_id)
-         ->with('getimg', $getimg)
-
          ->with('puppyDetails', $puppyDetails);
    }
    public function catDetails($id)
@@ -247,8 +244,8 @@ class FrontendController extends Controller
    {
 //      Session::put('page', 'shipping_address');
 //
-      $getOrder = Order::with('products', 'admins', 'users')->where('id', $id)->where('user_id', Auth::user()->id)->first()->toArray();
-//      // echo "<pre>"; print_r($getOrder);die;
+      $getOrder = Order::with('products', 'vendors', 'users')->where('id', $id)->where('user_id', Auth::user()->id)->first()->toArray();
+     // echo "<pre>"; print_r($getOrder);die;
       return view('frontend.pages.shipping_address')->with('getOrder', $getOrder);
 
 //       STRIPE TESTING

@@ -163,42 +163,6 @@ use App\Models\Admin;
 @push('styles')
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
-    <style>
-        i.fa.fa-chevron-left {
-            font-size: 30px;
-            color: black;
-            margin-right: 20px;
-        }
-        i.fa.fa-chevron-right {
-            font-size: 30px;
-            color: black;
-            margin-left: 20px;
-        }
-
-
-
-        .star span {
-            background: url(../frontend/images/rating-star/rating-star.png) 0 0 repeat-x;
-            height: 16px;
-            left: 0;
-            position: absolute;
-            top: 0;
-        }
-
-        .star {
-            background: url(../frontend/images/rating-star/rating-star.png) 0 -16px repeat-x;
-            display: inline-block;
-            height: 16px;
-            position: relative;
-            top: 4px;
-            width: 75px;
-            margin-right: 6px;
-        }
-
-        .puppy_text {
-            left: 22px;
-        }
-    </style>
 @endpush
 
 

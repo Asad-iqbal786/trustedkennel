@@ -16,7 +16,7 @@ use App\Models\Admin;
                 <p>All Receive Applications</p>
                 <div class="table-responsive pt-3">
 
-                    <table id="example" class="display expandable-table dataTable no-footer">
+                    <table id="example" class="display expandable-table dataTable no-footer" style="width: 100%">
                         @if (Session::has('success_message'))
                             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                                 {{ Session::get('success_message') }}
@@ -28,9 +28,9 @@ use App\Models\Admin;
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Customer Name</th>
-                                <th>Puppy Name</th>
-                                <th>Email</th>
+                                <th>Customer </th>
+                                <th>Dog Name</th>
+                                <th>Post Type</th>
                                 <th>Price</th>
                                 <th>Shipping Charges</th>
                                 <th>Status</th>
@@ -44,24 +44,55 @@ use App\Models\Admin;
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $app['users']['name'] }}</td>
-                                    <td>{{ $app['products']['sire_name'] }}</td>
-                                    <td>{{ $app['users']['email'] }}</td>
-                                    <td>  {{ $app['price'] }} </td>
-                                    <td> {{ $app['shipping_charges'] }} </td>
-                                    <td>{{ $app['status'] }}</td>
+                                    <td>{{ $app['products']['product_name'] }}</td>
                                     <td>
-                                        <a href="{{ route('cartInvoice', $app['id']) }}" target="_blank"><i
-                                                class="mdi mdi-printer-alert" style="font-size: 25px;"></i></a>
-                                        <a href="{{ route('cartInvoicePDF', $app['id']) }}" target="_blank"><i
-                                                class="mdi mdi-file-pdf" style="font-size: 25px;"></i></a>
-                                        <a href="" target="blank" data-toggle="modal"
-                                            data-target="#exampleModal-{{ $app['id'] }}"><i class="mdi mdi-eye"
-                                                style="font-size: 25px;"></i></a>
-                                        <a href="" onclick="return confirm('Are you sure to delete?')"><i
-                                                class="mdi mdi-file-excel-box" style="font-size:20px;"></i></a>
+                                        @if ($app['products']['produt_type_id'] == 1)
+                                            Available Puppy
+                                        @else
+                                            Planned Litter
+                                        @endif
+                                    </td>
+                                    <td> {{ $app['products']['price'] }} </td>
+                                    <td> {{ $app['products']['shipping_fee'] }} </td>
+                                    <td>
+                                        @if ($app['status'] == 1)
+                                            <label class="badge badge-success">Processing</label>
+                                        @elseif($app['status'] == 5)
+                                            <label class="badge badge-info"> To be reserved</label>
+                                        @elseif($app['status'] == 6)
+                                            <label class="badge badge-dark">Reserved</label>
+                                        @elseif($app['status'] == 3)
+                                            <label class="badge badge-primary">Accepted</label>
+                                        @elseif($app['status'] == 4)
+                                            <label class="badge badge-danger">Rejected</label>
+                                        @endif
+                                    </td>
+                                    <td class="buttons-styles">
+                                        <a href="{{ route('cartInvoicePDF', $app['id']) }}">
+                                            <img src="{{ asset('admin/icons/PDF Document.png') }}" alt=""
+                                                style="width:20px;">
+                                        </a>
+                                        <a href="{{ route('applications', $app['users']['id']) }}">
+                                            <img src="{{ asset('admin/icons/user -application.png') }}" alt=""
+                                                style="width:20px;">
+                                        </a>
+                                        <a href="" data-toggle="modal"
+                                            data-target="#exampleModal-{{ $app['id'] }}">
+                                            <img src="{{ asset('admin/icons/View.png') }}" alt=""
+                                                style="width:20px;">
+                                        </a>
 
-                                        <a href="{{ route('applicationDetails', $app['id']) }}" target="_blank"><i
-                                                class="mdi mdi-account-card-details" style="font-size:20px;"></i></a>
+                                        <form action="{{ route('rejectApplication') }}" class="forms-styles"
+                                            method="post">@csrf
+                                            <input type="hidden" name="cart_id"value="{{ $app['id'] }}" id="">
+                                            <input type="hidden" name="price" value=" {{ $app['products']['price'] }}">
+                                            <input type="hidden" name="product_id" value=" {{ $app['products']['id'] }}">
+                                            <input type="hidden" name="user_id" value=" {{ $app['user_id'] }}">
+                                            <input type="image" name="submit"
+                                                src="{{ asset('admin/icons/Delete.png') }}" style="width:20px;"
+                                                alt="Submit" />
+                                        </form>
+
                                     </td>
                                 </tr>
 
@@ -75,75 +106,116 @@ use App\Models\Admin;
         </div>
 
         @forelse ($Vendor_r_app as $index=> $application)
-        <div class="modal fade" id="exampleModal-{{ $application['id'] }}" tabindex="-1"
-            aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-md">
-                <div class="modal-content">
+            <div class="modal fade" id="exampleModal-{{ $application['id'] }}" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
 
-                    <div class="modal-body">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Customer Name : {{ $application['users']['name'] }} </h4>
-                                <form action="{{ route('OrderStore') }}" method="post">@csrf
-                                    <input type="hidden" name="cart_id"value ="{{ $application['id'] }}" id="">
-                                    <input type="hidden" name="price"
-                                        value=" {{ $application['products']['puppy_price'] }}">
-                                    <input type="hidden" name="puppy_id"
-                                        value=" {{ $application['products']['id'] }}">
-                                    <input type="hidden" name="vendor_id" value=" {{ $application['vendor_id'] }}">
-                                    <input type="hidden" name="user_id" value=" {{ $application['user_id'] }}">
-                                    <input type="hidden" name="admin_id"
-                                        value=" {{ $application['products']['admin_id'] }}">
+                        <div class="modal-body">
+                            <div class="card">
+                                <div class="card-body">
+                                    {{-- <h4 class="card-title">Customer Name : {{ $application['users']['name'] }} </h4> --}}
+                                    <form action="{{ route('OrderStore') }}" method="post">@csrf
+                                        <input type="hidden" name="cart_id"value="{{ $application['id'] }}"
+                                            id="">
+                                        <input type="hidden" name="price"
+                                            value=" {{ $application['products']['price'] }}">
+                                        <input type="hidden" name="product_id"
+                                            value=" {{ $application['products']['id'] }}">
+                                        {{-- <input type="hidden" name="vendor_id" value=" {{ $application['vendor_id'] }}"> --}}
+                                        <input type="hidden" name="user_id" value=" {{ $application['user_id'] }}">
+                                        {{-- <input type="hidden" name="admin_id" value=" {{ $application['products']['admin_id'] }}"> --}}
 
-
-
-                                    <div class="form-group">
-                                        <select class="custom-select" name="order_status" id="order_status">
-
-                                            <option selected="">Order Status...</option>
-                                            <option value="processing">Processing</option>
-                                            <option value="accept">Accept</option>
-                                            <option value="rejact">Reject</option>
-                                            <option value="reservation_booked">Reservation Booked</option>
+                                        <div class="form-group">
+                                            <label for="exampleInputUsername1">DOG</label>
+                                            <input type="text" class="form-control"
+                                                value="{{ $application['products']['product_name'] }}"
+                                                id="exampleInputUsername1" placeholder="Username">
+                                        </div>
 
 
-                                        </select>
-                                    </div>
-                                    <div class="form-group pt-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputUsername1">CUSTOMER</label>
+                                            <input type="text" class="form-control"
+                                                value="{{ $application['users']['name'] }}" id="exampleInputUsername1"
+                                                placeholder="Username">
+                                        </div>
 
-                                        <input class="custom-select" style=" display: none;" type="number"
-                                            name="shipping_chargges" id="shipping_chargges"
-                                            placeholder="shipping_chargges" value="">
-                                        <input class="custom-select" style=" display: none;" type="number"
-                                            name="reservation_charges" id="reservation_charges"
-                                            placeholder="reservation_charges" value="">
-                                        <input class="custom-select" style=" display: none;" type="text"
-                                            name="courier_name" id="courier_name" placeholder="courier_name"
-                                            value="">
-                                        <input class="custom-select" style=" display: none;" type="text"
-                                            name="tracking_number" id="tracking_number" placeholder="tracking_number"
-                                            value="">
 
-                                    </div>
-                                    <button class="btn btn-primary" type="submit">Submit</button>
 
-                                </form>
+                                        <div class="form-group">
+                                            <label for="">STATUS</label>
+                                            <select class="custom-select" name="order_status" id="order_status">
+                                                <option selected="">Order Status...</option>
+                                                {{-- <option value="Submitted">Submitted</option> --}}
+                                                {{-- <option value="Accepted">Accepted</option> --}}
+                                                @if ($application['products']['produt_type_id'] == 'Planned Litter')
+                                                    <option value="5"> To be reserved </option>
+                                                    <option value="6"> Reserved </option>
+                                                    <option value="4"> Rejected </option>
+                                                @else
+                                                    <option value="1"> Processing </option>
+                                                    <option value="3"> Accepted </option>
+                                                    <option value="4"> Rejected </option>
+                                                @endif
 
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputUsername1">CHARGE</label>
+                                            <input type="text" class="form-control"
+                                                value="{{ $application['users']['name'] }}" id="exampleInputUsername1"
+                                                placeholder="Reserved Status" readonly>
+                                        </div>
+
+                                        <div class="form-group pt-3">
+                                            <input class="custom-select" style=" display: none;" type="number"
+                                                name="shipping_chargges" id="shipping_chargges"
+                                                placeholder="shipping_chargges" value="">
+                                            <input class="custom-select" style=" display: none;" type="number"
+                                                name="reservation_charges" id="reservation_charges"
+                                                placeholder="reservation_charges" value="">
+                                            <input class="custom-select" style=" display: none;" type="text"
+                                                name="courier_name" id="courier_name" placeholder="courier_name"
+                                                value="">
+                                            <input class="custom-select" style=" display: none;" type="text"
+                                                name="tracking_number" id="tracking_number" placeholder="tracking_number"
+                                                value="">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <button class="btn btn-light">Cancel</button>
+                                            </div>
+                                            <div class="col text-right">
+                                                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
                 </div>
             </div>
-        </div>
-    @empty
-    @endforelse
+        @empty
+        @endforelse
 
     </div>
 @endsection
 
+@push('styles')
+    <style>
+        td.buttons-styles {
+            position: absolute;
+        }
+
+        form.forms-styles {
+            position: relative;
+            right: 25px;
+            bottom: 22px;
+        }
+    </style>
+@endpush
 
 
 
@@ -199,7 +271,7 @@ use App\Models\Admin;
         });
         //add shipping carges
         $("#order_status").on("change", function() {
-            if (this.value == "accept") {
+            if (this.value == "Processing") {
                 $("#shipping_chargges").show();
             } else {
                 $("#shipping_chargges").hide();

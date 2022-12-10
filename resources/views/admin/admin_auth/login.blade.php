@@ -78,9 +78,14 @@
                                         data-toggle="pill" href="#pills-profile" role="tab"
                                         aria-controls="pills-profile" aria-selected="false">Kennels</a>
                                 </li>
-
+                                <li class="nav-item">
+                                    <a class="nav-link" style="border-radius: 0px 10px 10px 0px;" id="admin-tab"
+                                        data-toggle="pill" href="#admin" role="tab"
+                                        aria-controls="admin" aria-selected="false">Admin</a>
+                                </li>
                             </ul>
                             <div class="tab-content" id="pills-tabContent">
+
                                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                                     aria-labelledby="pills-home-tab">
 
@@ -160,10 +165,11 @@
                                         </div>
                                     </form>
                                 </div>
+
                                 <div class="tab-pane fade" id="pills-profile" role="tabpanel"
                                     aria-labelledby="pills-profile-tab">
 
-                                    <form method="POST"action="{{ route('loginNow') }}">@csrf
+                                    <form method="POST"action="{{ route('vendorLogin') }}">@csrf
 
                                         @if (Session::has('error_message'))
                                             <div class="alert alert-warning alert-dismissible fade show"
@@ -243,6 +249,83 @@
                                     </form>
 
                                 </div>
+                                <div class="tab-pane fade" id="admin" role="tabpanel"
+                                aria-labelledby="pills-profile-tab">
+
+                                <form method="POST"action="{{ route('adminLogin') }}">@csrf
+
+                                    @if (Session::has('error_message'))
+                                        <div class="alert alert-warning alert-dismissible fade show"
+                                            role="alert">
+                                            {{ Session::get('error_message') }}
+                                            <button type="button" class="close" data-dismiss="alert"
+                                                aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    @endif
+                                    @if (Session::has('success_message'))
+                                        <div class="alert alert-warning alert-dismissible fade show"
+                                            role="alert">
+                                            {{ Session::get('success_message') }}
+                                            <button type="button" class="close" data-dismiss="alert"
+                                                aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    @endif
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input id="email" type="email" class="form-control" name="email"
+                                            tabindex="1">
+                                        <div class="invalid-feedback">
+                                            Please fill in your email
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="d-block">
+                                            <label for="password" class="control-label">Password</label>
+                                            <div class="float-right">
+                                                <a href="auth-forgot-password.html" class="text-small">
+                                                    Forgot Password?
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <input id="password" type="password" class="form-control"
+                                            name="password" tabindex="2">
+                                        <div class="invalid-feedback">
+                                            please fill in your password
+                                        </div>
+                                    </div>
+                                    <br><br>
+
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="remember" class="custom-control-input"
+                                                tabindex="3" id="remember-me">
+                                            <label class="custom-control-label" for="remember-me">Remember
+                                                Me</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block"
+                                            tabindex="4">
+                                            Sign in
+                                        </button>
+                                    </div>
+                                </form>
+
+                            </div>
                             </div>
                         </div>
                     </div>

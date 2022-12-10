@@ -1,6 +1,6 @@
 <?php
 use App\Models\StripeAccount;
-$countStrip = StripeAccount::where('vendor_id', Auth::guard('admin')->user()->vendor_id)
+$countStrip = StripeAccount::where('vendor_id', Auth::guard('vendor')->user()->id)
     ->first()
     ->toArray();
 
@@ -26,7 +26,9 @@ $countStrip = StripeAccount::where('vendor_id', Auth::guard('admin')->user()->ve
             <li class="nav-item" style="background: none;">
 
                 <a class="nav-link"
-                    @if (Session::get('page') == 'update_admin_details') style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;" @endif
+                    @if (Session::get('page') == 'update_admin_details' ||
+                        Session::get('page') == 'add-vendor-payment' ||
+                        Session::get('page') == 'all-vendor-payment') ||  style="background:#68616E !important; color:rgb(255, 255, 255) !important;" @endif
                     data-toggle="collapse" href="#form-vendor" aria-expanded="false" aria-controls="form-vendor">
                     <i class="icon-columns menu-icon"></i>
                     <span class="menu-title"> Kennel Profile </span>
@@ -35,23 +37,25 @@ $countStrip = StripeAccount::where('vendor_id', Auth::guard('admin')->user()->ve
                 <div class="collapse" id="form-vendor">
                     <ul class="nav flex-column sub-menu" style="background: none;">
                         <li class="nav-item"><a class="nav-link"
-                                @if (Session::get('page') == 'update_admin_details') style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;"
-            @else style="background:#4B49AC !important; color:rgb(255, 255, 255) !important;" @endif
+                                @if (Session::get('page') == 'update_admin_details') style="background:#68616E !important; color:rgb(255, 255, 255) !important;"
+            @else style="background:#68616E !important; color:rgb(255, 255, 255) !important;" @endif
                                 href="{{ route('vendorDetails') }}">Profile</a>
                         </li>
+
+
+
+                        <li class="nav-item"><a class="nav-link"
+                                @if (Session::get('page') == 'all-vendor-payment') style="background:#68616E !important; color:#fff !important;"
+                  @else style="background:#none; color:#000 !important;" @endif
+                                href="{{ route('withdrawRequest') }}"> Money Withdraw </a></li>
                     </ul>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('vendorChat') }}">
-                    <i class="icon-grid menu-icon"></i>
-                    <span class="menu-title"> Chat</span>
-                </a>
-            </li>
+
             <li class="nav-item" style="background: none;">
-                <a @if ( Session::get('page') == 'all_products' ||
+                <a @if (Session::get('page') == 'all_products' ||
                     Session::get('page') == 'vendor_application' ||
-                    Session::get('page') == 'all_orders') style="background:#4B49AC !important; color:rgb(0, 0, 0) !important;" @endif
+                    Session::get('page') == 'all_orders') style="background:#68616E !important; color:rgb(0, 0, 0) !important;" @endif
                     class="nav-link"data-toggle="collapse" href="#form-category" aria-expanded="false"
                     aria-controls="form-category">
                     <i class="icon-columns menu-icon"></i>
@@ -60,23 +64,21 @@ $countStrip = StripeAccount::where('vendor_id', Auth::guard('admin')->user()->ve
                 </a>
 
                 <div class="collapse" id="form-category">
-                   
+
                     <ul class="nav flex-column sub-menu" style="background: none;">
 
-                        
-                    <li class="nav-item"><a class="nav-link"
-                        @if (Session::get('page') == 'all_products') style="background:#4B49AC !important; color:#fff !important;"
-          @else style="background:#none; color:#000 !important;" @endif
-                        href="{{ route('VendorproductIndex') }}"> Puppies </a></li>
 
                         <li class="nav-item"><a class="nav-link"
-                            @if (Session::get('page') == 'vendor_application') style="background:#4B49AC !important; color:#fff !important;"
+                                @if (Session::get('page') == 'all_products') style="background:#68616E !important; color:#fff !important;"
+          @else style="background:#none; color:#000 !important;" @endif
+                                href="{{ route('vendorProduct') }}"> Posts </a></li>
+
+                        <li class="nav-item"><a class="nav-link"
+                                @if (Session::get('page') == 'vendor_application') style="background:#68616E !important; color:rgb(0, 0, 0) !important;"
               @else style="background:#none; color:#000 !important;" @endif
-                            href="{{ route('vendorApplication') }}"> Reservations </a></li>
-
-
-                            <li class="nav-item"><a class="nav-link"
-                                @if (Session::get('page') == 'all_orders') style="background:#4B49AC !important; color:#fff !important;"
+                                href="{{ route('vendorApplication') }}"> Received applications </a></li>
+                        <li class="nav-item"><a class="nav-link"
+                                @if (Session::get('page') == 'all_orders') style="background:#68616E !important; color:#fff !important;"
                   @else style="background:#none; color:#000 !important;" @endif
                                 href="{{ route('allOrderVendor') }}"> Orders </a></li>
 
@@ -87,10 +89,14 @@ $countStrip = StripeAccount::where('vendor_id', Auth::guard('admin')->user()->ve
                 </div>
 
             </li>
-
-            <li class="nav-item" style="background: none;">
-                <a @if ( Session::get('page') == 'add-vendor-payment' ||
-                    Session::get('page') == 'all-vendor-payment' ) style="background:#4B49AC !important; color:rgb(0, 0, 0) !important;" @endif
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('vendorChat') }}">
+                    <i class="icon-grid menu-icon"></i>
+                    <span class="menu-title"> Chat</span>
+                </a>
+            </li>
+            {{-- <li class="nav-item" style="background: none;">
+                <a @if (Session::get('page') == 'add-vendor-payment' || Session::get('page') == 'all-vendor-payment') style="background:#68616E !important; color:rgb(0, 0, 0) !important;" @endif
                     class="nav-link"data-toggle="collapse" href="#form-setting" aria-expanded="false"
                     aria-controls="form-setting">
                     <i class="icon-columns menu-icon"></i>
@@ -101,22 +107,11 @@ $countStrip = StripeAccount::where('vendor_id', Auth::guard('admin')->user()->ve
                 <div class="collapse" id="form-setting">
                     <ul class="nav flex-column sub-menu" style="background: none;">
 
-                        <li class="nav-item"><a class="nav-link"
-                            @if (Session::get('page') == 'add-vendor-payment') style="background:#4B49AC !important; color:#fff !important;"
-              @else style="background:#none; color:#000 !important;" @endif
-                            href="{{ route('addEditVendorPayments') }}"> Vendor Bank Accout  </a></li>
-
-                     
-
-
-                            <li class="nav-item"><a class="nav-link"
-                                @if (Session::get('page') == 'all-vendor-payment') style="background:#4B49AC !important; color:#fff !important;"
-                  @else style="background:#none; color:#000 !important;" @endif
-                                href="{{ route('withdrawRequest') }}"> Money Withdraw  </a></li>
+                        
 
                     </ul>
                 </div>
-            </li>
+            </li> --}}
         </ul>
     @endif
 

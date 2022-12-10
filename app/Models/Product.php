@@ -13,11 +13,7 @@ class Product extends Model
     {
        return $this->belongsTo('App\Models\Category','category_id');
     }
-    public function admins()
-    {
-       return $this->belongsTo('App\Models\Admin','admin_id');
-    }
-
+ 
     public function product_types()
     {
        return $this->belongsTo('App\Models\ProductType','produt_type_id');

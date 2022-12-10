@@ -18,10 +18,7 @@ use App\Models\Product;
 
         </div>
 
-        {{-- <a class="waypoints-link fa fa-angle-double-down novi-icon" href="#services" data-custom-scroll-to="services"></a> --}}
     </header>
-
-    <!-- Services-->
     <section class="section section-md bg-default" id="services">
         <div class="container">
             <div class="row row-30 row-count">
@@ -58,50 +55,8 @@ use App\Models\Product;
             </div>
         </div>
     </section>
-    {{-- <div class="container-fluid">
-      <div class="row row-30 row-count">
-        <div class="col-lg-4  col-sm-6 wow slideInLeft">
-          <article class="services">
-            <figure class="services-figure">
-              <a href="#">
-                <img src="{{asset('website/images/services-01-370x230.jpg')}}" alt="" width="370" height="230"/>
-              </a>
-              <div class="services-textsss bgcolor">
-                  <a href="" style="color: white; font-size: 29px;"> Find a Puppy</a>
-              </div>
-            </figure>
-          
-          </article>
-        </div>
-        <div class="col-lg-4  col-sm-6 wow slideInUp">
-          <article class="services">
-            <figure class="services-figure"><a href="#">
-                <img src="{{asset('website/images/services-02-370x230.jpg')}}" alt="" width="370" height="230"/>
-              </a>
-              <div class="services-textsss bgcolor">
-                <a href="" style="color: white; font-size: 29px;">  Find a Kennel </a>
-              </div>
-            </figure>
-           
-          </article>
-        </div>
-        <div class="col-lg-4 col-sm-6 wow slideInRight">
-          <article class="services">
-            <figure class="services-figure"><a href="#">
-                <img src="{{asset('website/images/services-03-370x230.jpg')}}" alt="" width="370" height="230"/>
-              </a>
-              <div class="services-textsss bgcolor">
-                <a href="" style="color: white; font-size: 29px;"> Services </a>
-              </div>
-            </figure>
-          
-          </article>
-        </div>
-      </div>
-    </div> --}}
 
 
-    <!-- Why Choose us-->
     <section class="section section-md bg-default">
         <div class="container">
             <hr class="pb-4">
@@ -182,16 +137,6 @@ use App\Models\Product;
             </div>
         </div>
     </section>
-
-    {{-- <section class="parallax-container section-xl context-dark" data-parallax-img="{{ asset('website/images/parallax3.jpg') }}" style="display: block;width: 100%;">
-        <div class="parallax-content">
-            <div class="container">
-                <h1>Not Sure Which dog Breed is right for you ?</h1>
-                <h2>Start with our breed questionnaire and we will send you the best dog breeds for you.</h2>
-                <a class="button button-white-outline" href="#">BREED QUESTIONNAIRE</a>
-            </div>
-        </div>
-    </section> --}}
 
     <section class="section section-md bg-default pb-0">
         <div class="container">
@@ -331,72 +276,7 @@ use App\Models\Product;
 @endsection
 
 @push('styles')
-    <style>
-        .services-textsss {
-            position: absolute;
-            top: 150px;
-            left: 32%;
-            color: white;
-        }
-
-        .bgcolor {
-            top: 0;
-            background: black;
-            height: 100%;
-            left: 15px;
-            width: 94%;
-            opacity: 0.5;
-        }
-
-
-        .services-textsss.bgcolor a {
-            text-align: center;
-            top: 162px;
-            z-index: 0;
-        }
-
-        .aria-img {
-            position: relative;
-        }
-
-        .aria-text {
-            position: absolute;
-            width: 50%;
-            top: 169px;
-            left: 58px;
-            color: white;
-        }
-
-        .aria-text h2 {
-            color: white;
-        }
-
-        .aria-text p {
-            font-size: 38px;
-        }
-
-        .button-white-outline,
-        .button-white-outline .aria-btn {
-            /* color: #ffffff;
-                        width: 301px;
-                        letter-spacing: 3px;
-                        font-weight: 100;
-
-                        background-color: transparent;
-                        border-color: #ffffff;
-                        font-weight: 100; */
-        }
-
-        .button-white-outline,
-        .button-white-outline:focus {
-            /* color: #ffffff;
-                        width: 301px;
-                        letter-spacing: 3px;
-                        background-color: transparent;
-                        border-color: #ffffff;
-                        font-weight: 100; */
-        }
-    </style>
+ 
 @endpush
 
 

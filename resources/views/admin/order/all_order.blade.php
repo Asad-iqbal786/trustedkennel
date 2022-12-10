@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\Vendor;
-use App\Models\Admin;
-use App\Models\OrderLog;
+    use App\Models\Vendor;
+    use App\Models\Admin;
+    use App\Models\OrderLog;
 
 ?>
 @extends('layouts.admin_app')
@@ -44,7 +44,6 @@ use App\Models\OrderLog;
                                     <td>{{ $order['users']['name'] }}</td>
                                     <td>{{ $order['grand_total'] }}</td>
                                     <td>
-
                                         @if ($order['status'] == 'accept ')
                                             <label class="badge badge-danger">{{ $order['status'] }}</label>
                                         @elseif($order['status'] == 'reservation_booked ')
@@ -56,9 +55,6 @@ use App\Models\OrderLog;
                                         @else
                                             <label class="badge badge-danger">{{ $order['status'] }}</label>
                                         @endif
-
-
-
                                     </td>
                                     <td>
                                         <a href="{{ route('cartInvoiceAdmin', $order['id']) }}" target="_blank"><i
@@ -66,50 +62,41 @@ use App\Models\OrderLog;
                                         <a href="{{ route('cartInvoicePDFAdmin', $order['id']) }}" target="_blank"><i
                                                 class="mdi mdi-file-pdf" style="font-size: 25px;"></i></a>
                                         <a href="" target="blank" data-toggle="modal"
-                                            data-target="#exampleModal-{{ $order['id'] }}"><i class="mdi mdi-eye"style="font-size: 25px;"></i></a>
+                                            data-target="#exampleModal-{{ $order['id'] }}"><i
+                                                class="mdi mdi-eye"style="font-size: 25px;"></i></a>
                                     </td>
-
                                 </tr>
-
                             @empty
                             @endforelse
-
-
-
-
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
         @forelse ($getOrder as $order)
-            <?php
-            
-            $getlog = OrderLog::where('order_id', $order['id'])
+            <?php $getlog = OrderLog::where('order_id', $order['id'])
                 ->get()
-                ->toArray();
-            
-            ?>
+                ->toArray(); ?>
             <div class="modal fade" id="exampleModal-{{ $order['id'] }}" tabindex="-1"
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
-
                         <div class="modal-body">
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title"> Order Details</h4>
                                     <div class="row">
-                                        <div class="col-lg-6 grid-margin stretch-card">
+                                        <div class="col-lg-8 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-
                                                     <div class="table-responsive">
                                                         <table class="table">
                                                             <thead>
                                                                 <tr>
                                                                     <th>#</th>
-                                                                    <th>Created</th>
+                                                                    <th>History</th>
+                                                                    <th>Dog name</th>
+                                                                    <th>Customer name</th>
                                                                     <th>Status</th>
                                                                 </tr>
                                                             </thead>
@@ -120,6 +107,8 @@ use App\Models\OrderLog;
                                                                         <td>{{ $index + 1 }}</td>
                                                                         <td>{{ date('j F,Y,g:i a', strtotime($log['created_at'])) }}
                                                                         </td>
+                                                                        <td>{{ $order['products']['sire_name'] }}</td>
+                                                                        <td>{{ $order['users']['name'] }}</td>
                                                                         <td>
 
                                                                             @if ($log['status'] == 'accept ')
@@ -145,41 +134,30 @@ use App\Models\OrderLog;
                                                                     </tr>
                                                                 @empty
                                                                 @endforelse
-
-
                                                             </tbody>
                                                         </table>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="col-md-6 stretch-card grid-margin grid-margin-md-0">
+                                        <div class="col-md-4 stretch-card grid-margin grid-margin-md-0">
                                             <div class="card">
-                                                <div class="card-title">
-
-                                                </div>
                                                 <div class="card-body">
-                                                    <h4> Order Status Change </h4>
-
+                                                    <h4> Status </h4>
                                                     <form action="{{ route('OrderLog') }}" method="post">@csrf
-
                                                         <input type="hidden" name="order_id" value=" {{ $order['id'] }}">
                                                         <input type="hidden" name="user_id"
                                                             value=" {{ $order['users']['id'] }}">
                                                         <input type="hidden" name="admin_id"
                                                             value=" {{ $order['admins']['id'] }}">
-
                                                         <select class="custom-select" name="order_status" id="order_status"
                                                             style="width:120px;">
-
                                                             <option selected="">Order Status...</option>
-                                                            <option value="processing">Processing</option>
-                                                            <option value="accept">Accept</option>
-                                                            <option value="rejact">Reject</option>
-                                                            <option value="reservation_booked">Reservation Booked</option>
-
-
+                                                            <option value="Processing">Processing</option>
+                                                            <option value="Shipped">Shipped</option>
+                                                            <option value="Delivered">Delivered</option>
+                                                            <option value="Accepted">Accepted</option>
+                                                            {{-- <option value="reservation_booked">Reservation Booked</option> --}}
                                                         </select>
                                                         <input style="width: 120px; display: none;" type="number"
                                                             name="shipping_chargges" id="shipping_chargges"
@@ -193,21 +171,12 @@ use App\Models\OrderLog;
                                                         <input style="width: 120px; display: none;" type="text"
                                                             name="tracking_number" id="tracking_number"
                                                             placeholder="tracking_number" value="">
-
-
-
-                                                        <button class="btn btn-primary" type="submit">Button</button>
-
+                                                        <button class="btn btn-primary" type="submit">Update</button>
                                                     </form>
-
                                                 </div>
-
                                             </div>
                                         </div>
-
-
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -219,7 +188,6 @@ use App\Models\OrderLog;
             </div>
         @empty
         @endforelse
-
     </div>
 @endsection
 @push('styles')

@@ -39,11 +39,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($getUserCart as $cart)
+                                @forelse ($getUserOrder as  $index => $cart)
                                 <tr>
-                                    <th scope="row">1</th>
+                                    <th scope="row"> {{  $index + 1 }}</th>
                                     <td>{{   $cart['vendors']['kennel_name'] }}</td>
-                                    <td>{{   $cart['products'] ['sire_name'] }}</td>
+                                    <td>{{   $cart['products'] ['product_name'] }}</td>
                                     <td>{{   $cart['grand_total'] }}</td>
                                     <td><span class="badge badge-primary">{{   $cart['status'] }}</span></td>
                                     <td>  <a href="{{route('shippingAddress', $cart['id'])}}" target="_blank">Checkout</a>  </td>

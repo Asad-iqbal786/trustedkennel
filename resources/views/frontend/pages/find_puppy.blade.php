@@ -129,16 +129,10 @@ use App\Models\Admin;
     <section class="section section-md bg-default">
         <div class="container">
             <h3 class="text-center">Did you know ? </h3>
-            <div class="pt-2 pb-2">
-
-
-            </div>
             <div class="row row-30">
-
                 <div class="col-lg-4 col-sm-6 wow flipInX">
                     <div class="unit align-items-center">
-                        <div class="unit-left"><img src="{{ asset('website/images/home-01-54x57.png') }}" alt=""
-                                width="54" height="57" />
+                        <div class="unit-left"><img src="{{ asset('website/images/home-01-54x57.png') }}" alt="" width="54" height="57" />
                         </div>
                         <div class="unit-body">
                             <h5><a href="#">SCAM-FREE GUARANTEE</a></h5>
@@ -148,8 +142,7 @@ use App\Models\Admin;
                 </div>
                 <div class="col-lg-4 col-sm-6 wow flipInX">
                     <div class="unit align-items-center">
-                        <div class="unit-left"><img src="{{ asset('website/images/home-02-54x57.png') }}" alt=""
-                                width="54" height="57" />
+                        <div class="unit-left"><img src="{{ asset('website/images/home-02-54x57.png') }}" alt=""  width="54" height="57" />
                         </div>
                         <div class="unit-body">
                             <h5><a href="#">INDEPENDENT HEALTH CHECK</a></h5>
@@ -178,44 +171,7 @@ use App\Models\Admin;
 @push('styles')
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <style>
-        i.fa.fa-chevron-left {
-            font-size: 30px;
-            color: black;
-            margin-right: 20px;
-        }
-
-        i.fa.fa-chevron-right {
-            font-size: 30px;
-            color: black;
-            margin-left: 20px;
-        }
-
-
-
-
-
-        .parallax-content h1 {
-            font-weight: 700;
-            font-size: 57px;
-        }
-
-        .parallax-content h2 {
-            font-size: 38px;
-        }
-
-        .parallax {
-            /* The image used */
-            background-image: url("img_parallax.jpg");
-
-            /* Set a specific height */
-            min-height: 500px;
-
-            /* Create the parallax scrolling effect */
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
+       
     </style>
 @endpush
 

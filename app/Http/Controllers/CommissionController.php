@@ -1,15 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\Commission;
 use Auth;
 use DB;
-
 use App\Models\VendorPayment;
 use App\Models\WithdrawRequest;
-
+use Illuminate\Support\Facades\Session as FacadesSession;
 use Session;
 
 class CommissionController extends Controller
@@ -61,7 +59,7 @@ class CommissionController extends Controller
 
 
 
-        public function addEditVendorPayments(Request $request, $id = null){
+    public function addEditVendorPayments(Request $request, $id = null){
         Session::put('page', 'add-vendor-payment');
 
 

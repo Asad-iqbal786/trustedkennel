@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\StripePaymentController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,8 +24,9 @@ use Illuminate\Support\Facades\Route;
 // })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
-
-
+Route::get('/linkstorage', function () {
+    Artisan::call('storage:link');
+});
 Route::get('/ts-register', [App\Http\Controllers\Admin\AdminController::class, 'register'])->name('vendorRegister');
 
     Route::match(['get','post'],'/ts-login','App\Http\Controllers\Admin\AdminController@login')->name('loginPage');
@@ -32,8 +34,7 @@ Route::get('/ts-register', [App\Http\Controllers\Admin\AdminController::class, '
 
 Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function(){
 
-    Route::post('/dashbo', [App\Http\Controllers\Admin\AdminController::class, 'dashboard'])->name('loginNow');
-
+    Route::post('/dashbo', [App\Http\Controllers\Admin\AdminController::class, 'dashboard'])->name('adminLogin');
     Route::group(['middleware'=>['admin']],function(){
         Route::get('/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('adminDashboard');
         Route::get('/logout', [App\Http\Controllers\Admin\AdminController::class, 'logout'])->name('logoutadmin');
@@ -60,14 +61,13 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('product-destroy/{id}', [App\Http\Controllers\Admin\ProductController::class, 'destroy'])->name('productDestroy');
         Route::post('/update-product-status', [App\Http\Controllers\Admin\ProductController::class, 'productStatusUpdate']);
 
-        Route::post('/update-product-status', [App\Http\Controllers\Admin\ProductController::class, 'changeStatus'])->name('changeStatus');
-
-        Route::get('/all-orders', [App\Http\Controllers\Admin\OrderController::class, 'allOrder'])->name('allOrderAdmin');
-        Route::get('/vendor-application', [App\Http\Controllers\Vendors\VendorController::class, 'vendorApplication'])->name('adminApplication');
+        Route::post('/update-product-status', [App\Http\Controllers\Admin\ProductController::class, 'changeStatus'])->name('changeStatuss');
+        Route::get('/orders', [App\Http\Controllers\Admin\DashboardController::class, 'allOrder'])->name('allOrderAdmin');
+        Route::get('/vendor-application', [App\Http\Controllers\Vendor\VendorController::class, 'vendorApplication'])->name('adminApplication');
         Route::get('commission',  [App\Http\Controllers\CommissionController::class, 'index'])->name('getComissin');
         Route::post('/add-edit-commission', [App\Http\Controllers\CommissionController::class, 'addEditCommission'])->name('addEditCommission');
-        Route::get('/money-withdraw-requests', [App\Http\Controllers\Vendors\VendorPaymentController::class, 'withdrawRequest'])->name('withdrawRequestAdmin');
-        Route::post('/money-send', [App\Http\Controllers\Vendors\VendorPaymentController::class, 'paymentSend'])->name('paymentSend');
+        Route::get('/money-withdraw-requests', [App\Http\Controllers\Vendor\VendorPaymentController::class, 'withdrawRequest'])->name('withdrawRequestAdmin');
+        Route::post('/money-send', [App\Http\Controllers\Vendor\VendorPaymentController::class, 'paymentSend'])->name('paymentSend');
         Route::get('/money-trasferd', [App\Http\Controllers\Admin\DashboardController::class, 'withdrawAmount'])->name('withdrawAmount');
 
 
@@ -79,52 +79,59 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 
 Route::get('/paypel', [App\Http\Controllers\Admin\PaypelController::class, 'paypel'])->name('paypel');
 
-Route::prefix('/vendor')->namespace('App\Http\Controllers\Vendors')->group(function(){
+
+
+
+Route::prefix('/vendor')->namespace('App\Http\Controllers\Vendor')->group(function(){
+
+Route::post('/dashbo', [App\Http\Controllers\Vendor\VendorController::class, 'vendorlogin'])->name('vendorLogin');
 
     Route::group(['middleware'=>['vendor']],function(){
 
+        Route::get('/vemd', [App\Http\Controllers\Vendor\DashboardController::class, 'index'])->name('vendorDashboard');
+
         Route::get('/users-invoice/{id}', [App\Http\Controllers\Frontend\FrontendController::class, 'cartInvoice'])->name('cartInvoiceAdmin');
         Route::get('/users-invoice-pdf/{id}', [App\Http\Controllers\Frontend\FrontendController::class, 'cartInvoicePDF'])->name('cartInvoicePDFAdmin');
-
-
-        Route::get('/dashboard', [App\Http\Controllers\Vendors\DashboardController::class, 'index'])->name('vendorDashboard');
-        Route::get('/logout', [App\Http\Controllers\Vendors\VendorController::class, 'logout'])->name('logoutvendor');
-        Route::get('vendor-home', [App\Http\Controllers\Admin\AdminController::class, 'vendorHome'])->name('vendorHome1');
+        Route::get('/products', [App\Http\Controllers\Vendor\DashboardController::class, 'product'])->name('vendorProduct');
+        Route::get('/logout', [App\Http\Controllers\Vendor\VendorController::class, 'logout'])->name('logoutvendor');
+        Route::get('vendor-home', [App\Http\Controllers\Vendor\VendorController::class, 'vendorHome'])->name('vendorHome1');
         // update vendor details
-        Route::post('/update/password', [App\Http\Controllers\Admin\AdminController::class, 'updatePassword'])->name('updatePassword1');
-        Route::get('/vendor-details', [App\Http\Controllers\Admin\AdminController::class, 'adminDetails'])->name('vendorDetails');
-        Route::post('/update/admin/details', [App\Http\Controllers\Admin\AdminController::class, 'updateAdminDetails'])->name('updateAdminDetails1');
-        Route::post('/check-current-pwd', [App\Http\Controllers\Admin\AdminController::class, 'updateAdminPasword'])->name('updateAdminPasword1');
+        Route::post('/update/password', [App\Http\Controllers\Vendor\VendorController::class, 'updatePassword'])->name('updatePasswordvendor');
+        Route::get('/vendor-details', [App\Http\Controllers\Vendor\VendorController::class, 'adminDetails'])->name('vendorDetails');
+        Route::post('/update/vendor/details', [App\Http\Controllers\Vendor\VendorController::class, 'updateVendorDetails'])->name('updateVendorDetails');
+        Route::post('/check-current-pwd', [App\Http\Controllers\Vendor\VendorController::class, 'updateAdminPasword'])->name('updateAdminPasword1');
         // products
-        Route::get('/products', [App\Http\Controllers\Admin\ProductController::class, 'index'])->name('VendorproductIndex');
-        Route::match(['get','post'],'/add-edit-products/{id?}', [App\Http\Controllers\Admin\ProductController::class, 'addEditProduct'])->name('VendoraddEditProduct');
-        Route::get('product-destroy/{id}', [App\Http\Controllers\Admin\ProductController::class, 'destroy'])->name('VendorproductDestroy');
-        Route::post('/update-product-status', [App\Http\Controllers\Admin\ProductController::class, 'VendorproductStatusUpdate']);
+        Route::match(['get','post'],'/add-edit-products/{id?}', [App\Http\Controllers\Vendor\ProductController::class, 'addEditProduct'])->name('VendoraddEditProduct');
+
+        Route::get('products-detaile-show/{id}', [App\Http\Controllers\Vendor\ProductController::class, 'detaileshow'])->name('detaileshow');
+
+
+
+        Route::get('product-destroy/{id}', [App\Http\Controllers\Vendor\ProductController::class, 'destroy'])->name('VendorproductDestroy');
+        Route::post('/update-product-status', [App\Http\Controllers\Vendor\ProductController::class, 'VendorproductStatusUpdate']);
         //shoSetting
-        Route::post('/update-product-status', [App\Http\Controllers\Admin\ProductController::class, 'VendorproductStatusUpdate']);
-        Route::match(['get','post'],'/kennel-add-edit/{id?}', [App\Http\Controllers\Vendors\ShopSettingController::class, 'kennelsEditUpdate'])->name('kennelsEditUpdate');
+        Route::match(['get','post'],'/kennel-add-edit/{id?}', [App\Http\Controllers\Vendor\ShopSettingController::class, 'kennelsEditUpdate'])->name('kennelsEditUpdate');
         Route::match(['get','post'],'/add-edit-kennel-banners/{id?}', [App\Http\Controllers\KennelBannerController::class, 'addEditKennelBanner'])->name('addEditKennelBanner');
-        // Route::match(['get','post'],'/add-edit-puppy-images/{id?}', [App\Http\Controllers\Admin\PuppyImgController::class, 'addEditPuppyImage'])->name('addEditPuppyImage');
         Route::get('/add-edit-puppy-images/{id?}', [App\Http\Controllers\Admin\PuppyImgController::class, 'addimage'])->name('addimage');
         Route::post('/add-edit-puppy-images', [App\Http\Controllers\Admin\PuppyImgController::class, 'addEditPuppyImage'])->name('addEditPuppyImage');
-        Route::get('/vendor-application', [App\Http\Controllers\Vendors\VendorController::class, 'vendorApplication'])->name('vendorApplication');
-        Route::get('/application-detail/{id}', [App\Http\Controllers\Vendors\VendorController::class, 'applicationDetails'])->name('applicationDetails');
+        Route::get('/vendor-application', [App\Http\Controllers\Vendor\VendorController::class, 'vendorApplication'])->name('vendorApplication');
+        Route::get('/application-detail/{id}', [App\Http\Controllers\Vendor\VendorController::class, 'applicationDetails'])->name('applicationDetails');
+        Route::post('/application-reject', [App\Http\Controllers\Vendor\VendorController::class, 'rejectApplication'])->name('rejectApplication');
         /// order routes
-        Route::get('/all-orders', [App\Http\Controllers\Admin\OrderController::class, 'allOrder'])->name('allOrderVendor');
-        Route::post('/OrderStore', [App\Http\Controllers\Admin\OrderController::class, 'OrderStore'])->name('OrderStore');
-        Route::post('/order-created', [App\Http\Controllers\Admin\OrderController::class, 'OrderCreated'])->name('OrderCreated');
-        Route::post('/order-log', [App\Http\Controllers\Admin\OrderController::class, 'OrderLog'])->name('OrderLog');
+        Route::get('/all-orders', [App\Http\Controllers\Vendor\OrderController::class, 'allOrder'])->name('allOrderVendor');
+        Route::post('/OrderStore', [App\Http\Controllers\Vendor\OrderController::class, 'OrderStore'])->name('OrderStore');
+        Route::post('/order-created', [App\Http\Controllers\Vendor\OrderController::class, 'OrderCreated'])->name('OrderCreated');
+        Route::post('/order-log', [App\Http\Controllers\Vendor\OrderController::class, 'OrderLog'])->name('OrderLog');
         Route::post('/vendor-approved',  [App\Http\Controllers\CommissionController::class, 'confirmAccountApproved'])->name('confirmAccountApproved');
-        Route::match(['get','post'],'add-edit-vendor-payments/{id?}', [App\Http\Controllers\CommissionController::class, 'addEditVendorPayments'])->name('addEditVendorPayments');
-        Route::get('/money-withdraw-requests', [App\Http\Controllers\CommissionController::class, 'withdrawRequest'])->name('withdrawRequest');
+        Route::get('/money-withdraw-requests', [App\Http\Controllers\Vendor\VendorController::class, 'withdrawRequest'])->name('withdrawRequest');
         Route::post('/money-withdraw', [App\Http\Controllers\CommissionController::class, 'withdrawRequestStore'])->name('withdrawRequestStore');
-
-        Route::get('/chat', [App\Http\Controllers\Vendors\ChatController::class, 'index'])->name('vendorChat');
-        Route::get('/chat-details/{name}', [App\Http\Controllers\Vendors\VendorController::class, 'chatDetails'])->name('chatDetails');
-        Route::post('/vendor-reply', [App\Http\Controllers\Vendors\VendorController::class, 'vendorReply'])->name('vendorReply');
+        Route::get('/chat', [App\Http\Controllers\Vendor\ChatController::class, 'index'])->name('vendorChat');
+        Route::get('/chat-details/{name}', [App\Http\Controllers\Vendor\ChatController::class, 'chatDetails'])->name('chatDetails');
+        Route::get('/applications/{id}', [App\Http\Controllers\Vendor\DashboardController::class, 'applications'])->name('applications');
+        Route::post('/vendor-reply', [App\Http\Controllers\Vendor\VendorController::class, 'vendorReply'])->name('vendorReply');
         // Stripe Account
-        Route::get('/add-stripe-account', [App\Http\Controllers\Vendors\DashboardController::class, 'addBankDetails'])->name('addBankAccount');
-        Route::get('/update-stripe-account', [App\Http\Controllers\Vendors\DashboardController::class, 'changeStatusApprove'])->name('changeStatus');
+        Route::get('/add-stripe-account', [App\Http\Controllers\Vendor\DashboardController::class, 'addBankDetails'])->name('addBankAccount');
+        Route::get('/update-stripe-account', [App\Http\Controllers\Vendor\DashboardController::class, 'changeStatusApprove'])->name('changeStatus');
 
 
     });
@@ -134,23 +141,18 @@ Route::prefix('/vendor')->namespace('App\Http\Controllers\Vendors')->group(funct
 Route::get('/', [App\Http\Controllers\Frontend\FrontendController::class, 'index'])->name('frontendHome');
 Route::get('/find-a-kennel', [App\Http\Controllers\Frontend\FrontendController::class, 'findKennel'])->name('findKennel');
 Route::get('/find-a-puppy', [App\Http\Controllers\Frontend\FrontendController::class, 'findPuppy'])->name('findPuppy');
-Route::get('/puppy-details/{slug}', [App\Http\Controllers\Frontend\FrontendController::class, 'PuppyDetails'])->name('PuppyDetails');
-
+Route::get('/puppy-details/{id}', [App\Http\Controllers\Frontend\FrontendController::class, 'PuppyDetails'])->name('PuppyDetails');
 Route::get('/store-name/{slug}', [App\Http\Controllers\Frontend\FrontendController::class, 'storeDetails'])->name('storeDetails');
 Route::get('/category-details/{id}', [App\Http\Controllers\Frontend\FrontendController::class, 'catDetails'])->name('catDetails');
 Route::get('/service', [App\Http\Controllers\Frontend\FrontendController::class, 'Ourservices'])->name('Ourservices');
 Route::get('/our_stories', [App\Http\Controllers\Frontend\FrontendController::class, 'OurStories'])->name('OurStories');
 Route::get('/contact-us', [App\Http\Controllers\Frontend\FrontendController::class, 'contactUs'])->name('contactUs');
-Route::get('/breed-questionnaire', [App\Http\Controllers\Frontend\FrontendController::class, 'userProfile'])->name('userProfile');
+// Route::get('/breed-questionnaire', [App\Http\Controllers\Frontend\FrontendController::class, 'userProfile'])->name('userProfile');
 Route::get('/available_puppy', [App\Http\Controllers\Frontend\FrontendController::class, 'availablePuppy'])->name('availablePuppy');
 Route::get('/planned-litter', [App\Http\Controllers\Frontend\FrontendController::class, 'plannedLitter'])->name('plannedLitter');
 Route::post('/apply-for-puppy', [App\Http\Controllers\CartController::class, 'applyForPuppies'])->name('applyForPuppies');
-
-
-
 Route::get('stripe', [App\Http\Controllers\Admin\StripePaymentController::class, 'stripe']);
 Route::post('/stripe-store', [App\Http\Controllers\Admin\StripePaymentController::class, 'stripePost'])->name('stripe.post');
-
 //stripe sample routess
 Route::get('/stripe-sample',[App\Http\Controllers\Admin\StripePaymentController::class,'stripeSample']);
 
@@ -170,15 +172,14 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/users-agrement', [App\Http\Controllers\Frontend\FrontendController::class, 'agrement'])->name('agrement');
     Route::get('/users-logout', [App\Http\Controllers\Frontend\FrontendController::class, 'logout'])->name('userLogout');
     Route::get('/user-shipping-address/{id}', [App\Http\Controllers\Frontend\FrontendController::class, 'shippingAddress'])->name('shippingAddress');
-
     // user routes
     Route::get('/users-profile', [App\Http\Controllers\User\UserController::class, 'userProfile'])->name('userProfile');
     Route::get('/terms-and-conditions', [App\Http\Controllers\User\UserController::class, 'termsAndConditions'])->name('termsAndConditions');
+    
     Route::get('/chat', [App\Http\Controllers\User\UserController::class, 'customerChat'])->name('customerChat');
     Route::get('/customer-chat/{id}', [App\Http\Controllers\User\UserController::class, 'chat'])->name('chat');
-    Route::post('/customer-chat-store', [App\Http\Controllers\Vendors\ChatController::class, 'chatStore'])->name('chatStore');
-
-    Route::post('/vendor-reply', [App\Http\Controllers\Vendors\VendorController::class, 'vendorReply'])->name('customerReply');
+    Route::post('/customer-chat-store', [App\Http\Controllers\Vendor\ChatController::class, 'chatStore'])->name('chatStore');
+    Route::post('/vendor-reply', [App\Http\Controllers\User\UserController::class, 'customerReply'])->name('customerReply');
 });
 
 

@@ -1,5 +1,4 @@
 {{-- <div class="col-lg-3 col-md-3 col-sm-12">
-
 	<div class="facet-filter-associates">
 		<h3 class="title-name">getCat</h3>
 
@@ -22,7 +21,6 @@
 			
 			</div>
 	</div>
-
 	<div class="facet-filter-associates">
 		<h3 class="title-name">getCountry</h3>
 			<div class="associate-wrapper">
@@ -37,7 +35,6 @@
 				
 			</div>
 	</div>
-
 	<div class="facet-filter-associates">
 		<h3 class="title-name">Color</h3>
 			<div class="associate-wrapper">
@@ -51,8 +48,6 @@
 				
 			</div>
 	</div>
-
-
 	<div class="facet-filter-associates">
 		<h3 class="title-name">getCity</h3>
 			<div class="associate-wrapper">
@@ -66,14 +61,7 @@
 
 			</div>
 	</div>
-	
 </div> --}}
-
-
-
-
-
-
 
 
 <div class="col-lg-3 col-12  pb-5 sidebarss dotted-backgroune">

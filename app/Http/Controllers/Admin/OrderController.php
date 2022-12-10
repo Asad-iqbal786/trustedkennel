@@ -16,19 +16,14 @@ use Auth;
 
 class OrderController extends Controller
 {
-    public function allOrder()
-    {
+    public function allOrder(){
         Session::put('page', 'all_orders');
-        // Session::forget('success_message');
-        $findid = Auth::guard('admin')->user()->type;
-        $vendor_id = Auth::guard('admin')->user()->vendor_id;
-
 
         // dd( $findid);
-        if ($findid == "Vendor") {
-            $getOrder =   Order::with('admins', 'users', 'vendors', 'products')->where('vendor_id', $vendor_id)->get()->toArray();
+        if (Auth::guard('vendor')->user()) {
+            $getOrder =   Order::with('users', 'vendors', 'products')->where('vendor_id', Auth::guard('vendor')->user()->vendor_id)->get()->toArray();
         } else {
-            $getOrder =   Order::with('admins', 'users', 'vendors', 'products')->get()->toArray();
+            $getOrder =   Order::with('users', 'vendors', 'products')->get()->toArray();
         }
         $orderLogs =   OrderLog::get()->toArray();
         return view('admin.order.all_order')
@@ -83,34 +78,18 @@ class OrderController extends Controller
             $order->vendor_id = $data['vendor_id'];
             $order->puppy_id = $data['puppy_id'];
             $order->user_id = $data['user_id'];
-            // $order->cart_id = $data['cart_id'];
-            // dd($order['cart_id']);
             $order->save();
-            // $id = Cart::where('id',$data['cart_id'])->select('id')->first();
-            // Cart::where('id', $id)->delete();
-            // DB::table('carts')->delete();
-            // if ($order->status == "rejact") {
-            //     $user = Cart::where('user_id',Auth::user()->id);
-            //     $user->delete();
-            // }else{
-            //     dd('not rejects');
-            // }
+
 
             $order_id = DB::getpdo()->lastInsertId();
             $orderId = Order::where('id', $order_id)->first();
             Session::put('order_id', $order_id);
-            // $admin_id = $orderId['admin_id'];
-            // $vendor_id = $orderId['vendor_id'];
-            // $pupName = $orderId['puppy_id'];
-            // $shcharges = $orderId['shipping_charges'];
 
             // emails deliver
             $userEmail = User::where('id', $data['user_id'])->first();
             $vendroEmail = Admin::where('id', $data['admin_id'])->first();
             $admin_id = "info@trustedkennels.com";
             $email = $userEmail['email'];
-
-
             $vendEmail = $vendroEmail['email'];
             $emails = [$email, $vendEmail];
             $messageData = [
@@ -125,7 +104,7 @@ class OrderController extends Controller
                 $message->to($emails)->subject('This is test e-mail');
             });
 
-            // DB::commit();
+            DB::commit();
             $message = "Your Status hase been changed ";
             Session::put('success_message', $message);
             return redirect()->back();

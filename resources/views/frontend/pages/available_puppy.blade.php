@@ -1,6 +1,4 @@
-<?php
 
-?>
 @extends('layouts.frontend_app')
 
 @section('main-content')
@@ -19,7 +17,7 @@
 
     <div class="card-wrapper">
         <div class="card">
-            @if ($imgCount == 0)
+            {{-- @if ($imgCount == 0)
                 <div class="product-imgs">
                     <div class="img-display">
                         <div class="img-showcase">
@@ -54,8 +52,27 @@
                         </div>
                     </div>
                 </div>
-            @endif
+            @endif --}}
+            <div class="product-imgs">
+                <div class="img-display">
+                    <div class="img-showcase">
+                        <img
+                            src="{{ asset('storage/admin/images/admin_photos/product_small/' . $puppyDetails['product_images']) }}">
+                    </div>
+                </div>
 
+
+                <div class="row justify-content-center ">
+                    <div class="align-items-center img-select text-center w-75">
+                        <div class="img-item">
+                            <a href="#" data-id="">
+                                <img src=" {{ asset('storage/admin/images/admin_photos/product_small/' . $puppyDetails['product_images']) }}"
+                                    alt="shoe image">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="product-content">
                 <h2 class="product-titles">{{ $puppyDetails['sire_name'] }}</h2>
                 <p></p>
@@ -71,7 +88,7 @@
 
                 <div class="product-price">
                     <p class="last-price"> {{ $puppyDetails['gender'] }} {{ $puppyDetails['date_of_birth'] }} </p>
-                    <p class="new-price"> $ {{ $puppyDetails['puppy_price'] }} </p>
+                    <p class="new-price"> $ {{ $puppyDetails['price'] }} </p>
                 </div>
 
                 <div class="d mb-3">
@@ -99,9 +116,9 @@
                         @endif
                         <form action="{{ route('applyForPuppies') }}" method="post">@csrf
 
-                            <input type="hidden" name="puppy_id" id="" value="{{ $puppyDetails['id'] }}">
+                            <input type="hidden" name="product_id" id="" value="{{ $puppyDetails['id'] }}">
                             <input type="hidden" name="vendor_id" id="" value="{{ $puppyDetails['vendor_id'] }}">
-                            <input type="hidden" name="price" id="" value="{{ $puppyDetails['puppy_price'] }}">
+                            <input type="hidden" name="price" id="" value="{{ $puppyDetails['price'] }}">
                             <div class="text-center">
                                 <button type="submit" class="btn btn-info-black-outline mr-4 w-25">ADOPT</button>
                             </div>
@@ -160,9 +177,10 @@
                                         </div>
                                     </form>
                                 @else
-                                <div class="form-group text-center">
-                                    <a  href="{{ route('loginPage')}}" class="btn btn-info"> Please login user account first</a>
-                                </div>
+                                    <div class="form-group text-center">
+                                        <a href="{{ route('loginPage') }}" class="btn btn-info"> Please login user
+                                            account first</a>
+                                    </div>
                                 @endif
 
 
@@ -199,7 +217,7 @@
                                 <li>REGISTRATION NUMBER : {{ $puppyDetails['sire_registration'] }}</li>
                                 <li>PEDIGREE :{{ $puppyDetails['description'] }}</li>
                                 <li>hEIGHT :{{ $puppyDetails['sire_height'] }} </li>
-                                <li>WEIGHT :{{ $puppyDetails['sire_weight_measure'] }} </li>
+                                {{-- <li>WEIGHT :{{ $puppyDetails['sire_weight_measure'] }} </li> --}}
                                 <li>HEALTH TESTS : {{ $puppyDetails['dam_health_tests_conducted'] }} </li>
                             </ul>
                         </div>
@@ -208,7 +226,7 @@
                         <div class="img-item">
                             <a href="#" data-id="3">
                                 <img class="ml-md-auto"
-                                    src="{{ asset('storage/admin/images/admin_photos/product_large/' . $puppyDetails['image']) }}"
+                                    src=" {{ asset('storage/admin/images/admin_photos/product_small/' . $puppyDetails['product_images']) }}"
                                     alt="shoe image" width="75%"style="    width: 344px;">
                             </a>
                         </div>

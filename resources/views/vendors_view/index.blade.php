@@ -1,27 +1,27 @@
 @extends('layouts.admin_app')
 
 @section('main-content')
-    @if($stripeAccount->status === 0)
-    <div class="alert alert-warning d-flex justify-content-between">
-        <span>
-        Your account dont have bank details please click here to add
-        </span>
-        <a href="{{route('addBankAccount')}}" class="btn btn-warning btn-sm">Add</a>
-    </div>
+    @if ($stripeAccount->status === 0)
+        <div class="alert alert-warning d-flex justify-content-between">
+            <span>
+                Your account dont have bank details please click here to add
+            </span>
+            <a href="{{ route('addBankAccount') }}" class="btn btn-warning btn-sm">Add</a>
+        </div>
     @endif
     <?php
-
+    
     $month = [];
     $count = 0;
     while ($count <= 4) {
         $month[] = date('M', strtotime('-' . $count . 'month'));
         $count++;
     }
-
+    
     $totalSale = [['y' => $userCount[4], 'label' => $month[4]], ['y' => $userCount[3], 'label' => $month[3]], ['y' => $userCount[2], 'label' => $month[2]], ['y' => $userCount[1], 'label' => $month[1]], ['y' => $userCount[0], 'label' => $month[0]]];
-
+    
     //  echo "<pre>"; print_r($userCount); die;
-
+    
     ?>
     <?php
     $monthVisits = [];
@@ -31,7 +31,7 @@
         $count++;
     }
     $totalVisits = [['y' => $userCount[4], 'label' => $monthVisits[4]], ['y' => $userCount[3], 'label' => $monthVisits[3]], ['y' => $userCount[2], 'label' => $monthVisits[2]], ['y' => $userCount[1], 'label' => $monthVisits[1]], ['y' => $userCount[0], 'label' => $monthVisits[0]]];
-
+    
     ?>
 
 
@@ -40,15 +40,10 @@
             <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
                     <h3 class="font-weight-bold">Welcome
-
-                        @if (!empty(Auth::guard('admin')->user()->type == 'Vandor'))
-                            {{ Auth::guard('admin')->user()->first_name }}
-                        @else
-                            {{ Auth::guard('admin')->user()->first_name }}
-                        @endif
+                        {{ Auth::guard('vendor')->user()->first_name }}
                     </h3>
-                    <h6 class="font-weight-normal mb-0">You have <span class="text-primary"><a
-                                href="{{ route('vendorApplication') }}"> {{ $count }} new applications</a></span>
+                    <h6 class="font-weight-normal mb-0">You have <span class="text-primary">
+                        <a href="{{ route('vendorApplication') }}"> {{ $numberOfApplication }} New Applications</a></span>
                     </h6>
 
                 </div>
@@ -60,56 +55,90 @@
             </div>
         </div>
     </div>
-    <div class="container pt-5 pb-5">
+    <div class="container-fluid pt-5 pb-5">
         <div class="row">
-            
-            <div class="col-6">
-                <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+            <div class="col-12 col-md-12 col-lg-4  col-xl-4 grid-margin stretch-card">
+                <div class="card tale-bg mb-xl-n5">
+                    <div class="card-people mt-auto">
+                        <img src="{{ asset('admin/images/dashboard/people.svg') }}" alt="people">
+                        {{-- <div class="weather-info">
+                            <div class="d-flex">
+                                <div>
+                                    <h2 class="mb-0 font-weight-normal"><i class="icon-sun mr-2"></i>31<sup>C</sup></h2>
+                                </div>
+                                <div class="ml-2">
+                                    <h4 class="location font-weight-normal">Bangalore</h4>
+                                    <h6 class="font-weight-normal">India</h6>
+                                </div>
+                            </div>
+                        </div> --}}
+                    </div>
+                </div>
             </div>
-            <div class="col-6">
-                <div id="visits" style="height: 370px; width: 100%;"></div>
+            <div class="col-12 col-md-12 col-lg-4  col-xl-4">
+                <div class="card tale-bg pl-3 pt-3">
+                    {{-- <div class="card-body">
+                        <h4 class="card-title">Line chart</h4>
+                        <canvas id="lineChart"></canvas>
+                      </div> --}}
+                    <div id="chartContainer" style="height: 370px; width: 100%;" class=""></div>
+
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-4  col-xl-4">
+                <div class="card tale-bg pl-3 pt-3">
+                    {{-- <div class="card-body">
+                        <h4 class="card-title">Line chart</h4>
+                        <canvas id="lineChart"></canvas>
+                      </div> --}}
+                    <div id="visits" style="height: 370px; width: 100%;"></div>
+
+                </div>
             </div>
         </div>
-       
-    </div>
-
-    <div class="row">
-        <div class="col-md-6 mb-4 stretch-card transparent">
-            <div class="card card-tale">
-                <div class="card-body">
-                    <h2 class="text-center">Reservations </h2>
-                    <div class="row pt-4 ">
-                        <div class="col-6 text-center">
-                            <p>Available Dogs</p>
-                            <p>{{ $countAvailablePuppy }}</p>
+        <div class="row justify-content-center pt-5">
+            <div class="col-12 col-md-6 col-lg-6 grid-margin stretch-card">
+                <div class="card tale-bg">
+                    <div class="card-people">
+                        <h2 class="text-center">Reservations </h2>
+                        <div class="row pt-4  font-weight-bold pt-5 ">
+                            <div class="col-6 text-center order_sum">
+                                <h6> {{ $avail }}</h6>
+                                <h2>Available Dogs</h2>
+                            </div>
+                            <div class="col-6 text-center order_sum">
+                                <h2>{{ $plan }}</h2>
+                                <h2>Planned Litter</h2>
+                            </div>
                         </div>
-                        <div class="col-6 text-center">
-                            <p>Planned Litter</p>
-                            <p>{{ $countPlanedPuppy }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-6 grid-margin stretch-card">
+                <div class="card tale-bg">
+                    <div class="card-people">
+                        <h2 class="text-center">Balance </h2>
+                        <div class="row pt-4 font-weight-bold pt-5 ">
+                            <div class="col-6 text-center order_sum">
+                                <h2> 1200 </h2>
+                                <h2> Available</h2>
+                                <div class="order_cruncy">
+                                    $
+                                </div>
+                            </div>
+                            <div class="col-6 text-center order_sum">
+                                <h2> 2700</h2>
+                                <h2>Total</h2>
+                                <div class="order_cruncy">
+                                    $
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6 mb-4 stretch-card transparent">
-            <div class="card card-tale">
-                <div class="card-body">
-                    <h2 class="text-center">Balance </h2>
-                    <div class="row pt-4 ">
-                        <div class="col-6 text-center">
-                            <p>Available </p>
-                            <p>{{ $orderSum }}</p>
-                        </div>
-                        <div class="col-6 text-center">
-                            <p>Pending </p>
-                            <p>orderSum</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
-
 
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
@@ -122,6 +151,7 @@
                             <thead>
                                 <tr>
                                     <th> # </th>
+                                    <th> IMG </th>
                                     <th>Puppy</th>
                                     <th>Breed</th>
                                     <th>Post Type</th>
@@ -133,36 +163,43 @@
                                 @forelse ($getProduct as $key =>  $pro)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
+                                        <td>
+                                            <img class="default-img"
+                                                src="{{ asset('admin/images/admin_photos/product/product_images/small/' . $pro['product_images']) }}"
+                                                alt="#" style="width: 50px">
+                                        </td>
                                         <td>{{ $pro['sire_name'] }}</td>
                                         <td>{{ $pro['category']['name'] }}</td>
-                                        <td>{{ $pro['produt_type_id'] }}</td>
                                         <td>
-                                            <p class="badge badge-danger"> Reject </p>
+                                            @if ($pro['produt_type_id'] == 1)
+                                                Available Puppy
+                                            @else
+                                                Planned Litter
+                                            @endif
                                         </td>
-
-
+                                        <td>
+                                            <p class="badge badge-danger"> Pending </p>
+                                        </td>
                                         <td class="font-weight-medium">
 
-                                            @if (Auth::guard('admin')->user()->type == 'Vendor')
-                                            @else
-                                                @if ($pro['status'] == 1)
-                                                    <a class="updateProductStatus" id="product-{{ $pro['id'] }}"
-                                                        product_id="{{ $pro['id'] }}" href="javascript:(0)">Active</a>
-                                                @else
-                                                    <a class="updateProductStatus" id="product-{{ $pro['id'] }}"
-                                                        product_id="{{ $pro['id'] }}" href="javascript:(0)">Inactive</a>
-                                                @endif
-                                            @endif
-                                            <a href="" target="blank" data-toggle="modal"
-                                                data-target="#exampleModal-{{ $pro['id'] }}">
-                                                <i class="mdi mdi-eye" style="font-size: 25px;"></i>
+                                            <a href="{{ route('detaileshow', $pro['id']) }}" class="pr-2">
+                                                <img src="{{ asset('admin/icons/View.png') }}" alt=""
+                                                    style="width:20px;">
+                                            </a>
+                                         
+                                            <a href="{{ route('VendoraddEditProduct', $pro['id']) }}" class="pr-2">
+                                                <img src="{{ asset('admin/icons/Edit.png') }}" alt=""
+                                                    style="width:20px;">
+                                            </a>
+                                          
+                                            <a href="{{ route('VendorproductDestroy', $pro['id']) }}" class="pr-2" onclick="return confirm('Are you sure to delete?')">
+                                                <img src="{{ asset('admin/icons/Delete.png') }}" alt=""
+                                                    style="width:20px;">
                                             </a>
                                         </td>
                                     </tr>
                                 @empty
                                 @endforelse
-
-
                             </tbody>
                         </table>
                     </div>
@@ -180,12 +217,7 @@
                         <div class="modal-body">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">tProduc Name : {{ $product['sire_name'] }}</h4>
-                                    <p class="card-description">
-                                        {{-- Add class <code>.table-bordered</code> --}}
-                                    </p>
-
-
+                                    <h4 class="card-title">Puppy Name : {{ $product['sire_name'] }}</h4>
                                     <div class="table-responsive pt-3">
                                         <table class="table table-bordered">
                                             <thead>
@@ -207,16 +239,16 @@
                                             <tbody>
                                                 <tr>
                                                     <td>
-                                                        category_id
+                                                        Breeds
                                                     </td>
                                                     <td>
-                                                        {{ $product['category_id'] }}
+                                                        {{ $product['category']['name'] }}
                                                     </td>
                                                     <td>
-                                                        sire_name
+                                                        Puppy Name
                                                     </td>
                                                     <td>
-                                                        {{ $product['sire_name'] }}
+                                                        {{ $product['product_name'] }}
                                                     </td>
                                                 </tr>
 
@@ -231,7 +263,7 @@
                                                         sire_pedigree_link
                                                     </td>
                                                     <td>
-                                                        {{ $product['sire_pedigree_link'] }}
+                                                        {{ $product['pedigree_link'] }}
                                                     </td>
                                                 </tr>
 
@@ -240,11 +272,11 @@
                                                         Status
                                                     </td>
                                                     <td>
-                                                        @if ($pro['status'] == 1)
+                                                        {{-- @if ($pro['status'] == 1)
                                                             <p class="badge badge-success"> Accept </p>
                                                         @else
                                                             <p class="badge badge-danger"> Reject </p>
-                                                        @endif
+                                                        @endif --}}
                                                     </td>
 
                                                     <td>
@@ -254,7 +286,7 @@
                                                         {{ $product['sire_weight'] }}
                                                     </td>
                                                 </tr>
-                                                @if ($product['status'] == 0)
+                                                {{-- @if ($product['status'] == 0)
                                                     <td>
                                                         Reson
                                                     </td>
@@ -267,7 +299,7 @@
                                                     <td>
                                                         {{ $product['reason'] }}
                                                     </td>
-                                                @endif
+                                                @endif --}}
                                                 <tr>
 
                                                 </tr>
@@ -280,26 +312,26 @@
                                                         {{ $product['sire_height'] }}
                                                     </td>
                                                     <td>
-                                                        sire_health_tests
+                                                        sire_height
                                                     </td>
                                                     <td>
-                                                        {{ $product['sire_health_tests'] }}
+                                                        {{ $product['sire_height'] }}
                                                     </td>
                                                 </tr>
 
 
                                                 <tr>
                                                     <td>
-                                                        dam_name_with_titles
+                                                        dam_name
                                                     </td>
                                                     <td>
-                                                        {{ $product['dam_name_with_titles'] }}
+                                                        {{ $product['dam_name'] }}
                                                     </td>
                                                     <td>
-                                                        dam_registration_number
+                                                        dam_registration
                                                     </td>
                                                     <td>
-                                                        {{ $product['dam_registration_number'] }}
+                                                        {{ $product['dam_registration'] }}
                                                     </td>
                                                 </tr>
 
@@ -310,7 +342,7 @@
                                                         dam_pedigree_link
                                                     </td>
                                                     <td>
-                                                        {{ $product['dam_pedigree_link'] }}
+                                                        {{ $product['dam_link'] }}
                                                     </td>
                                                     <td>
                                                         dam_weight
@@ -355,33 +387,65 @@
         @endforelse
 
     </div>
-
-
-
 @endsection
 
+@push('styles')
+    <style>
+        .order_sum h6 {
+            font-size: 34px;
+            font-weight: 600;
+
+        }
+
+        .order_sum p {
+            font-weight: 900;
+            font-size: 14px;
+            padding-bottom: 11px;
+        }
+
+        .order_sum {
+            position: relative;
+        }
+
+        .card-people .weather-info {
+            position: absolute;
+            top: -83px;
+            right: 24px;
+        }
+
+        .order_cruncy {
+            position: relative;
+            right: 50px;
+            bottom: 101px;
+        }
+    </style>
+@endpush
+
 @push('scripts')
-    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="{{ asset('admin/js/canvasjs.min.js') }}"></script>
+    {{-- <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script> --}}
 
     <script>
         window.onload = function() {
             var totalSales = new CanvasJS.Chart("chartContainer", {
+                backgroundColor: "#DAE7FF",
+
                 title: {
-                    text: "Sale"
-                },
-                axisY: {
-                    // title: "Number of Push-ups"
+                    fontWeight: "normal",
+                    text: "Orders",
                 },
                 data: [{
                     type: "line",
+                    radius: "90%",
                     dataPoints: <?php echo json_encode($totalSale, JSON_NUMERIC_CHECK); ?>
                 }]
             });
             totalSales.render();
             //
             var visits = new CanvasJS.Chart("visits", {
+                backgroundColor: "#DAE7FF",
                 title: {
-                    text: "Custoomer visits"
+                    text: "Customer visits"
                 },
                 axisY: {
                     // title: "Revenue in USD",
@@ -389,6 +453,7 @@
                 },
                 data: [{
                     type: "line",
+                    radius: "90%",
                     dataPoints: <?php echo json_encode($totalVisits, JSON_NUMERIC_CHECK); ?>
                 }]
             });

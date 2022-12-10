@@ -15,7 +15,7 @@ class Cart extends Model
 
     public function products()
     {
-       return $this->belongsTo('App\Models\Product','puppy_id');
+       return $this->belongsTo('App\Models\Product','product_id');
     }
 
     public function users()

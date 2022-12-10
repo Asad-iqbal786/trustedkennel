@@ -40,7 +40,7 @@
                                 <tr>
                                     <th scope="row">1</th>
                                     <td>{{   $cart['vendors']['kennel_name'] }}</td>
-                                    <td>{{   $cart['products'] ['sire_name'] }}</td>
+                                    <td>{{   $cart['products'] ['product_name'] }}</td>
                                     <td>
                                         <span class="badge badge-primary">{{   $cart['status'] }}</span>
                                     </td>

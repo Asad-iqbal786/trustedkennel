@@ -21,15 +21,9 @@ class ProductController extends Controller
 
         Session::put('page', 'all_products');
 
-        // $VendorId = Auth::guard('admin')->user()->id;
 
-        if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->type == ('Vendor')) {
-
-            $getProduct = Product::where('admin_id', Auth::guard('admin')->user()->id)->with('category', 'admins')->get()->toArray();
-        } else {
-            $getProduct = Product::with('category', 'admins')->get()->toArray();
-        }
-
+            $getProduct = Product::with('category', 'vendors')->get()->toArray();
+   
         return view('admin.cateloge.product.index')
             ->with('getProduct', $getProduct);
     }
@@ -64,8 +58,6 @@ class ProductController extends Controller
     }
     public function addEditProduct(Request $request, $id = null)
     {
-
-
         if ($id == "") {
             $title = "Add new Post";
             $product = new Product;
@@ -203,6 +195,13 @@ class ProductController extends Controller
             $product->dam_height = $data['dam_height'];
             $product->dam_height_measure = $data['dam_height_measure'];
             $product->puppy_price = $data['puppy_price'];
+
+            if ($data['produt_type_id'] == "Planned Litter") {
+                $product->reservation = $data['reservation'];
+            } else {
+                $product->reservation = 0;
+            }
+            
             $product->dam_health_tests_conducted = $data['dam_health_tests_conducted'];
             $product->description = $data['description'];
             $product->status = $status;
@@ -210,7 +209,7 @@ class ProductController extends Controller
             // dd($product);
             $product->save();
             Session::flash('success_message', $message);
-            return redirect()->route('productIndex');
+            return redirect()->back();
         }
         $getCategory = Category::get()->toArray();
         $getProductType = ProductType::get()->toArray();
@@ -226,17 +225,16 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
+   
+
+        Storage::disk('public')->put('admin/images/admin_photos/products/' , $product->image);
+        Storage::disk('public')->put('admin/images/admin_photos/product_small/' , $product->image);
+        Storage::disk('public')->put('admin/images/admin_photos/product_medium/' , $product->image);
+        Storage::disk('public')->put('admin/images/admin_photos/product_large/' , $product->image);
+
         $product->delete();
         // dd($category->category_image);
 
-
-        Storage::disk('public')->put('admin/images/admin_photos/products/' . $product->image);
-        Storage::disk('public')->put('admin/images/admin_photos/product_small/' .  $product->image);
-        Storage::disk('public')->put('admin/images/admin_photos/product_medium/' .  $product->image);
-        Storage::disk('public')->put('admin/images/admin_photos/product_large/' .  $product->image);
-
-
-        $product->delete();
         Session::flash('success_message', 'Product Delete successfully ! ');
         return redirect()->back();
     }

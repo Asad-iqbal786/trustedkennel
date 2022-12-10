@@ -1,6 +1,6 @@
 
 
-@if (Auth::guard('admin')->user()->type==('superadmin'))
+@if (Auth::guard('admin')->user())
 
       @include('admin.partials.admin_sidebar')
 

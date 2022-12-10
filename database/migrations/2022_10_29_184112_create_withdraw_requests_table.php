@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('withdraw_requests', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('admin_id');
-            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
+            $table->unsignedBigInteger('vendor_id');
+            $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('cascade');
             $table->string('amount');
             $table->text('message');
             $table->string('status');

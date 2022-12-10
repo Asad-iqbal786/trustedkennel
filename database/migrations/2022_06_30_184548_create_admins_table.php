@@ -17,16 +17,17 @@ return new class extends Migration
             $table->id();
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('type');
-            $table->string('vendor_type')->nullable();
-            $table->decimal('total_sale')->nullable();
-            $table->decimal('commission')->nullable();
+            // $table->string('type');
+            // $table->string('vendor_type')->nullable();
+            // $table->decimal('total_sale')->nullable();
+            // $table->decimal('commission')->nullable();
             $table->string('mobile');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('admin_image')->nullable();
-            $table->tinyInteger('status');
-            $table->tinyInteger('approved')->nullable();
+            // $table->string('admin_image')->nullable();
+            $table->string('image')->nullable();
+            // $table->tinyInteger('status');
+            // $table->tinyInteger('approved')->nullable();
             $table->timestamps();
         });
     }

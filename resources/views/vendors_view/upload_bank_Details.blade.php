@@ -4,7 +4,7 @@
 
      <div class="alert alert-danger" role="alert">
         Please complete your
-        <a href="#" class="alert-link">Bank details.</a>
+        <a href="{{route('addBankAccount')}}" target="_blank" class="alert-link">Bank details.</a>
     </div>
 
 @endsection

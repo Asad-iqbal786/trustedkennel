@@ -12,6 +12,9 @@ use App\Models\Chat;
 use App\Models\ChatMessage;
 use App\Models\Order;
 use App\Models\Vendor;
+
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class UserController extends Controller
@@ -35,7 +38,6 @@ class UserController extends Controller
  
        $getUserCart = Cart::with('products', 'vendors')->where('user_id', Auth::user()->id)->get()->toArray();
  
-       // echo "<pre>"; print_r($getUserCart);die;
  
        return view('user.include.cart')->with('getUserCart', $getUserCart);
     }
@@ -43,10 +45,11 @@ class UserController extends Controller
     {
        Session::put('page', 'user_notification');
  
-       $getUserCart = Order::with('products', 'vendors')->where('user_id', Auth::user()->id)->get()->toArray();
+       $getUserOrder = Order::with('products', 'vendors')->where('user_id', Auth::user()->id)->get()->toArray();
  
+      //  echo "<pre>"; print_r($getUserOrder);die;
  
-       return view('user.include.user_order')->with('getUserCart', $getUserCart);
+       return view('user.include.user_order')->with('getUserOrder', $getUserOrder);
     }
 
 
@@ -74,6 +77,46 @@ class UserController extends Controller
        ->with('vendorChat',$vendorChat)
        ->with('getChat',$getChat)
        ->with('vendChat',$vendChat);
+    }
+    
+
+    public function customerReply(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+
+         //  echo "<pre>"; print_r($data);die;
+
+            $rules = [
+                'images' => 'image'
+            ];
+            $customMessages = [
+                'images.image' => 'Valid image is required',
+            ];
+            $this->validate($request, $rules, $customMessages);
+            $mesg = new ChatMessage;
+
+            if (!empty($data['images'])) {
+                $image_tmp = $request->file('images');
+                $extention = $image_tmp->getClientOriginalExtension();
+                $adminImage = rand(111, 99999) . '.' . $extention;
+                $imagePath = 'admin/images/admin_photos/chat_images/' . $adminImage;
+                Image::make($image_tmp)->save($imagePath);
+              }else{
+                $adminImage = 0;
+              }
+
+            $mesg->images = $adminImage;
+            $mesg->user_id = $data['user_id'];
+            $mesg->type = $data['type'];
+            $mesg->chat_id = $data['chat_id'];
+            $mesg->vendor_id = $data['vendor_id'];
+            $mesg->messages = $data['messages'];
+            // dd($mesg);
+            $mesg->save();
+            // Session::flash('success_message',$message);
+            return redirect()->back();
+        }
     }
  
     public function addEditApplication(Request $request, $id = null)

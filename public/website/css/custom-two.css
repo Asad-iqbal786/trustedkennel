@@ -1,3 +1,122 @@
+.services-textsss {
+    position: absolute;
+    top: 150px;
+    left: 32%;
+    color: white;
+}
+
+.bgcolor {
+    top: 0;
+    background: black;
+    height: 100%;
+    left: 15px;
+    width: 94%;
+    opacity: 0.5;
+}
+
+
+.services-textsss.bgcolor a {
+    text-align: center;
+    top: 162px;
+    z-index: 0;
+}
+
+.aria-img {
+    position: relative;
+}
+
+.aria-text {
+    position: absolute;
+    width: 50%;
+    top: 169px;
+    left: 58px;
+    color: white;
+}
+
+.aria-text h2 {
+    color: white;
+}
+
+.aria-text p {
+    font-size: 38px;
+}
+
+/* find kannel page */
+i.fa.fa-chevron-left {
+    font-size: 30px;
+    color: black;
+    margin-right: 20px;
+}
+
+i.fa.fa-chevron-right {
+    font-size: 30px;
+    color: black;
+    margin-left: 20px;
+}
+
+
+
+.star span {
+    background: url(../frontend/images/rating-star/rating-star.png) 0 0 repeat-x;
+    height: 16px;
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+
+.star {
+    background: url(../frontend/images/rating-star/rating-star.png) 0 -16px repeat-x;
+    display: inline-block;
+    height: 16px;
+    position: relative;
+    top: 4px;
+    width: 75px;
+    margin-right: 6px;
+}
+
+.puppy_text {
+    left: 22px;
+}
+
+/* find puppy pages */
+i.fa.fa-chevron-left {
+    font-size: 30px;
+    color: black;
+    margin-right: 20px;
+}
+
+i.fa.fa-chevron-right {
+    font-size: 30px;
+    color: black;
+    margin-left: 20px;
+}
+
+
+
+
+
+.parallax-content h1 {
+    font-weight: 700;
+    font-size: 57px;
+}
+
+.parallax-content h2 {
+    font-size: 38px;
+}
+
+.parallax {
+    /* The image used */
+    background-image: url("img_parallax.jpg");
+
+    /* Set a specific height */
+    min-height: 500px;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 
 .col-lg-3.col-12.dotted-backgroune {
     padding-top: 62px;
@@ -17,12 +136,14 @@
 .search-box-grid-page {
     position: relative;
 }
+
 i.fas.fa-angle-down {
     font-size: 18px;
     color: black;
     font-weight: 600;
     font-style: normal;
 }
+
 input.search-input.search-boxss {
     border-color: rgb(0 0 0 / 19%);
     width: 510px;
@@ -37,7 +158,8 @@ input.search-input.search-boxss {
     top: 1px;
     height: 42px;
     border-left: 1px solid rgb(0 0 0 / 19%);
-    right: 146px;}
+    right: 146px;
+}
 
 .search-sidebar-box-grid-page {
     position: relative;
@@ -50,6 +172,7 @@ input.search-input.search-boxss {
     right: 0px;
     width: 182px;
 }
+
 .search-sidebar-box-grid-pagee {
     position: relative;
     left: 20px;
@@ -63,6 +186,7 @@ input.search-sidebar-input.search-sidebar-boxss {
     border-radius: 10px 10px 10px 10px;
     border: 1px solid rgb(0 0 0 / 19%);
 }
+
 .search-sidebar-icon img {
     position: absolute;
     width: 37px;
@@ -75,16 +199,18 @@ input.search-sidebar-input.search-sidebar-boxss {
     padding-left: 9px;
 }
 
-::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
     padding-left: 14px;
     padding-top: 23px;
     font-size: 16px;
-    }
+}
 
-    .row.serc {
-        margin-bottom: -13px;
-        margin-top: 0px;
-    }
+.row.serc {
+    margin-bottom: -13px;
+    margin-top: 0px;
+}
+
 .title-name {
     font-size: 13px;
     /* margin-bottom: 17px; */
@@ -116,18 +242,24 @@ p.new-price {
 .single-widget.gender {
     padding-left: 24px;
 }
+
 /*  */
 
-#chatbox{
+#chatbox {
     /* width:50%;
     border:1px solid red; */
 }
-ul li, ol li {
+
+ul li,
+ol li {
     display: block;
     margin-bottom: -9px;
 }
+
 /*MAKE CHATBOX SCROLLABLE*/
-#chatbox{height:300px;}
+#chatbox {
+    height: 300px;
+}
 
 
 .bread-crumb {
@@ -136,13 +268,15 @@ ul li, ol li {
     margin: 0;
     word-wrap: break-word;
 }
-.bread-crumb > li {
+
+.bread-crumb>li {
     display: inline-block;
 }
 
-    .facet-filter-by-rating .facet-form .item-stars {
+.facet-filter-by-rating .facet-form .item-stars {
     display: inline-block;
 }
+
 .item-stars {
     font-size: 12px;
     /* margin-bottom: 8px;
@@ -152,6 +286,7 @@ ul li, ol li {
 .facet-filter-by-rating .facet-form .total-fetch-items {
     margin-left: -2px;
 }
+
 .total-fetch-items {
     margin-left: 4px;
     font-size: 12px;
@@ -159,50 +294,61 @@ ul li, ol li {
 }
 
 article.post-6 {
-        position: relative;
-        /* border: 1px solid #00000030; */
-        padding: 4px;
-        border-radius: 10px;
-        text-align: center;
-        height: 286px;
-	}
-	.puppy_text{
-		position: absolute;
-		bottom: 7px;
-	}
-	.pd-detail__inline span {
-		margin-right: 0.375rem;
-	}
-	.pd-detail__stock {
-		/* background-color: rgba(0, 148, 68, 0.14);
+    position: relative;
+    /* border: 1px solid #00000030; */
+    padding: 4px;
+    border-radius: 10px;
+    text-align: center;
+    height: 286px;
+}
+
+.puppy_text {
+    position: absolute;
+    bottom: 7px;
+}
+
+.pd-detail__inline span {
+    margin-right: 0.375rem;
+}
+
+.pd-detail__stock {
+    /* background-color: rgba(0, 148, 68, 0.14);
 		color: #009444; */
-	}
-    i.fa.fa-arrow-circle-right {
-        font-size: 35px;
-        color:black;
-    }
-    i.fa.fa-arrow-circle-left {
-        font-size: 35px;
-        color:black;
-    }
-	.pd-detail__stock, .pd-detail__left {
-		font-size: 12px;
-		font-weight: 600;
-		padding: 2px;
-		display: inline-block;
-		border-radius: 5px;
-	}
-		.pd-detail__inline span:last-child {
-		margin-right: 0;
-	}
-		.pd-detail__left {
-		/* background-color: rgba(255, 69, 0, 0.14);
+}
+
+i.fa.fa-arrow-circle-right {
+    font-size: 35px;
+    color: black;
+}
+
+i.fa.fa-arrow-circle-left {
+    font-size: 35px;
+    color: black;
+}
+
+.pd-detail__stock,
+.pd-detail__left {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+.pd-detail__inline span:last-child {
+    margin-right: 0;
+}
+
+.pd-detail__left {
+    /* background-color: rgba(255, 69, 0, 0.14);
 		color: #ff4500; */
-	}
-		.pd-detail__stock, .pd-detail__left {
-		font-size: 12px;
-		font-weight: 600;
-		padding: 2px;
-		display: inline-block;
-		border-radius: 5px;
-	}
+}
+
+.pd-detail__stock,
+.pd-detail__left {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px;
+    display: inline-block;
+    border-radius: 5px;
+}

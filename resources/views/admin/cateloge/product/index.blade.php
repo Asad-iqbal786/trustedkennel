@@ -16,11 +16,7 @@ use App\Models\Admin;
                     <div class="card">
                         <div class="card-body">
                             {{-- <h4 class="card-title">{{$title}}</h4> --}}
-                            <a @if (Auth::guard('admin')->user()->type == 'superadmin') href="{{ route('addEditProduct') }}" 
-    
-                        @else href="{{ route('VendoraddEditProduct') }}" @endif
-                                class="btn btn-info"> Add New Post</a>
-                            </p>
+                          
                             <div class="table-responsive pt-3">
 
                                 <table id="example" class="display expandable-table dataTable no-footer">
@@ -36,10 +32,11 @@ use App\Models\Admin;
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Image</th>
-                                            <th>Puppy Name</th>
+                                            <th></th>
+                                            <th>Dog name</th>
                                             <th>Breed</th>
-                                            {{-- <th>Status</th> --}}
+                                            <th>Post type</th>
+                                            <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -47,21 +44,16 @@ use App\Models\Admin;
 
 
                                         @forelse ($getProduct as $index => $product)
-                                            <?php
-                                            
-                                            $getShopName = Admin::with('vendors')
-                                                ->where('id', $product['admin_id'])
-                                                ->first()
-                                                ->toArray();
-                                            ?>
+                                          
 
                                             <tr>
-                                                <td>{{ $index  + 1 }}</td>
-                                                <td><img src="{{ asset('storage/admin/images/admin_photos/product_small/' . $product['image']) }}"
+                                                <td>{{ $index + 1 }}</td>
+                                                <td><img src="{{ asset('storage/admin/images/admin_photos/product/product_images/product_small/' . $product['product_images']) }}"
                                                         alt="" style="width:50px;"></td>
-                                                <td><a href="{{ route('PuppyDetails', $product['slug']) }}" target="_blank">
+                                                <td><a href="" target="_blank">
                                                         {{ $product['sire_name'] }}</a></td>
                                                 <td>{{ $product['category']['name'] }}</td>
+                                                <td>{{ $product['produt_type_id'] }}</td>
                                                 <td>
                                                     @if ($product['status'] == 1)
                                                         <a class="updateProductStatus" id="product-{{ $product['id'] }}"
@@ -76,19 +68,22 @@ use App\Models\Admin;
                                                                 <p style="display:none;"> Inactive</p>
                                                             </i></a>
                                                     @endif
-                                                    <a href="" target="blank" data-toggle="modal"
-                                                        data-target="#exampleModal-{{ $product['id'] }}"><i
-                                                            class="mdi mdi-eye" style="font-size: 25px;"></i></a>
+
+                                                </td>
+                                                <td>
+
+                                                    <a href="{{ route('VendoraddEditProduct', $product['id']) }}"
+                                                     target="blank" ><i  class="mdi mdi-eye" style="font-size: 25px;"></i></a>
 
                                                     <a href="{{ route('VendoraddEditProduct', $product['id']) }}"><i
                                                             class="mdi mdi-pencil-box" style="font-size: 25px;"></i></a>
 
-                                                    <a href="{{ route('productDestroy', $product['id']) }}"
+                                                    <a href="{{ route('VendorproductDestroy', $product['id']) }}"
                                                         onclick="return confirm('Are you sure to delete?')"><i
                                                             class="mdi mdi-file-excel-box" style="font-size:20px;"></i></a>
 
-                                                    <a href="{{ route('addimage', $product['id']) }}" target="_blank"><i
-                                                            class="mdi mdi-folder-image" style="font-size:20px;"></i></a>
+                                                    {{-- <a href="{{ route('addimage', $product['id']) }}" target="_blank"><i
+                                                            class="mdi mdi-folder-image" style="font-size:20px;"></i></a> --}}
 
 
                                                 </td>
@@ -168,7 +163,7 @@ use App\Models\Admin;
                                                     sire_pedigree_link
                                                 </td>
                                                 <td>
-                                                    {{ $product['sire_pedigree_link'] }}
+                                                    {{-- {{ $product['sire_pedigree_link'] }} --}}
                                                 </td>
                                             </tr>
 
@@ -177,17 +172,17 @@ use App\Models\Admin;
                                                     type
                                                 </td>
                                                 <td>
-                                                    {{ $product['type'] }}
+                                                    {{-- {{ $product['type'] }} --}}
                                                 </td>
                                                 <td>
-                                                    Sire Weight / {{ $product['sire_weight'] }}
+                                                    {{-- Sire Weight / {{ $product['sire_weight'] }} --}}
                                                 </td>
                                                 <td>
-                                                    @if ($product['sire_weight'] == 'kg')
+                                                    {{-- @if ($product['sire_weight'] == 'kg')
                                                         kg ({{ $product['sire_weight_measure'] }})
                                                     @else
                                                         Lbs ({{ $product['sire_weight_measure'] }})
-                                                    @endif
+                                                    @endif --}}
 
 
 
@@ -197,20 +192,21 @@ use App\Models\Admin;
 
                                             <tr>
                                                 <td>
-                                                    Sire Height / {{ $product['sire_height'] }}
+                                                    Sire Height /
+                                                     {{-- {{ $product['sire_height'] }} --}}
                                                 </td>
                                                 <td>
-                                                    @if ($product['sire_height'] == 'Inches')
+                                                    {{-- @if ($product['sire_height'] == 'Inches')
                                                         Inches ({{ $product['sire_height_measure'] }})
                                                     @else
                                                         Cm ({{ $product['sire_height_measure'] }})
-                                                    @endif
+                                                    @endif --}}
                                                 </td>
                                                 <td>
                                                     sire_health_tests
                                                 </td>
                                                 <td>
-                                                    {{ $product['sire_health_tests'] }}
+                                                    {{-- {{ $product['sire_health_tests'] }} --}}
                                                 </td>
                                             </tr>
 
@@ -220,13 +216,13 @@ use App\Models\Admin;
                                                     dam_name_with_titles
                                                 </td>
                                                 <td>
-                                                    {{ $product['dam_name_with_titles'] }}
+                                                    {{-- {{ $product['dam_name_with_titles'] }} --}}
                                                 </td>
                                                 <td>
                                                     dam_registration_number
                                                 </td>
                                                 <td>
-                                                    {{ $product['dam_registration_number'] }}
+                                                    {{-- {{ $product['dam_registration_number'] }} --}}
                                                 </td>
                                             </tr>
 
@@ -237,38 +233,39 @@ use App\Models\Admin;
                                                     Dam Pedigree Link
                                                 </td>
                                                 <td>
-                                                    {{ $product['dam_pedigree_link'] }}
+                                                    {{-- {{ $product['dam_pedigree_link'] }} --}}
                                                 </td>
                                                 <td>
-                                                    Dam Weight / {{ $product['dam_weight'] }}
+                                                    {{-- Dam Weight / {{ $product['dam_weight'] }} --}}
                                                 </td>
                                                 <td>
-                                                    @if ($product['dam_weight'] == 'Kg')
+                                                    {{-- @if ($product['dam_weight'] == 'Kg')
                                                         Kg ({{ $product['dam_weight_measure'] }})
                                                     @else
                                                         Lbs ({{ $product['dam_weight_measure'] }})
-                                                    @endif
+                                                    @endif --}}
                                                 </td>
                                             </tr>
 
 
                                             <tr>
                                                 <td>
-                                                    Dam Height /{{ $product['dam_height'] }}
+                                                    Dam Height / 
+                                                    {{-- {{ $product['dam_height'] }} --}}
                                                 </td>
                                                 <td>
                                                     {{-- {{$product['dam_height']}} --}}
-                                                    @if ($product['dam_height'] == 'Inches')
+                                                    {{-- @if ($product['dam_height'] == 'Inches')
                                                         Inches ({{ $product['dam_height_measure'] }})
                                                     @else
                                                         Cm ({{ $product['dam_height_measure'] }})
-                                                    @endif
+                                                    @endif --}}
                                                 </td>
                                                 <td>
                                                     dam_health_tests_conducted
                                                 </td>
                                                 <td>
-                                                    {{ $product['dam_health_tests_conducted'] }}
+                                                    {{-- {{ $product['dam_health_tests_conducted'] }} --}}
                                                 </td>
                                             </tr>
 

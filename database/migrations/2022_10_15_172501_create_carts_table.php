@@ -15,13 +15,19 @@ return new class extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('vendor_id');
-            $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('cascade');
-            $table->unsignedBigInteger('puppy_id');
-            $table->foreign('puppy_id')->references('id')->on('products')->onDelete('cascade');
+            $table->unsignedBigInteger('product_id');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->enum('status',['processing','reject','accept','reservation_booked','rejact']);
+
+            $table->unsignedBigInteger('vendor_id');
+            $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('cascade');
+
+            // $table->enum('status',['Submitted','Processing','Accepted','Rejected','To be reserved','Reserved']);
+            
+            $table->tinyInteger('status')->default(0);
+            
             $table->timestamps();
         });
     }

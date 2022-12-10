@@ -126,11 +126,11 @@ use App\Models\Product;
                                 <tbody>
                                     <tr class="border-bottom">
                                         <td>
-                                            <h6 class="order-h6">{{ $getOrder['products']['sire_name'] }}</h6>
-                                            <span class="order-span-quantity">{{ $getOrder['admins']['first_name'] }}</span>
+                                            <h6 class="order-h6">{{ $getOrder['products']['product_name'] }}</h6>
+                                            <span class="order-span-quantity">{{ $getOrder['vendors']['kennel_name'] }}</span>
                                         </td>
                                         <td>
-                                            <h6 class="order-h6"> $ {{ $getOrder['products']['puppy_price'] }}</h6>
+                                            <h6 class="order-h6"> $ {{ $getOrder['products']['price'] }}</h6>
                                         </td>
                                     </tr>
 
@@ -139,7 +139,7 @@ use App\Models\Product;
                                             <h3 class="order-h3">Shipping</h3>
                                         </td>
                                         <td>
-                                            <h3 class="order-h3">${{ $getOrder['shipping_charges'] }}</h3>
+                                            <h3 class="order-h3">${{ $getOrder['products']['shipping_fee'] }}</h3>
                                         </td>
                                     </tr>
                                     @if ($getOrder['tex'] > 0)

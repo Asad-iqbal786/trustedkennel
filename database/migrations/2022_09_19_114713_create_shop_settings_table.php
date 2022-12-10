@@ -21,9 +21,9 @@ return new class extends Migration
             $table->string('shop_banner')->nullable();
             $table->string('shop_phone');
             $table->string('shop_email');
-
             $table->string('shop_address')->nullable();
             $table->text('meta_description')->nullable();
+            
             $table->string('facebook')->nullable();
             $table->string('instagram')->nullable();
             $table->string('twitter')->nullable();

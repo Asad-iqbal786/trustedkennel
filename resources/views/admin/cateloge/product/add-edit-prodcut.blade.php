@@ -71,7 +71,8 @@
                                     <option value="0">--Select Product Type--</option>
                                     @foreach ($getProductType as $proType)
                                         <option value="{{ $proType['name'] }}"
-                                            @if (!empty($proData['produt_type_id']) && $proData['produt_type_id'] == $proType['id']) selected @endif>{{ $proType['name'] }}
+                                            @if (!empty($proData['produt_type_id']) && $proData['produt_type_id'] == $proType['id']) selected @endif>
+                                            {{ $proType['name'] }}
                                         </option>
                                     @endforeach
 
@@ -95,6 +96,24 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label>Price</label>
+                                <input type="text" class="form-control" required="" name="puppy_price"
+                                    id="puppy_price"
+                                    @if (!empty($proData['puppy_price'])) value="{{ $proData['puppy_price'] }}" @else value="{{ old('puppy_price') }}" @endif
+                                    value="{{ old('puppy_price') }}" placeholder="puppy_price">
+                            </div>
+                        </div>
+                        <div class="col-4 " id="reservation">
+                            <div class="form-group">
+                                <label> Reservation Charges % </label>
+                                <input type="text" class="form-control" required="" name="reservation"
+                                    id="reservation"
+                                    @if (!empty($proData['reservation'])) value="{{ $proData['reservation'] }}" @else value="{{ old('reservation') }}" @endif
+                                    value="{{ old('reservation') }}" placeholder="Reservation Charges....">
+                            </div>
+                        </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="dam_health_tests_conducted">Dam Health Tests Conducted</label>
@@ -133,8 +152,8 @@
                                 <div class="col-sm-3">
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                            <input type="radio" class="form-check-input" name="sire_weight" id="Kg"
-                                                value="Kg" checked="">
+                                            <input type="radio" class="form-check-input" name="sire_weight"
+                                                id="Kg" value="Kg" checked="">
                                             Kg
                                             <i class="input-helper"></i></label>
                                     </div>
@@ -213,15 +232,8 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label>Price</label>
-                                <input type="text" class="form-control" required="" name="puppy_price"
-                                    id="puppy_price"
-                                    @if (!empty($proData['puppy_price'])) value="{{ $proData['puppy_price'] }}" @else value="{{ old('puppy_price') }}" @endif
-                                    value="{{ old('puppy_price') }}" placeholder="puppy_price">
-                            </div>
-                        </div>
+
+
                     </div>
                     <div class="row">
                         <div class="col-6">
@@ -381,5 +393,16 @@
 
 
 @push('scripts')
-    <script></script>
+    <script>
+        /// product type
+        $("#reservation").hide();
+        //order status
+        $("#produt_type_id").on("change", function() {
+            if (this.value == "Planned Litter") {
+                $("#reservation").show();
+            } else {
+                $("#reservation").hide();
+            }
+        });
+    </script>
 @endpush

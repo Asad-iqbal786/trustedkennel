@@ -15,39 +15,39 @@ use App\Models\Order;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
 use Auth;
-use DB;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Str;
-use Hash;;
-
-use Session;
+use Hash;
 use App\Models\User;
-use Carbon\Carbon;
+use App\Models\VendorImage;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class AdminController extends Controller
 {
     public function index()
     {
+        DB::beginTransaction();
         Session::put('page', 'dashboard');
         $totalSales = Order::sum('grand_total');
 
 
-            $getProduct = Product::with('category', 'admins')->where('status', 0)->get()->toArray();
-            $now = Carbon::now();
-            $currentMonth = date( $now->month);
-            $currentYear = date( $now->year);
-            $monthlySales = Order::whereRaw('MONTH(created_at) = ?',[$currentMonth])
-                        ->sum('grand_total');
-            $totalReser = Cart::count();
-            $monthlyResv = Cart::whereRaw('MONTH(created_at) = ?',[$currentMonth])->count();
-            $totalAvailabePuppy = Product::where('produt_type_id','=','Available Puppy')->count();
-            $thisYearPuppy = Product::whereRaw('year(created_at) = ?',[$currentYear])
-            ->where('produt_type_id','=','Available Puppy')
+        $getProduct = Product::with('category')->where('status', 0)->get()->toArray();
+        $now = Carbon::now();
+        $currentMonth = date($now->month);
+        $currentYear = date($now->year);
+        $monthlySales = Order::whereRaw('MONTH(created_at) = ?', [$currentMonth])
+            ->sum('grand_total');
+        $totalReser = Cart::count();
+        $monthlyResv = Cart::whereRaw('MONTH(created_at) = ?', [$currentMonth])->count();
+        $totalAvailabePuppy = Product::where('produt_type_id', '=', 'Available Puppy')->count();
+        $thisYearPuppy = Product::whereRaw('year(created_at) = ?', [$currentYear])
+            ->where('produt_type_id', '=', 'Available Puppy')
             ->count();
-            $totalplanLittles = Product::where('produt_type_id','=','Planned Litter')->count();
-            $totalLittleThisYear = Product::whereRaw('year(created_at) = ?',[$currentYear])
-            ->where('produt_type_id','=','Planned Litter')
+        $totalplanLittles = Product::where('produt_type_id', '=', 'Planned Litter')->count();
+        $totalLittleThisYear = Product::whereRaw('year(created_at) = ?', [$currentYear])
+            ->where('produt_type_id', '=', 'Planned Litter')
             ->count();
         // echo "<pre>"; print_r($thisYearPuppy); die;
 
@@ -91,51 +91,51 @@ class AdminController extends Controller
             // 'kennel_name' => 'required|regex:/^[\pL\s\-]+$/u',
             'kennel_name' => 'required',
             'kennel_affiliations' => 'required',
-            'location' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'country' => 'required',
             'registration_number' => 'required',
             // 'established_year' => 'required',
             'breeds' => 'required',
-            'owner_First_neame' => 'required',
-            'owner_last_name' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'phone' => 'required',
             // 'number_of_litters' => 'required',
-
-            'vendor_about' => 'required',
+            'about' => 'required',
             'health_check' => 'required',
             // 'how_many_champions' => 'required',
             'website' => 'required',
             'instagram_url' => 'required',
             'facebook_url' => 'required',
             'twitter_url' => 'required',
-//            'admin_image' => 'image',
-//            'recent_img' => 'image',
+            'image' => 'image',
+            'recent_img' => 'image',
             // 'multiple_img' => 'image',
-            // 'agree' => 'required',
         ];
         $customMessages = [
             'kennel_name.required' => 'kennel_name is requires',
             'kennel_affiliations.alpha' => 'Valid kennel_affiliations is required',
             'email.email' => 'Valid Email is required',
-            'location.required' => 'location is Required...',
+            'city.required' => 'City is Required...',
+            'state.required' => 'State is Required...',
+            'country.required' => 'Country is Required...',
             'registration_number.required' => 'KKENNEL REGISTRATION NUMBER is Required...',
-            'registration_number.required' => 'Registration Number is Required...',
             // 'established_year.required' => 'established_year is Required...',
             'breeds.required' => ' breeds Year is Required...',
             // 'number_of_litters.required' => 'number_of_litters  is Required...',
-            'owner_First_neame.required' => 'owner_First_neames is Required...',
-            'owner_last_name.required' => 'owner_last_name is Required...',
+            'first_name.required' => 'first_name is Required...',
+            'last_name .required' => 'last_name is Required...',
             'phone.required' => 'phone is Required...',
-            'vendor_about.required' => 'vendor_about is Required...',
+            'about.required' => 'about is Required...',
             'health_check.required' => 'health_check Check is Required...',
-            // 'admin_image.image' => 'Valid admin_image is required',
-            // 'recent_img.image' => 'Valid recent_img is required',
+            'image.image' => 'Valid image is required',
+            'recent_img.image' => 'Valid recent_img is required',
             // 'multiple_img.image' => 'Valid multiple_img is required',
-            // 'how_many_champions.required' => 'how_many_champions is Required...',
+            'how_many_champions.required' => 'how_many_champions is Required...',
             'website.required' => 'website is Required...',
             'instagram_url.required' => 'instagram_url is Required...',
             'facebook_url.required' => 'facebook_url is Required...',
             'twitter_url.required' => 'twitter_url is Required...',
-            // 'agree.required' => 'agree is Required...',
 
 
         ];
@@ -143,9 +143,19 @@ class AdminController extends Controller
 
         if ($request->isMethod('post')) {
             $data = $request->all();
-
-            // dd($data);
-
+            // echo "<pre>";print_r($data);  die;
+            $image_tmp = $request->file('image');
+            $image_tmp_recent_img = $request->file('recent_img');
+            if (empty($image_tmp)) {
+                $message = "PLEASE ADD KENNEL PROFILE PICTURE ";
+                Session::put('error_message', $message);
+                return redirect()->back();
+            }
+            if (empty($image_tmp_recent_img)) {
+                $message = "PLEASE ADD A RECENT PICTURE OF YOUR KENNEL FACILITIES ";
+                Session::put('error_message', $message);
+                return redirect()->back();
+            }
             $vendorCount = Admin::where('email', $data['email'])->count();
             if ($vendorCount > 0) {
                 $message = "This Email id is alread exists use different Email for register ";
@@ -158,73 +168,67 @@ class AdminController extends Controller
                 Session::put('error_message', $message);
                 return redirect()->back();
             }
-
+            if ($data['password'] !=  $data['password_confirmation']) {
+                $message = "Password and confirm Password is no match please try agin with new password ";
+                Session::put('error_message', $message);
+                return redirect()->back();
+            }
             DB::beginTransaction();
 
             $vendors = new Vendor;
-//dd($vendors);
-            //admin images
-//            $image_tmp = $request->file('admin_image');
-//            $extention = $image_tmp->getClientOriginalExtension();
-//            $adminImage = rand(111, 99999) . '.' . $extention;
-//            $imagePath = 'admin/images/admin_photos/admins/' . $adminImage;
-//            Image::make($image_tmp)->save($imagePath);
-//            //recent_img images
-//            $image_tmp = $request->file('recent_img');
-//            $extention = $image_tmp->getClientOriginalExtension();
-//            $recentImage = rand(111, 99999) . '.' . $extention;
-//            $imagePath = 'admin/images/admin_photos/admins/' . $recentImage;
-//            Image::make($image_tmp)->save($imagePath);
-            //multiple_img images
-//            $vendors->admin_image = $adminImage;
-//            $vendors->recent_img = $recentImage;
+            
+            $image_tmp = $request->file('image');
+            $extention = $image_tmp->getClientOriginalExtension();
+            $adminImage = rand(111, 99999) . '.' . $extention;
+            $imagePath = 'admin/images/admin_photos/admins/' . $adminImage;
+            Image::make($image_tmp)->save($imagePath);
+            $vendors->image = $adminImage;
             $vendors->email = $data['email'];
             $vendors->kennel_name = $data['kennel_name'];
             $vendors->kennel_affiliations = $data['kennel_affiliations'];
-            $vendors->location = $data['location'];
+            $vendors->country = $data['country'];
+            $vendors->state = $data['state'];
+            $vendors->city = $data['city'];
+            // $vendors->area = $data['area'];
             $vendors->registration_number = $data['registration_number'];
             $vendors->established_year = $data['established_year'];
             $breeds =  $data['breeds'] = implode(',', $request->breeds);
             $vendors->breeds = $breeds;
-            $vendors->owner_First_neame = $data['owner_First_neame'];
-            $vendors->owner_last_name = $data['owner_last_name'];
-            $vendors->vendor_about = $data['vendor_about'];
+            $vendors->first_name = $data['first_name'];
+            $vendors->last_name = $data['last_name'];
+            $vendors->about = $data['about'];
             $vendors->number_of_litters = $data['number_of_litters'];
             $vendors->how_many_champions = $data['how_many_champions'];
             $vendors->website = $data['website'];
+            $vendors->password = bcrypt($data['password']);
             $vendors->instagram_url = $data['instagram_url'];
             $vendors->facebook_url = $data['facebook_url'];
             $vendors->twitter_url = $data['twitter_url'];
-            $vendors->agree = $data['agree'];
+            // dd($vendors);
             $vendors->save();
-            // $vendor_id = DB::getPdo()->lastInsertId();
-            $vendor_id = Vendor::latest()->first();
 
+            $vendor_id = DB::getPdo()->lastInsertId();
 
-
-
-
-
+            //recen multiple images
+            foreach ($image_tmp_recent_img as $key => $image) {
+                $images = new VendorImage;
+                $image_tmp = Image::make($image);
+                $extension = $image->getClientOriginalExtension();
+                $recentImage = rand(111, 99999) . time() . '.' . $extension;
+                $large_image_path = 'admin/images/admin_photos/recent_img/' . $recentImage;
+                Image::make($image_tmp)->resize('1240,600')->save($large_image_path);
+                $images->recent_img = $recentImage;
+                $images->vendor_id = $vendor_id;
+                // dd($images);
+                $images->save();
+            }
             $message = "Please confirm your Email to activate your account!";
             Session::put('success_message', $message);
-            $admins = new Admin;
-            $admins->first_name = $data['owner_First_neame'];
-            $admins->last_name = $data['owner_last_name'];
-            $admins->email = $data['email'];
-            $admins->type = 'Vendor';
-            $admins->vendor_id = $vendor_id['id'];
-            $admins->admin_image = $vendor_id['admin_image'];
-            $admins->password = bcrypt($data['password']);
-            $admins->status = 1;
-            $admins->approved = 0;
-            $admins->save();
-            $admin_id = Admin::latest()->first();
             // StripeAccount
             $stripe = new StripeAccount;
             $stripeApi = new \Stripe\StripeClient(env('STRIPE_SECRET'));
             $acc = $stripeApi->accounts->create(['type' => 'express']);
-            $stripe->vendor_id = $vendor_id['id'];
-            $stripe->admin_id = $admin_id['id'];
+            $stripe->vendor_id = $vendor_id;
             $stripe->stripe_account = $acc->id;
             $stripe->save();
             DB::commit();
@@ -247,6 +251,7 @@ class AdminController extends Controller
         // return $request->all();
         if ($request->isMethod('post')) {
             $data = $request->all();
+
             $rule = [
                 'email' => 'required|email|max:255',
                 'password' => 'required',
@@ -267,24 +272,20 @@ class AdminController extends Controller
             }
 
 
-            $getEmail = Admin::where('email', $data['email'])->first()->toArray();
-            if ($getEmail['approved'] ==  0) {
+            // $getEmail = Vendor::where('email', $data['email'])->first()->toArray();
+            // if ($getEmail['approved'] ==  0) {
+            //     $message = "Your account is not Approved yet !";
+            //     Session::put('success_message', $message);
+            //     return redirect()->back();
+            // }
 
-                $message = "Your account is not Approved yet !";
-                Session::put('success_message', $message);
-                return redirect()->back();
-            }
-
-            // echo "<pte>"; print_r($getEmail); die;
+            // echo "<pre>"; print_r($data); die;
 
             if (Auth::guard('admin')->attempt(['email' => $data['email'], 'password' => $data['password']])) {
-                if (Auth::guard('admin')->user()->type == ('superadmin')) {
 
-                    return redirect()->route('adminDashboard');
-                } else {
-
-                    return redirect()->route('vendorDashboard');
-                }
+                return redirect()->route('adminDashboard');
+            } else {
+                dd("adfafasf");
             }
         }
         Session::flash('error_message', 'Invalid Email or password');
@@ -299,16 +300,17 @@ class AdminController extends Controller
     public function allAdmin()
     {
         Session::put('page', 'all_admins');
-        $getAdmins = Admin::with('vendors')->get()->toArray();
+        $getVendors = Vendor::get()->toArray();
+
+        // echo "<pre>"; print_r($getVendors); die;
 
         return view('admin.admin_index.all_admin')
-            ->with('getAdmins', $getAdmins);
+            ->with('getVendors', $getVendors);
     }
     public function allUsers()
     {
         Session::put('page', 'all_users');
         $getAdmins = User::get()->toArray();
-            // echo "<pre>"; print_r($getAdmins); die;
 
         return view('admin.admin_index.all_users')
             ->with('getAdmins', $getAdmins);
@@ -379,12 +381,13 @@ class AdminController extends Controller
     {
 
         $data = $request->all();
-        // echo "<pre>"; print_r($data); die;
 
-        Admin::where('vendor_id', $data['vendor_id'])->update(['vendor_type' => $data['vendor_type']]);
+        // echo "<pre>"; print_r($data);die;
+
+        Vendor::where('id', $data['vendor_id'])->update(['vendor_type' => $data['vendor_type']]);
 
         // emails deliver
-        $vendorData = Admin::where('vendor_id', $data['vendor_id'])->first();
+        $vendorData = Vendor::where('id', $data['vendor_id'])->first();
 
         $admin_id = "vendor@trustedkennels.com";
         $vendEmail = $vendorData['email'];

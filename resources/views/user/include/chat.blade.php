@@ -40,11 +40,6 @@
                                 <ul>
 
                                     @foreach ($getChat as $message)
-                                    <?php   
-                                    
-                                        // dd($message['type']);
-                                    
-                                    ?>
                                         @if ($message['type'] == 'Vendor')
                                             <li class="mt-4">
                                                 <div class="chat-content ps-3 d-inline-block">
@@ -93,16 +88,13 @@
                                 </ul>
                             </div>
                             <div class="card-body border-top border-bottom chat-send-message-footer chat-active">
-                                
-                                <form action="{{ route('customerReply') }}" method="post">
+
+                                <form action="{{ route('customerReply') }}" method="post" enctype="multipart/form-data">
                                     @csrf
-                                    <input type="hidden" name="product_id" id=""
-                                        value="{{ $vendChat['product_id'] }}">
-                                        <input type="hidden" name="type" id=""
-                                        value="User">
+                                    <input type="hidden" name="productid_id" id=""  value="{{ $vendChat['product_id'] }}">
+                                    <input type="hidden" name="type" id="" value="User">
                                     <input type="hidden" name="chat_id" id="" value="{{ $vendChat['id'] }}">
-                                    <input type="hidden" name="vendor_id" id=""
-                                        value="{{ $vendChat['vendor_id'] }}">
+                                    <input type="hidden" name="vendor_id" id="" value="{{ $vendChat['vendor_id'] }}">
                                     <input type="hidden" name="user_id" id="" value="{{ $vendChat['user_id'] }}">
                                     <div class="row">
                                         <div class="col-12">
@@ -110,14 +102,16 @@
                                                 <input id="textarea1" placeholder="Type and hit enter" name="messages"
                                                     class="message-type-box form-control" type="text">
                                             </div>
+                                            <div class="input-field">
+                                                <input id="textarea1" placeholder="Type and hit enter" name="images"
+                                                    class="message-type-box form-control" type="file" multiple="multiple">
+                                            </div>
                                             <div class="chat-button" style="text-align: end; padding-top: 17px;">
                                                 <button type="submit" class="btn btn-info">Send</button>
                                             </div>
                                         </div>
                                     </div>
-
                                 </form>
-
                             </div>
                         </div>
                     </div>

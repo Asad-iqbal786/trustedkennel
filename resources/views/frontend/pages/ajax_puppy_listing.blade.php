@@ -11,12 +11,12 @@ use Carbon\Carbon;
         <div class="col-3 col-lg-3 col-sm-6 wow slideInUp">
             <article class="post-6">
                 <figure>
-                    <a href="{{ route('PuppyDetails', $pro['slug']) }}">
-                        <img src="{{ asset('storage/admin/images/admin_photos/product_large/' . $pro['image']) }}"alt="" /></a>
+                    <a href="{{ route('PuppyDetails', $pro['id']) }}">
+                        <img src="{{ asset('storege/admin/images/admin_photos/product_small/'. $pro['product_images']) }}"alt="" /></a>
                 </figure>
                 <div class="puppy_text">
-                    <h5 class="mt-0"  style="    font-size: 12px; text-align: left;">
-                        <a href="{{ route('PuppyDetails', $pro['slug']) }}">{{ $pro['sire_name'] }}</a>
+                    <h5 class="mt-0"  style="font-size: 12px; text-align: left;">
+                        <a href="{{ route('PuppyDetails', $pro['id']) }}">{{ $pro['sire_name'] }}</a>
                     </h5>
                     <p class="mb-0"  style="    font-size: 12px; text-align: left;">
                         <a href="{{ route('findPuppy') }}">{{ $pro['category']['name'] }}</a>

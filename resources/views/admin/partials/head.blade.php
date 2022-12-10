@@ -1,17 +1,17 @@
 <nav
-    @if (Auth::guard('admin')->user()->type == 'Vendor') class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row bg-white"
+    @if (Auth::guard('vendor')->user()) class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row bg-white"
 @else
     class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row bg-dark" @endif>
     <div
-        @if (Auth::guard('admin')->user()->type == 'Vendor') class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center bg-white"
+        @if (Auth::guard('admin')->user()) class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center bg-white"
       @else
-          class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center bg-dark" @endif>
+          class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center bg-white" @endif>
         <a class="navbar-brand brand-logo mr-5" href="{{ route('frontendHome') }}" target="_blank"><img
-                src="{{ asset('admin/images/logo_finale.png') }}" class="mr-2" alt="logo" /></a>
+                src="{{ asset('frontend/images/logo_final.png') }}" class="mr-2" alt="logo" /></a>
         {{-- <a class="navbar-brand brand-logo-mini" href="" target="_blank"><img src="{{asset('admin/images/logo-mini.svg')}}" alt="logo"/></a> --}}
     </div>
     <div
-        @if (Auth::guard('admin')->user()->type == 'Vendor') class="navbar-menu-wrapper d-flex align-items-center justify-content-end bg-white"
+        @if (Auth::guard('vendor')->user()) class="navbar-menu-wrapper d-flex align-items-center justify-content-end bg-white"
     @else
         class="navbar-menu-wrapper d-flex align-items-center justify-content-end bg-dark" @endif>
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -22,19 +22,19 @@
 
             <li class="nav-item nav-profile dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                    <img src="{{ asset('admin/images/admin_photos/admins/' . Auth::guard('admin')->user()->admin_image) }}"
+                    <img src="{{asset('admin/images/admin_photos/admins/'.Auth::guard('vendor')->user()->image)}}"
                         alt="profile" />
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                     <a class="dropdown-item">
                         <i class="ti-settings text-primary"></i>
-                        Name : {{ Auth::guard('admin')->user()->email }}
+                        Name : {{ Auth::guard('vendor')->user()->email }}
                     </a>
                     <a class="dropdown-item">
                         <i class="ti-settings text-primary"></i>
-                        Type : {{ Auth::guard('admin')->user()->type }} / ({{ Auth::guard('admin')->user()->id }})
+                        Type :
                     </a>
-                    @if (Auth::guard('admin')->user()->type == 'admin')
+                    @if (Auth::guard('vendor')->user())
                         <a class="dropdown-item" href="{{ route('logoutadmin') }}">
                             <i class="ti-power-off text-primary"></i>
                             Logout

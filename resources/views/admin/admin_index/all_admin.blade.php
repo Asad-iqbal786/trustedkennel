@@ -21,7 +21,6 @@ use App\Models\Admin;
                                 <th>#</th>
                                 <th>Image</th>
                                 <th>Kennel Name</th>
-                                {{-- <th>Last Name</th> --}}
                                 <th>Type</th>
                                 <th>Kennel Type</th>
                                 <th>Email</th>
@@ -31,67 +30,39 @@ use App\Models\Admin;
                         <tbody>
 
 
-                            @foreach ($getAdmins as $item)
-                                <?php
-                                //  $admin= Vendor::where('admin_id',$item['id'])->first()->toArray();
-                                // dd($admin);
-                                ?>
+                            @foreach ($getVendors as $item)
+                               
                                 <tr>
                                     <td>{{ $item['id'] }}</td>
-                                    <td> <img src="{{ asset('admin/images/admin_photos/admins/' . $item['admin_image']) }}"
-                                            style="width:25;" alt="profile" /> </td>
-                                    <td>{{ $item['vendors']['kennel_name'] }}</td>
-                                    {{-- <td>{{$item['last_name']}}</td> --}}
+                                    <td> <img src=""  style="width:25;" alt="profile" /> </td>
+                                    <td>{{ $item['kennel_name'] }}</td>
                                     <td>
                                         <a href="" data-toggle="modal"
                                             data-target="#change-status-{{ $item['id'] }}"></a>
                                     </td>
                                     <td>
-
-                                        @if ($item['type'] == 'superadmin')
-                                        @else
-                                            <a href="" data-toggle="modal"
-                                                data-target="#change-status-{{ $item['id'] }}">
-
-
-                                                @if ($item['vendor_type'] == 'Futured')
-                                                    <div class="badge badge-info">{{ $item['vendor_type'] }}</div>
-                                                @elseif($item['vendor_type'] == 'not_for_selling')
-                                                    <div class="badge badge-danger">{{ $item['vendor_type'] }}</div>
-                                                @else
-                                                    <div class="badge badge-success">{{ $item['vendor_type'] }}</div>
-                                                @endif
-                                            </a>
-                                        @endif
+                                        <a href="" data-toggle="modal"data-target="#change-status-{{ $item['id'] }}">{{ $item['vendor_type'] }}
+                                      
+                                    </a>
 
                                     </td>
 
                                     <td>{{ $item['email'] }}</td>
 
                                     <td>
-                                        @if ($item['type'] == 'superadmin')
-                                        @else
-                                            @if ($item['status'] == 1)
-                                                <a class="updateAdminStatus" id="admin-{{ $item['id'] }}"
-                                                    admin_id="{{ $item['id'] }}" href="javascript:(0)"> <i
-                                                        class="mdi mdi-bookmark" style='font-size:25px;'></i>
-                                                    <p style="display:none;">Active</p>
-                                                </a>
-                                            @else
-                                                <a class="updateAdminStatus" id="admin-{{ $item['id'] }}"
-                                                    admin_id="{{ $item['id'] }}" href="javascript:(0)"> <i
-                                                        class="mdi mdi-bookmark-outline" style="font-size:25px;">
-                                                        <p style="display:none;"> Inactive</p>
-                                                    </i></a>
-                                            @endif
-                                            <a href="" target="blank" data-toggle="modal"
-                                                data-target="#exampleModal-{{ $item['id'] }}"><i class="mdi mdi-eye"
-                                                    style="font-size: 25px;"></i></a>
-                                            <a href="" target="blank" data-toggle="modal"
-                                                data-target="#exampleModal-{{ $item['id'] }}"><i class="mdi mdi-pencil"
-                                                    style="font-size: 25px;"></i></a>
-                                        @endif
-
+                                        
+                                        <a class="updateAdminStatus" id="admin-{{ $item['id'] }}"
+                                            admin_id="{{ $item['id'] }}" href="javascript:(0)"> <i
+                                                class="mdi mdi-bookmark" style='font-size:25px;'></i>
+                                            <p style="display:none;">Active</p>
+                                        </a>
+                                   
+                                    <a href="" target="blank" data-toggle="modal"
+                                        data-target="#exampleModal-{{ $item['id'] }}"><i class="mdi mdi-eye"
+                                            style="font-size: 25px;"></i></a>
+                                    <a href="" target="blank" data-toggle="modal"
+                                        data-target="#exampleModal-{{ $item['id'] }}"><i class="mdi mdi-pencil"
+                                            style="font-size: 25px;"></i></a>
                                     </td>
 
                                 </tr>
@@ -103,7 +74,7 @@ use App\Models\Admin;
             </div>
         </div>
         <!-- Modal -->
-        @foreach ($getAdmins as $asad)
+        @foreach ($getVendors as $asad)
             <div class="modal fade" id="change-status-{{ $asad['id'] }}" tabindex="-1"
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -116,7 +87,7 @@ use App\Models\Admin;
                         </div>
                         <form action="{{ route('vendorTypeUpdate', $asad['id']) }}" method="post">
                             @csrf
-                            <input type="hidden" value="{{ $asad['vendor_id'] }}" name="vendor_id" id="">
+                            <input type="hidden" value="{{  $asad['id'] }}" name="vendor_id" id="">
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="helth_check">Vendor Type</label>
@@ -134,15 +105,12 @@ use App\Models\Admin;
                                 <button type="submit" class="btn btn-primary">Save changes</button>
                             </div>
                         </form>
-
-
-
                     </div>
                 </div>
             </div>
         @endforeach
 
-        @foreach ($getAdmins as $asad)
+        {{-- @foreach ($getAdmins as $asad)
             <div class="modal fade" id="exampleModal-{{ $asad['id'] }}" tabindex="-1"
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl">
@@ -151,30 +119,9 @@ use App\Models\Admin;
                         <div class="modal-body">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Shop Name : {{ $asad['vendors']['kennel_name'] }} </h4>
-                                    <p class="card-description">
-                                        {{-- Add class <code>.table-bordered</code> --}}
-                                    </p>
-
-
+                                    <h4 class="card-title">Shop Name :  </h4>
                                     <div class="table-responsive pt-3">
                                         <table class="table table-bordered">
-                                            {{-- <thead>
-                    <tr>
-                      <th>
-                        First Name
-                      </th>
-                      <th>
-                        Last Name
-                      </th>
-                      <th>
-                        Email
-                      </th>
-                      <th>
-                        Type
-                      </th>
-                    </tr>
-                  </thead> --}}
                                             <tbody>
 
                                                 <tr>
@@ -213,14 +160,14 @@ use App\Models\Admin;
                                                         Shop Name
                                                     </th>
                                                     <td>
-                                                        {{ $asad['vendors']['kennel_name'] }}
+                                                        {{ $asad['kennel_name'] }}
                                                     </td>
                                                     <th>
                                                         Shop Owner
                                                     </th>
                                                     <td>
-                                                        {{ $asad['vendors']['owner_First_neame'] }}
-                                                        {{ $asad['vendors']['owner_last_name'] }}
+                                                        {{ $asad['owner_First_neame'] }}
+                                                        {{ $asad['owner_last_name'] }}
                                                     </td>
                                                 </tr>
 
@@ -230,13 +177,13 @@ use App\Models\Admin;
                                                         vendor_Affiliation
                                                     </th>
                                                     <td>
-                                                        {{ $asad['vendors']['kennel_affiliations'] }}
+                                                        {{ $asad['kennel_affiliations'] }}
                                                     </td>
                                                     <th>
                                                         registration_number
                                                     </th>
                                                     <td>
-                                                        {{ $asad['vendors']['registration_number'] }}
+                                                        {{ $asad['registration_number'] }}
                                                     </td>
                                                 </tr>
 
@@ -315,7 +262,7 @@ use App\Models\Admin;
                     </div>
                 </div>
             </div>
-        @endforeach
+        @endforeach --}}
     </div>
 @endsection
 @push('styles')

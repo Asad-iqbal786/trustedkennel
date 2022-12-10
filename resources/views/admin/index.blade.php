@@ -164,8 +164,6 @@
                                                 data-target="#pandingStatus-{{ $pro['id'] }}">
                                                 Reject </p>
                                         </td>
-
-
                                         <td class="font-weight-medium">
 
                                             @if (Auth::guard('admin')->user()->type == 'Vendor')
@@ -198,7 +196,7 @@
 
 
         @forelse ($getProduct as $product)
-            <div class="modal fade" id="exampleModal-{{ $product['id'] }}" tabindex="-1"
+            {{-- <div class="modal fade" id="exampleModal-{{ $product['id'] }}" tabindex="-1"
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
@@ -207,11 +205,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title">tProduc Name : {{ $product['sire_name'] }}</h4>
-                                    <p class="card-description">
-                                        {{-- Add class <code>.table-bordered</code> --}}
-                                    </p>
-
-
+                                    <p class="card-description"> </p>
                                     <div class="table-responsive pt-3">
                                         <table class="table table-bordered">
                                             <thead>
@@ -375,9 +369,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            {{-- product change statys --}}
+            </div> --}}
+            
             <div class="modal fade" id="pandingStatus-{{ $product['id'] }}" tabindex="-1"
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-md">
@@ -390,7 +383,7 @@
                             </div>
                         </div>
                         <div class="modal-body">
-                            <form action="{{ route('changeStatus') }}" method="post">@csrf
+                            <form action="{{ route('changeStatuss') }}" method="post">@csrf
 
                                 <input type="hidden" name="product_id" value="{{ $product['id'] }}" id="">
                                 <div class="form-group">
